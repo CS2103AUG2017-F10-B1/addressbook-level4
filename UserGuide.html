@@ -32,7 +32,7 @@ Updated by: <code>CS2103-F10-B1</code></p>
 <li><a href="#adding-a-person-code-add-code">2.2. Adding a person: <code>add</code></a></li>
 <li><a href="#listing-all-persons-code-list-code">2.3. Listing all persons : <code>list</code></a></li>
 <li><a href="#editing-a-person-code-edit-code">2.4. Editing a person : <code>edit</code></a></li>
-<li><a href="#locating-persons-by-name-code-find-code">2.5. Locating persons by name: <code>find</code></a></li>
+<li><a href="#locating-persons-code-find-code">2.5. Locating persons: <code>find</code></a></li>
 <li><a href="#deleting-a-person-code-delete-code">2.6. Deleting a person : <code>delete</code></a></li>
 <li><a href="#removing-a-tag-code-removetag-code">2.7. Removing a tag: <code>removeTag</code></a></li>
 <li><a href="#selecting-a-person-code-select-code">2.8. Selecting a person : <code>select</code></a></li>
@@ -238,9 +238,9 @@ Edits the name of the 2nd person to be <code>Betsy Crower</code> and clears all 
 </div>
 </div>
 <div class="sect2">
-<h3 id="locating-persons-by-name-code-find-code"><a class="link" href="#locating-persons-by-name-code-find-code">2.5. Locating persons by name: <code>find</code></a></h3>
+<h3 id="locating-persons-code-find-code"><a class="link" href="#locating-persons-code-find-code">2.5. Locating persons: <code>find</code></a></h3>
 <div class="paragraph">
-<p>Finds persons whose names contain any of the given keywords.<br>
+<p>Finds persons whose details contain any of the given keywords.<br>
 Format: <code>find KEYWORD [MORE_KEYWORDS]</code></p>
 </div>
 <div class="sidebarblock">
@@ -254,13 +254,22 @@ Format: <code>find KEYWORD [MORE_KEYWORDS]</code></p>
 <p>The order of the keywords does not matter. e.g. <code>Hans Bo</code> will match <code>Bo Hans</code></p>
 </li>
 <li>
-<p>Only the name is searched.</p>
+<p>The search works even in the presence of whitespaces</p>
 </li>
 <li>
-<p>Only full words will be matched e.g. <code>Han</code> will not match <code>Hans</code></p>
+<p>All details, including names, addresses, emails, phones and tags are searched</p>
+</li>
+<li>
+<p>Partial words will also be matched e.g. <code>Han</code> will match <code>Hans</code></p>
 </li>
 <li>
 <p>Persons matching at least one keyword will be returned (i.e. <code>OR</code> search). e.g. <code>Hans Bo</code> will return <code>Hans Gruber</code>, <code>Bo Yang</code></p>
+</li>
+<li>
+<p>If a prefix is specified, the scope of the search will be narrowed to a particular detail set (see sections below)</p>
+</li>
+<li>
+<p>If more than one type of prefix is specified, the search will be treated as an invalid search</p>
 </li>
 </ul>
 </div>
@@ -276,10 +285,176 @@ Format: <code>find KEYWORD [MORE_KEYWORDS]</code></p>
 Returns <code>john</code> and <code>John Doe</code></p>
 </li>
 <li>
+<p><code>find Jo</code><br>
+Returns <code>john</code> and <code>John Doe</code></p>
+</li>
+<li>
 <p><code>find Betsy Tim John</code><br>
+Returns any person having names or email addresses containing <code>Betsy</code>, <code>Tim</code>, or <code>John</code></p>
+</li>
+<li>
+<p><code>find 92334266</code><br>
+Returns any person having phone number/email address/address containing <code>92334266</code></p>
+</li>
+<li>
+<p><code>find Alice 92334266</code><br>
+Returns any person having name <code>Alice</code> AND/OR having phone number/email address/address containing <code>92334266</code></p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="locating-persons-by-name-code-find-n-code"><a class="link" href="#locating-persons-by-name-code-find-n-code">2.5.1. Locating persons by name: <code>find n/</code></a></h4>
+<div class="paragraph">
+<p>Finds persons whose names contain any of the given keywords.<br>
+Format: <code>find n/[KEYWORDS]</code></p>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>find n/John</code><br>
+Returns <code>john</code> and <code>John Doe</code></p>
+</li>
+<li>
+<p><code>find n/Jo</code><br>
+Returns <code>john</code> and <code>John Doe</code></p>
+</li>
+<li>
+<p><code>find n/Betsy Tim John</code><br>
 Returns any person having names <code>Betsy</code>, <code>Tim</code>, or <code>John</code></p>
 </li>
 </ul>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+You can find multiple persons with a single name search
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="locating-persons-by-address-code-find-a-code"><a class="link" href="#locating-persons-by-address-code-find-a-code">2.5.2. Locating persons by address: <code>find a/</code></a></h4>
+<div class="paragraph">
+<p>Finds persons whose addresses contain any of the given keywords.<br>
+Format: <code>find a/[KEYWORDS]</code></p>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>find a/Serangoon</code><br>
+Returns any persons having addresses in Serangoon</p>
+</li>
+<li>
+<p><code>find a/seRangOOn</code><br>
+Returns any persons having addresses in Serangoon</p>
+</li>
+<li>
+<p><code>find a/Ser</code><br>
+Returns any persons having addresses containing the phrase <code>Ser</code></p>
+</li>
+<li>
+<p><code>find a/Serangoon Gardens</code><br>
+Returns any person having addresses containing the phrase <code>Serangoon</code> AND/OR <code>Gardens</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="locating-persons-by-email-code-find-e-code"><a class="link" href="#locating-persons-by-email-code-find-e-code">2.5.3. Locating persons by email: <code>find e/</code></a></h4>
+<div class="paragraph">
+<p>Finds persons whose emails contain any of the given keywords.<br>
+Format: <code>find e/[KEYWORDS]</code></p>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>find e/alice@example.com</code><br>
+Returns <code>Alice</code></p>
+</li>
+<li>
+<p><code>find e/AliCE@ExaMPle.com</code><br>
+Returns <code>Alice</code></p>
+</li>
+<li>
+<p><code>find e/@example.com</code><br>
+Returns any persons having email addresses containing the suffix <code>@example.com</code></p>
+</li>
+<li>
+<p><code>find e/@example.com @yahoo.com</code><br>
+Returns any person having email addresses containing the suffix <code>@example.com</code> or <code>@yahoo.com</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="locating-persons-by-phone-code-find-p-code"><a class="link" href="#locating-persons-by-phone-code-find-p-code">2.5.4. Locating persons by phone: <code>find p/</code></a></h4>
+<div class="paragraph">
+<p>Finds persons whose phone numbers contain any of the given keywords.<br>
+Format: <code>find p/[KEYWORDS]</code></p>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>find p/97734225</code><br>
+Returns any persons having phone numbers matching <code>97734225</code></p>
+</li>
+<li>
+<p><code>find p/9773</code><br>
+Returns any persons having phone numbers containing the sequence <code>9773</code></p>
+</li>
+<li>
+<p><code>find p/97734225 90329038</code><br>
+Returns any persons having phone numbers matching <code>97734225</code> OR <code>90329038</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="locating-persons-by-tag-code-find-t-code"><a class="link" href="#locating-persons-by-tag-code-find-t-code">2.5.5. Locating persons by tag: <code>find t/</code></a></h4>
+<div class="paragraph">
+<p>Finds persons whose tags contain any of the given keywords.<br>
+Format: <code>find t/[KEYWORDS]</code></p>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>find t/friends</code><br>
+Returns any persons having tags matching <code>friends</code></p>
+</li>
+<li>
+<p><code>find t/FriEndS</code><br>
+Returns any persons having tags matching <code>friends</code></p>
+</li>
+<li>
+<p><code>find t/frIe</code><br>
+Returns any persons having tags containing the phrase <code>frie</code></p>
+</li>
+<li>
+<p><code>find t/friends family</code><br>
+Returns any persons having tags matching <code>friends</code> AND/OR <code>family</code></p>
+</li>
+</ul>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -649,7 +824,7 @@ e.g.<code>select 2</code></p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-10-19 09:34:29 +00:00
+Last updated 2017-10-20 09:35:03 +00:00
 </div>
 </div>
 </body>
