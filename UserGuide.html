@@ -31,18 +31,19 @@ Updated by: <code>CS2103-F10-B1</code></p>
 <li><a href="#viewing-help-code-help-code">2.1. Viewing help : <code>help</code></a></li>
 <li><a href="#adding-a-person-code-add-code">2.2. Adding a person: <code>add</code></a></li>
 <li><a href="#listing-all-persons-code-list-code">2.3. Listing all persons : <code>list</code></a></li>
-<li><a href="#editing-a-person-code-edit-code">2.4. Editing a person : <code>edit</code></a></li>
-<li><a href="#locating-persons-code-find-code">2.5. Locating persons: <code>find</code></a></li>
-<li><a href="#deleting-a-person-code-delete-code">2.6. Deleting a person : <code>delete</code></a></li>
-<li><a href="#removing-a-tag-code-removetag-code">2.7. Removing a tag: <code>removeTag</code></a></li>
-<li><a href="#selecting-a-person-code-select-code">2.8. Selecting a person : <code>select</code></a></li>
-<li><a href="#listing-entered-commands-code-history-code">2.9. Listing entered commands : <code>history</code></a></li>
-<li><a href="#undoing-previous-command-code-undo-code">2.10. Undoing previous command : <code>undo</code></a></li>
-<li><a href="#redoing-the-previously-undone-command-code-redo-code">2.11. Redoing the previously undone command : <code>redo</code></a></li>
-<li><a href="#clearing-all-entries-code-clear-code">2.12. Clearing all entries : <code>clear</code></a></li>
-<li><a href="#clearing-command-history-code-clearhistory-code">2.13. Clearing command history : <code>clearhistory</code></a></li>
-<li><a href="#exiting-the-program-code-exit-code">2.14. Exiting the program : <code>exit</code></a></li>
-<li><a href="#saving-the-data">2.15. Saving the data</a></li>
+<li><a href="#sorting-all-persons-code-sort-code">2.4. Sorting all persons : <code>sort</code></a></li>
+<li><a href="#editing-a-person-code-edit-code">2.5. Editing a person : <code>edit</code></a></li>
+<li><a href="#locating-persons-code-find-code">2.6. Locating persons: <code>find</code></a></li>
+<li><a href="#deleting-a-person-code-delete-code">2.7. Deleting a person : <code>delete</code></a></li>
+<li><a href="#removing-a-tag-code-removetag-code">2.8. Removing a tag: <code>removeTag</code></a></li>
+<li><a href="#selecting-a-person-code-select-code">2.9. Selecting a person : <code>select</code></a></li>
+<li><a href="#listing-entered-commands-code-history-code">2.10. Listing entered commands : <code>history</code></a></li>
+<li><a href="#undoing-previous-command-code-undo-code">2.11. Undoing previous command : <code>undo</code></a></li>
+<li><a href="#redoing-the-previously-undone-command-code-redo-code">2.12. Redoing the previously undone command : <code>redo</code></a></li>
+<li><a href="#clearing-all-entries-code-clear-code">2.13. Clearing all entries : <code>clear</code></a></li>
+<li><a href="#clearing-command-history-code-clearhistory-code">2.14. Clearing command history : <code>clearhistory</code></a></li>
+<li><a href="#exiting-the-program-code-exit-code">2.15. Exiting the program : <code>exit</code></a></li>
+<li><a href="#saving-the-data">2.16. Saving the data</a></li>
 </ul>
 </li>
 <li><a href="#features-coming-in-v2-0">3. Features (Coming in v2.0)</a>
@@ -195,7 +196,14 @@ Format: <code>list</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="editing-a-person-code-edit-code"><a class="link" href="#editing-a-person-code-edit-code">2.4. Editing a person : <code>edit</code></a></h3>
+<h3 id="sorting-all-persons-code-sort-code"><a class="link" href="#sorting-all-persons-code-sort-code">2.4. Sorting all persons : <code>sort</code></a></h3>
+<div class="paragraph">
+<p>Shows a list of all persons in the address book sorted alphanumerically by name.<br>
+Format: <code>sort</code></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="editing-a-person-code-edit-code"><a class="link" href="#editing-a-person-code-edit-code">2.5. Editing a person : <code>edit</code></a></h3>
 <div class="paragraph">
 <p>Edits an existing person in the address book.<br>
 Format: <code>edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]&#8230;&#8203;</code></p>
@@ -240,7 +248,7 @@ Edits the name of the 2nd person to be <code>Betsy Crower</code> and clears all 
 </div>
 </div>
 <div class="sect2">
-<h3 id="locating-persons-code-find-code"><a class="link" href="#locating-persons-code-find-code">2.5. Locating persons: <code>find</code></a></h3>
+<h3 id="locating-persons-code-find-code"><a class="link" href="#locating-persons-code-find-code">2.6. Locating persons: <code>find</code></a></h3>
 <div class="paragraph">
 <p>Finds persons whose details contain any of the given keywords.<br>
 Format: <code>find KEYWORD [MORE_KEYWORDS]</code></p>
@@ -305,7 +313,7 @@ Returns any person having name <code>Alice</code> AND/OR having phone number/ema
 </ul>
 </div>
 <div class="sect3">
-<h4 id="locating-persons-by-name-code-find-n-code"><a class="link" href="#locating-persons-by-name-code-find-n-code">2.5.1. Locating persons by name: <code>find n/</code></a></h4>
+<h4 id="locating-persons-by-name-code-find-n-code"><a class="link" href="#locating-persons-by-name-code-find-n-code">2.6.1. Locating persons by name: <code>find n/</code></a></h4>
 <div class="paragraph">
 <p>Finds persons whose names contain any of the given keywords.<br>
 Format: <code>find n/[KEYWORDS]</code></p>
@@ -343,7 +351,7 @@ You can find multiple persons with a single name search
 </div>
 </div>
 <div class="sect3">
-<h4 id="locating-persons-by-address-code-find-a-code"><a class="link" href="#locating-persons-by-address-code-find-a-code">2.5.2. Locating persons by address: <code>find a/</code></a></h4>
+<h4 id="locating-persons-by-address-code-find-a-code"><a class="link" href="#locating-persons-by-address-code-find-a-code">2.6.2. Locating persons by address: <code>find a/</code></a></h4>
 <div class="paragraph">
 <p>Finds persons whose addresses contain any of the given keywords.<br>
 Format: <code>find a/[KEYWORDS]</code></p>
@@ -373,7 +381,7 @@ Returns any person having addresses containing the phrase <code>Serangoon</code>
 </div>
 </div>
 <div class="sect3">
-<h4 id="locating-persons-by-email-code-find-e-code"><a class="link" href="#locating-persons-by-email-code-find-e-code">2.5.3. Locating persons by email: <code>find e/</code></a></h4>
+<h4 id="locating-persons-by-email-code-find-e-code"><a class="link" href="#locating-persons-by-email-code-find-e-code">2.6.3. Locating persons by email: <code>find e/</code></a></h4>
 <div class="paragraph">
 <p>Finds persons whose emails contain any of the given keywords.<br>
 Format: <code>find e/[KEYWORDS]</code></p>
@@ -403,7 +411,7 @@ Returns any person having email addresses containing the suffix <code>@example.c
 </div>
 </div>
 <div class="sect3">
-<h4 id="locating-persons-by-phone-code-find-p-code"><a class="link" href="#locating-persons-by-phone-code-find-p-code">2.5.4. Locating persons by phone: <code>find p/</code></a></h4>
+<h4 id="locating-persons-by-phone-code-find-p-code"><a class="link" href="#locating-persons-by-phone-code-find-p-code">2.6.4. Locating persons by phone: <code>find p/</code></a></h4>
 <div class="paragraph">
 <p>Finds persons whose phone numbers contain any of the given keywords.<br>
 Format: <code>find p/[KEYWORDS]</code></p>
@@ -429,7 +437,7 @@ Returns any persons having phone numbers matching <code>97734225</code> OR <code
 </div>
 </div>
 <div class="sect3">
-<h4 id="locating-persons-by-tag-code-find-t-code"><a class="link" href="#locating-persons-by-tag-code-find-t-code">2.5.5. Locating persons by tag: <code>find t/</code></a></h4>
+<h4 id="locating-persons-by-tag-code-find-t-code"><a class="link" href="#locating-persons-by-tag-code-find-t-code">2.6.5. Locating persons by tag: <code>find t/</code></a></h4>
 <div class="paragraph">
 <p>Finds persons whose tags contain any of the given keywords.<br>
 Format: <code>find t/[KEYWORDS]</code></p>
@@ -460,7 +468,7 @@ Returns any persons having tags matching <code>friends</code> AND/OR <code>famil
 </div>
 </div>
 <div class="sect2">
-<h3 id="deleting-a-person-code-delete-code"><a class="link" href="#deleting-a-person-code-delete-code">2.6. Deleting a person : <code>delete</code></a></h3>
+<h3 id="deleting-a-person-code-delete-code"><a class="link" href="#deleting-a-person-code-delete-code">2.7. Deleting a person : <code>delete</code></a></h3>
 <div class="paragraph">
 <p>Deletes the specified person from the address book.<br>
 Format: <code>delete INDEX</code></p>
@@ -501,7 +509,7 @@ Deletes the 1st person in the results of the <code>find</code> command.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="removing-a-tag-code-removetag-code"><a class="link" href="#removing-a-tag-code-removetag-code">2.7. Removing a tag: <code>removeTag</code></a></h3>
+<h3 id="removing-a-tag-code-removetag-code"><a class="link" href="#removing-a-tag-code-removetag-code">2.8. Removing a tag: <code>removeTag</code></a></h3>
 <div class="paragraph">
 <p>Removes the specific tag from the address book.<br>
 Format: <code>removeTag TAG</code></p>
@@ -533,7 +541,7 @@ Removes the tag <code>friend</code> from all the persons in the address book.</p
 </div>
 </div>
 <div class="sect2">
-<h3 id="selecting-a-person-code-select-code"><a class="link" href="#selecting-a-person-code-select-code">2.8. Selecting a person : <code>select</code></a></h3>
+<h3 id="selecting-a-person-code-select-code"><a class="link" href="#selecting-a-person-code-select-code">2.9. Selecting a person : <code>select</code></a></h3>
 <div class="paragraph">
 <p>Selects the person identified by the index number used in the last person listing.<br>
 Format: <code>select INDEX</code></p>
@@ -574,7 +582,7 @@ Selects the 1st person in the results of the <code>find</code> command.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="listing-entered-commands-code-history-code"><a class="link" href="#listing-entered-commands-code-history-code">2.9. Listing entered commands : <code>history</code></a></h3>
+<h3 id="listing-entered-commands-code-history-code"><a class="link" href="#listing-entered-commands-code-history-code">2.10. Listing entered commands : <code>history</code></a></h3>
 <div class="paragraph">
 <p>Lists all the commands that you have entered in reverse chronological order.<br>
 Format: <code>history</code></p>
@@ -595,7 +603,7 @@ Format: <code>history</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="undoing-previous-command-code-undo-code"><a class="link" href="#undoing-previous-command-code-undo-code">2.10. Undoing previous command : <code>undo</code></a></h3>
+<h3 id="undoing-previous-command-code-undo-code"><a class="link" href="#undoing-previous-command-code-undo-code">2.11. Undoing previous command : <code>undo</code></a></h3>
 <div class="paragraph">
 <p>Restores the address book to the state before the previous <em>undoable</em> command was executed.<br>
 Format: <code>undo</code></p>
@@ -640,7 +648,7 @@ The <code>undo</code> command fails as there are no undoable commands executed p
 </div>
 </div>
 <div class="sect2">
-<h3 id="redoing-the-previously-undone-command-code-redo-code"><a class="link" href="#redoing-the-previously-undone-command-code-redo-code">2.11. Redoing the previously undone command : <code>redo</code></a></h3>
+<h3 id="redoing-the-previously-undone-command-code-redo-code"><a class="link" href="#redoing-the-previously-undone-command-code-redo-code">2.12. Redoing the previously undone command : <code>redo</code></a></h3>
 <div class="paragraph">
 <p>Reverses the most recent <code>undo</code> command.<br>
 Format: <code>redo</code></p>
@@ -672,14 +680,14 @@ The <code>redo</code> command fails as there are no <code>undo</code> commands e
 </div>
 </div>
 <div class="sect2">
-<h3 id="clearing-all-entries-code-clear-code"><a class="link" href="#clearing-all-entries-code-clear-code">2.12. Clearing all entries : <code>clear</code></a></h3>
+<h3 id="clearing-all-entries-code-clear-code"><a class="link" href="#clearing-all-entries-code-clear-code">2.13. Clearing all entries : <code>clear</code></a></h3>
 <div class="paragraph">
 <p>Clears all entries from the address book.<br>
 Format: <code>clear</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="clearing-command-history-code-clearhistory-code"><a class="link" href="#clearing-command-history-code-clearhistory-code">2.13. Clearing command history : <code>clearhistory</code></a></h3>
+<h3 id="clearing-command-history-code-clearhistory-code"><a class="link" href="#clearing-command-history-code-clearhistory-code">2.14. Clearing command history : <code>clearhistory</code></a></h3>
 <div class="paragraph">
 <p>Clears the command history.<br>
 Format: <code>clearhistory</code></p>
@@ -700,14 +708,14 @@ Format: <code>clearhistory</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="exiting-the-program-code-exit-code"><a class="link" href="#exiting-the-program-code-exit-code">2.14. Exiting the program : <code>exit</code></a></h3>
+<h3 id="exiting-the-program-code-exit-code"><a class="link" href="#exiting-the-program-code-exit-code">2.15. Exiting the program : <code>exit</code></a></h3>
 <div class="paragraph">
 <p>Exits the program.<br>
 Format: <code>exit</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="saving-the-data"><a class="link" href="#saving-the-data">2.15. Saving the data</a></h3>
+<h3 id="saving-the-data"><a class="link" href="#saving-the-data">2.16. Saving the data</a></h3>
 <div class="paragraph">
 <p>Address book data are saved in the hard disk automatically after any command that changes the data.<br>
 There is no need to save manually.</p>
@@ -818,6 +826,9 @@ e.g. <code>find James Jake</code></p>
 <p><strong>List</strong> : <code>list</code></p>
 </li>
 <li>
+<p><strong>Sort</strong> : <code>sort</code></p>
+</li>
+<li>
 <p><strong>Help</strong> : <code>help</code></p>
 </li>
 <li>
@@ -840,7 +851,7 @@ e.g.<code>select 2</code></p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-10-20 13:23:36 +00:00
+Last updated 2017-10-21 11:53:02 +00:00
 </div>
 </div>
 </body>
