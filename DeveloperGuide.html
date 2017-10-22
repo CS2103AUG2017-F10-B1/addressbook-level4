@@ -5,20 +5,21 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.3">
-<title>AddressBook Level 4 - Developer Guide</title>
+<title>Intelli - Developer Guide</title>
 <link rel="stylesheet" href="stylesheets/gh-pages.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="stylesheets/coderay-asciidoctor.css">
 </head>
 <body class="article">
 <div id="header">
-<h1>AddressBook Level 4 - Developer Guide</h1>
+<h1>Intelli - Developer Guide</h1>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>By: <code>Team SE-EDU</code>      Since: <code>Jun 2016</code>      Licence: <code>MIT</code></p>
+<p>Originally By: <code>Team SE-EDU</code>      Since: <code>Jun 2016</code>      Licence: <code>MIT</code><br>
+Updated By: <code>CS2103 F10-B1</code></p>
 </div>
 </div>
 <div id="toc" class="toc">
@@ -44,10 +45,11 @@
 </li>
 <li><a href="#implementation">3. Implementation</a>
 <ul class="sectlevel2">
-<li><a href="#undo-redo-mechanism">3.1. Undo/Redo mechanism</a></li>
-<li><a href="#code-clearhistory-code-command">3.2. <code>clearhistory</code> command</a></li>
-<li><a href="#logging">3.3. Logging</a></li>
-<li><a href="#configuration">3.4. Configuration</a></li>
+<li><a href="#enhanced-code-find-code-command">3.1. Enhanced <code>find</code> command</a></li>
+<li><a href="#undo-redo-mechanism">3.2. Undo/Redo mechanism</a></li>
+<li><a href="#code-clearhistory-code-command">3.3. <code>clearhistory</code> command</a></li>
+<li><a href="#logging">3.4. Logging</a></li>
+<li><a href="#configuration">3.5. Configuration</a></li>
 </ul>
 </li>
 <li><a href="#documentation">4. Documentation</a>
@@ -572,7 +574,58 @@ Note how the event is propagated through the <code>EventsCenter</code> to the <c
 <p>This section describes some noteworthy details on how certain features are implemented.</p>
 </div>
 <div class="sect2">
-<h3 id="undo-redo-mechanism"><a class="link" href="#undo-redo-mechanism">3.1. Undo/Redo mechanism</a></h3>
+<h3 id="enhanced-code-find-code-command"><a class="link" href="#enhanced-code-find-code-command">3.1. Enhanced <code>find</code> command</a></h3>
+<div class="paragraph">
+<p>A basic <code>find</code> command is given in the original codebase which allows persons to be found using their names.</p>
+</div>
+<div class="paragraph">
+<p>In order to enhance the <code>find</code> command, the <code>find</code> command is extended to support searches by name/email/phone number/address/tag. This is implemented in the style of the <code>add</code> command, and restricts the search to a particular aspect through parsing prefixes (<code>/n</code>, <code>/p</code>, <code>/e</code>, <code>/a</code>, <code>/t</code>). Without a prefix (i.e. <code>find</code>), the search is global, and returns any matches in any aspects (name/email/phone number/address/tag).</p>
+</div>
+<div class="sect3">
+<h4 id="design-considerations"><a class="link" href="#design-considerations">3.1.1. Design Considerations</a></h4>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Implementation for enhanced <code>find</code> command<br>
+<strong>Alternative 1 (current choice):</strong> Adapt current <code>FindCommand</code> and add new predicates for each new type of search.<br>
+<strong>Pros:</strong> Easier to implement since we can reuse existing resources such as <code>ArgumentTokenizer</code> used in <code>add</code> command.<br>
+<strong>Cons:</strong> Implementation is less modular.<br>
+<strong>Alternative 2:</strong> Add a new subclass inheriting from <code>FindCommand</code> for each new type of search.<br>
+<strong>Pros:</strong> Implementation is more modular, and developers can update code more easily.<br>
+<strong>Cons:</strong> More tedious to implement since we cannot make use of existing resources such as <code>ArgumentTokenizer</code> used in <code>add</code> command.</p>
+</div>
+<hr>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Type of command implemented<br>
+<strong>Alternative 1 (current choice):</strong> <code>find</code> command inherits from <code>Command</code> instead of <code>UndoableCommand.</code><br>
+<strong>Pros:</strong> Easier to implement since we do not need to keep track of previous searches.<br>
+<strong>Cons:</strong> User has to retype all search fields if user wants to repeat a particular search.<br>
+<strong>Alternative 2:</strong> <code>find</code> command inherits from <code>UndoableCommand</code>.<br>
+<strong>Pros:</strong> <code>find</code> becomes undoable, and user can repeat a find easily by undoing the command.<br>
+<strong>Cons:</strong> It is unlikely that a user will repeat a <code>find</code> multiple times in a short period of time, rendering this option somewhat unnecessary.</p>
+</div>
+<hr>
+<div class="paragraph">
+<p><strong>Aspect:</strong> User input for narrowed search field in enhanced <code>find</code> command<br>
+<strong>Alternative 1 (current choice):</strong> Parse prefix in user input to narrow the search to a particular aspect (e.g. <code>n/</code>).<br>
+<strong>Pros:</strong> Easier for user for learn command since it is similar to the <code>add</code> command format.<br>
+<strong>Cons:</strong> Must remember exact prefix for each search field (i.e. <code>/n</code>, <code>/p</code>, <code>/e</code>, <code>/a</code>, <code>/t</code>).<br>
+<strong>Alternative 2:</strong> Parse full keywords in user input to narrow the search to a particular aspect (e.g. <code>name/</code>).<br>
+<strong>Pros:</strong> More intuitive for users as they can simply type what they want to look for.<br>
+<strong>Cons:</strong> User has to type longer commands.</p>
+</div>
+<hr>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Scope of narrowed search<br>
+<strong>Alternative 1 (current choice):</strong> Users can only search within a single narrowed field, or must search through all possible fields (e.g. cannot search for names and emails only).<br>
+<strong>Pros:</strong> Easier to implement, parser only needs to check for a single prefix type and create corresponding predicate for the prefix type.<br>
+<strong>Cons:</strong> Fewer search choices available for users.<br>
+<strong>Alternative 2:</strong> Users can search within an arbitrary number of narrowed fields (e.g. can search for names and emails only, or search for names, emails, and addresses).<br>
+<strong>Pros:</strong> More search options available for users, more advanced search functions.<br>
+<strong>Cons:</strong> Harder to implement since the parser will have to handle more prefixes.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="undo-redo-mechanism"><a class="link" href="#undo-redo-mechanism">3.2. Undo/Redo mechanism</a></h3>
 <div class="paragraph">
 <p>The undo/redo mechanism is facilitated by an <code>UndoRedoStack</code>, which resides inside <code>LogicManager</code>. It supports undoing and redoing of commands that modifies the state of the address book (e.g. <code>add</code>, <code>edit</code>). Such commands will inherit from <code>UndoableCommand</code>.</p>
 </div>
@@ -724,7 +777,7 @@ If the <code>redoStack</code> is empty, then there are no other commands left to
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations"><a class="link" href="#design-considerations">3.1.1. Design Considerations</a></h4>
+<h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">3.2.1. Design Considerations</a></h4>
 <div class="paragraph">
 <p><strong>Aspect:</strong> Implementation of <code>UndoableCommand</code><br>
 <strong>Alternative 1 (current choice):</strong> Add a new abstract method <code>executeUndoableCommand()</code><br>
@@ -768,12 +821,12 @@ If the <code>redoStack</code> is empty, then there are no other commands left to
 </div>
 </div>
 <div class="sect2">
-<h3 id="code-clearhistory-code-command"><a class="link" href="#code-clearhistory-code-command">3.2. <code>clearhistory</code> command</a></h3>
+<h3 id="code-clearhistory-code-command"><a class="link" href="#code-clearhistory-code-command">3.3. <code>clearhistory</code> command</a></h3>
 <div class="paragraph">
 <p>The <code>clearhistory</code> command is implemented as a regular command that calls <code>.clear()</code> methods added to <code>CommandHistory</code> and <code>UndoRedoStack</code>, which clears the command history and the undo/redo stack respectively.</p>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">3.2.1. Design Considerations</a></h4>
+<h4 id="design-considerations-3"><a class="link" href="#design-considerations-3">3.3.1. Design Considerations</a></h4>
 <div class="paragraph">
 <p><strong>Aspect:</strong> Type of <code>clearhistory</code> command<br>
 <strong>Alternative 1 (current choice):</strong> <code>Command</code><br>
@@ -796,7 +849,7 @@ If the <code>redoStack</code> is empty, then there are no other commands left to
 </div>
 </div>
 <div class="sect2">
-<h3 id="logging"><a class="link" href="#logging">3.3. Logging</a></h3>
+<h3 id="logging"><a class="link" href="#logging">3.4. Logging</a></h3>
 <div class="paragraph">
 <p>We are using <code>java.util.logging</code> package for logging. The <code>LogsCenter</code> class is used to manage the logging levels and logging destinations.</p>
 </div>
@@ -834,7 +887,7 @@ If the <code>redoStack</code> is empty, then there are no other commands left to
 </div>
 </div>
 <div class="sect2">
-<h3 id="configuration"><a class="link" href="#configuration">3.4. Configuration</a></h3>
+<h3 id="configuration"><a class="link" href="#configuration">3.5. Configuration</a></h3>
 <div class="paragraph">
 <p>Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: <code>config.json</code>).</p>
 </div>
@@ -2447,7 +2500,7 @@ for <code>RemarkCommandParser</code>.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-10-22 10:44:14 +00:00
+Last updated 2017-10-22 11:18:16 +00:00
 </div>
 </div>
 </body>
