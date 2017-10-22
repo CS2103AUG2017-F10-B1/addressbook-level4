@@ -45,8 +45,9 @@
 <li><a href="#implementation">3. Implementation</a>
 <ul class="sectlevel2">
 <li><a href="#undo-redo-mechanism">3.1. Undo/Redo mechanism</a></li>
-<li><a href="#logging">3.2. Logging</a></li>
-<li><a href="#configuration">3.3. Configuration</a></li>
+<li><a href="#code-clearhistory-code-command">3.2. <code>clearhistory</code> command</a></li>
+<li><a href="#logging">3.3. Logging</a></li>
+<li><a href="#configuration">3.4. Configuration</a></li>
 </ul>
 </li>
 <li><a href="#documentation">4. Documentation</a>
@@ -767,7 +768,35 @@ If the <code>redoStack</code> is empty, then there are no other commands left to
 </div>
 </div>
 <div class="sect2">
-<h3 id="logging"><a class="link" href="#logging">3.2. Logging</a></h3>
+<h3 id="code-clearhistory-code-command"><a class="link" href="#code-clearhistory-code-command">3.2. <code>clearhistory</code> command</a></h3>
+<div class="paragraph">
+<p>The <code>clearhistory</code> command is implemented as a regular command that calls <code>.clear()</code> methods added to <code>CommandHistory</code> and <code>UndoRedoStack</code>, which clears the command history and the undo/redo stack respectively.</p>
+</div>
+<div class="sect3">
+<h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">3.2.1. Design Considerations</a></h4>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Type of <code>clearhistory</code> command<br>
+<strong>Alternative 1 (current choice):</strong> <code>Command</code><br>
+<strong>Pros:</strong> History is permanently cleared.<br>
+<strong>Cons:</strong> Impossible to undo accidental clearing of history, meaning all undoable changes become permanent.<br>
+<strong>Alternative 2:</strong> <code>UndoableCommand</code><br>
+<strong>Pros:</strong> Possible to undo accidental clearing of history.<br>
+<strong>Cons:</strong> Since the most likely use for <code>clearhistory</code> is for it to be permanent, having it be undoable is counterintuitive to user expectations.</p>
+</div>
+<hr>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Behaviour of <code>clearhistory</code> command on empty history<br>
+<strong>Alternative 1 (current choice):</strong> Clear anyway and indicate success<br>
+<strong>Pros:</strong> Simple to implement, no additional cases to take care of.<br>
+<strong>Cons:</strong> May be confusing to declare an empty history cleared.<br>
+<strong>Alternative 2:</strong> Indicate that history is empty.<br>
+<strong>Pros:</strong> Clearer messages about the state of the command history.<br>
+<strong>Cons:</strong> More complex to implement, and the end result of clearing an empty history also results in a cleared history, meaning the user intention of clearing their history is fufilled regardless of which alternative is chosen.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="logging"><a class="link" href="#logging">3.3. Logging</a></h3>
 <div class="paragraph">
 <p>We are using <code>java.util.logging</code> package for logging. The <code>LogsCenter</code> class is used to manage the logging levels and logging destinations.</p>
 </div>
@@ -805,7 +834,7 @@ If the <code>redoStack</code> is empty, then there are no other commands left to
 </div>
 </div>
 <div class="sect2">
-<h3 id="configuration"><a class="link" href="#configuration">3.3. Configuration</a></h3>
+<h3 id="configuration"><a class="link" href="#configuration">3.4. Configuration</a></h3>
 <div class="paragraph">
 <p>Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: <code>config.json</code>).</p>
 </div>
@@ -2418,7 +2447,7 @@ for <code>RemarkCommandParser</code>.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-10-22 08:27:14 +00:00
+Last updated 2017-10-22 10:44:14 +00:00
 </div>
 </div>
 </body>
