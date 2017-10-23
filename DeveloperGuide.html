@@ -45,11 +45,12 @@ Updated By: <code>CS2103 F10-B1</code></p>
 </li>
 <li><a href="#implementation">3. Implementation</a>
 <ul class="sectlevel2">
-<li><a href="#enhanced-code-find-code-command">3.1. Enhanced <code>find</code> command</a></li>
-<li><a href="#undo-redo-mechanism">3.2. Undo/Redo mechanism</a></li>
-<li><a href="#code-clearhistory-code-command">3.3. <code>clearhistory</code> command</a></li>
-<li><a href="#logging">3.4. Logging</a></li>
-<li><a href="#configuration">3.5. Configuration</a></li>
+<li><a href="#removetag-command">3.1. removeTag command</a></li>
+<li><a href="#enhanced-code-find-code-command">3.2. Enhanced <code>find</code> command</a></li>
+<li><a href="#undo-redo-mechanism">3.3. Undo/Redo mechanism</a></li>
+<li><a href="#code-clearhistory-code-command">3.4. <code>clearhistory</code> command</a></li>
+<li><a href="#logging">3.5. Logging</a></li>
+<li><a href="#configuration">3.6. Configuration</a></li>
 </ul>
 </li>
 <li><a href="#documentation">4. Documentation</a>
@@ -574,7 +575,46 @@ Note how the event is propagated through the <code>EventsCenter</code> to the <c
 <p>This section describes some noteworthy details on how certain features are implemented.</p>
 </div>
 <div class="sect2">
-<h3 id="enhanced-code-find-code-command"><a class="link" href="#enhanced-code-find-code-command">3.1. Enhanced <code>find</code> command</a></h3>
+<h3 id="removetag-command"><a class="link" href="#removetag-command">3.1. removeTag command</a></h3>
+<div class="paragraph">
+<p>The removeTag command removes a tag with the specified name from the address book. All the appearances of the tag in
+the address book are removed. This command is implemented in the style of the <code>edit</code> command and <code>delete</code> command.</p>
+</div>
+<div class="sect3">
+<h4 id="design-considerations"><a class="link" href="#design-considerations">3.1.1. Design Considerations</a></h4>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Implementation for removeTag command<br>
+<strong>Alternative 1 (current choice):</strong> The command is implemented using methods which remove the tag from each person&#8217;s tag list.<br>
+<strong>Pros:</strong> Implementation is modular and less dependent on methods used for other commands.<br>
+<strong>Cons:</strong> More tedious to implement since it is not making use of the existing resources such as <code>edit</code> command.<br>
+<strong>Alternative 2:</strong> Adapt current <code>edit</code> command so that removing the tag is done by editing every person&#8217;s tag list.<br>
+<strong>Pros:</strong> Making use of existing resources and easier implementation.<br>
+<strong>Cons:</strong> More dependency between commands and the relationship between <code>edit</code> and <code>remove</code> is not clear.</p>
+</div>
+<hr>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Type of command implemented<br>
+<strong>Alternative 1 (current choice):</strong> <code>removeTag</code> command extends <code>UndoableCommand</code> instead of <code>Command</code>.<br>
+<strong>Pros:</strong> Accidental removal of tags can be recovered.<br>
+<strong>Cons:</strong> Additional memory needed for recording the previous stage of the address book.<br>
+<strong>Alternative 2:</strong> <code>removeTag</code> command extends <code>Command</code>.<br>
+<strong>Pros:</strong> No additional memory needed for recording the previous stage of the address book.<br>
+<strong>Cons:</strong> As the removal of Tag is from all the persons in address book, an accidental removal can be disastrous if the user does not intend a complete removal.</p>
+</div>
+<hr>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Removal of the tag from all instead of some by user&#8217;s choice<br>
+<strong>Alternative 1 (current choice):</strong> The command currently does not support the removal of a tag from persons specified in the user input.<br>
+<strong>Pros:</strong> Easier implementation since it does not deal with the parsing of more user input.<br>
+<strong>Cons:</strong> The user cannot remove the tags from a few specific people in one command. <br>
+<strong>Alternative 2:</strong> The command allows the user input to specify the persons from whom the tag should be removed.<br>
+<strong>Pros:</strong> The user can remove the tags from a few specific people in one command.<br>
+<strong>Cons:</strong> Implementation is more difficult as parsing of additional user input required. It is also unlikely for user to remove the tag from many persons at once, hence there is a function overlap with <code>edit</code> command.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="enhanced-code-find-code-command"><a class="link" href="#enhanced-code-find-code-command">3.2. Enhanced <code>find</code> command</a></h3>
 <div class="paragraph">
 <p>A basic <code>find</code> command is given in the original codebase which allows persons to be found using their names.</p>
 </div>
@@ -582,7 +622,7 @@ Note how the event is propagated through the <code>EventsCenter</code> to the <c
 <p>In order to enhance the <code>find</code> command, the <code>find</code> command is extended to support searches by name/email/phone number/address/tag. This is implemented in the style of the <code>add</code> command, and restricts the search to a particular aspect through parsing prefixes (<code>/n</code>, <code>/p</code>, <code>/e</code>, <code>/a</code>, <code>/t</code>). Without a prefix (i.e. <code>find</code>), the search is global, and returns any matches in any aspects (name/email/phone number/address/tag).</p>
 </div>
 <div class="sect3">
-<h4 id="design-considerations"><a class="link" href="#design-considerations">3.1.1. Design Considerations</a></h4>
+<h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">3.2.1. Design Considerations</a></h4>
 <div class="paragraph">
 <p><strong>Aspect:</strong> Implementation for enhanced <code>find</code> command<br>
 <strong>Alternative 1 (current choice):</strong> Adapt current <code>FindCommand</code> and add new predicates for each new type of search.<br>
@@ -625,7 +665,7 @@ Note how the event is propagated through the <code>EventsCenter</code> to the <c
 </div>
 </div>
 <div class="sect2">
-<h3 id="undo-redo-mechanism"><a class="link" href="#undo-redo-mechanism">3.2. Undo/Redo mechanism</a></h3>
+<h3 id="undo-redo-mechanism"><a class="link" href="#undo-redo-mechanism">3.3. Undo/Redo mechanism</a></h3>
 <div class="paragraph">
 <p>The undo/redo mechanism is facilitated by an <code>UndoRedoStack</code>, which resides inside <code>LogicManager</code>. It supports undoing and redoing of commands that modifies the state of the address book (e.g. <code>add</code>, <code>edit</code>). Such commands will inherit from <code>UndoableCommand</code>.</p>
 </div>
@@ -777,7 +817,7 @@ If the <code>redoStack</code> is empty, then there are no other commands left to
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">3.2.1. Design Considerations</a></h4>
+<h4 id="design-considerations-3"><a class="link" href="#design-considerations-3">3.3.1. Design Considerations</a></h4>
 <div class="paragraph">
 <p><strong>Aspect:</strong> Implementation of <code>UndoableCommand</code><br>
 <strong>Alternative 1 (current choice):</strong> Add a new abstract method <code>executeUndoableCommand()</code><br>
@@ -821,12 +861,12 @@ If the <code>redoStack</code> is empty, then there are no other commands left to
 </div>
 </div>
 <div class="sect2">
-<h3 id="code-clearhistory-code-command"><a class="link" href="#code-clearhistory-code-command">3.3. <code>clearhistory</code> command</a></h3>
+<h3 id="code-clearhistory-code-command"><a class="link" href="#code-clearhistory-code-command">3.4. <code>clearhistory</code> command</a></h3>
 <div class="paragraph">
 <p>The <code>clearhistory</code> command is implemented as a regular command that calls <code>.clear()</code> methods added to <code>CommandHistory</code> and <code>UndoRedoStack</code>, which clears the command history and the undo/redo stack respectively.</p>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-3"><a class="link" href="#design-considerations-3">3.3.1. Design Considerations</a></h4>
+<h4 id="design-considerations-4"><a class="link" href="#design-considerations-4">3.4.1. Design Considerations</a></h4>
 <div class="paragraph">
 <p><strong>Aspect:</strong> Type of <code>clearhistory</code> command<br>
 <strong>Alternative 1 (current choice):</strong> <code>Command</code><br>
@@ -849,7 +889,7 @@ If the <code>redoStack</code> is empty, then there are no other commands left to
 </div>
 </div>
 <div class="sect2">
-<h3 id="logging"><a class="link" href="#logging">3.4. Logging</a></h3>
+<h3 id="logging"><a class="link" href="#logging">3.5. Logging</a></h3>
 <div class="paragraph">
 <p>We are using <code>java.util.logging</code> package for logging. The <code>LogsCenter</code> class is used to manage the logging levels and logging destinations.</p>
 </div>
@@ -887,7 +927,7 @@ If the <code>redoStack</code> is empty, then there are no other commands left to
 </div>
 </div>
 <div class="sect2">
-<h3 id="configuration"><a class="link" href="#configuration">3.5. Configuration</a></h3>
+<h3 id="configuration"><a class="link" href="#configuration">3.6. Configuration</a></h3>
 <div class="paragraph">
 <p>Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: <code>config.json</code>).</p>
 </div>
@@ -2500,7 +2540,7 @@ for <code>RemarkCommandParser</code>.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-10-22 17:05:53 +00:00
+Last updated 2017-10-23 05:29:13 +00:00
 </div>
 </div>
 </body>
