@@ -48,9 +48,10 @@ Updated By: <code>CS2103 F10-B1</code></p>
 <li><a href="#removetag-command">3.1. removeTag command</a></li>
 <li><a href="#enhanced-code-find-code-command">3.2. Enhanced <code>find</code> command</a></li>
 <li><a href="#undo-redo-mechanism">3.3. Undo/Redo mechanism</a></li>
-<li><a href="#code-clearhistory-code-command">3.4. <code>clearhistory</code> command</a></li>
-<li><a href="#logging">3.5. Logging</a></li>
-<li><a href="#configuration">3.6. Configuration</a></li>
+<li><a href="#remark-mechanism">3.4. Remark mechanism</a></li>
+<li><a href="#code-clearhistory-code-command">3.5. <code>clearhistory</code> command</a></li>
+<li><a href="#logging">3.6. Logging</a></li>
+<li><a href="#configuration">3.7. Configuration</a></li>
 </ul>
 </li>
 <li><a href="#documentation">4. Documentation</a>
@@ -861,12 +862,54 @@ If the <code>redoStack</code> is empty, then there are no other commands left to
 </div>
 </div>
 <div class="sect2">
-<h3 id="code-clearhistory-code-command"><a class="link" href="#code-clearhistory-code-command">3.4. <code>clearhistory</code> command</a></h3>
+<h3 id="remark-mechanism"><a class="link" href="#remark-mechanism">3.4. Remark mechanism</a></h3>
+<div class="paragraph">
+<p>The remark command takes in the user input through command line in the format remark INDEX r/ REMARK, where INDEX is the index of the person in the addressbook and REMARK is the remark of the relationship of that person to another person.<br>
+Eg. remark 1 r/ is the husband of Chelsea<br></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/RemarkLogicDiagram.png" alt="RemarkLogicDiagram" width="800">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/RemarkModelDiagram.png" alt="RemarkModelDiagram" width="800">
+</div>
+</div>
+<div class="sect3">
+<h4 id="design-considerations-4"><a class="link" href="#design-considerations-4">3.4.1. Design Considerations</a></h4>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Implementation of remark command<br>
+<strong>Alternative 1 (current choice):</strong> Addition of a remarks command is a standalone<br>
+<strong>Pros:</strong> There is more flexibility and remarks do not have to be stated upon addition of Person to addressbook.<br>
+<strong>Cons:</strong> More difficult to implement as new remark command and tests need to be created<br>
+<strong>Alternative 2:</strong> Add in remarks together with other Person details such as address, phone, email, etc<br>
+<strong>Pros:</strong> Easy to implement (implement spacing to create a new command class, just modify existing add command)<br>
+<strong>Cons:</strong> The user will have to key in huge amount of information before adding into the addressbook.<br></p>
+</div>
+<hr>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Implement remark as distinct from tag<br>
+<strong>Alternative 1 (current choice):</strong> Create a new seperate remark command<br>
+<strong>Pros:</strong> Able to provide a cleaner user interface and experience. Also reduces complications in modifying existing working tag system.<br>
+<strong>Cons:</strong> More work has to be done in testing and creating a new command.<br>
+<strong>Alternative 2:</strong> update the tag to accept sentences for remarks<br>
+<strong>Pros:</strong> Easy to implement as we do not need to add a new command.<br>
+<strong>Cons:</strong> The Tag may be more difficult to find and more work is needed to change the find tag command. Additionally, the user interface of tag command also needs to be changed to accommodate long tags.<br></p>
+</div>
+<div class="paragraph">
+<p>Credits: Mechanism adapted from Yamgent <a href="https://github.com/se-edu/addressbook-level4/pull/599" class="bare">https://github.com/se-edu/addressbook-level4/pull/599</a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="code-clearhistory-code-command"><a class="link" href="#code-clearhistory-code-command">3.5. <code>clearhistory</code> command</a></h3>
 <div class="paragraph">
 <p>The <code>clearhistory</code> command is implemented as a regular command that calls <code>.clear()</code> methods added to <code>CommandHistory</code> and <code>UndoRedoStack</code>, which clears the command history and the undo/redo stack respectively.</p>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-4"><a class="link" href="#design-considerations-4">3.4.1. Design Considerations</a></h4>
+<h4 id="design-considerations-5"><a class="link" href="#design-considerations-5">3.5.1. Design Considerations</a></h4>
 <div class="paragraph">
 <p><strong>Aspect:</strong> Type of <code>clearhistory</code> command<br>
 <strong>Alternative 1 (current choice):</strong> <code>Command</code><br>
@@ -889,7 +932,7 @@ If the <code>redoStack</code> is empty, then there are no other commands left to
 </div>
 </div>
 <div class="sect2">
-<h3 id="logging"><a class="link" href="#logging">3.5. Logging</a></h3>
+<h3 id="logging"><a class="link" href="#logging">3.6. Logging</a></h3>
 <div class="paragraph">
 <p>We are using <code>java.util.logging</code> package for logging. The <code>LogsCenter</code> class is used to manage the logging levels and logging destinations.</p>
 </div>
@@ -927,7 +970,7 @@ If the <code>redoStack</code> is empty, then there are no other commands left to
 </div>
 </div>
 <div class="sect2">
-<h3 id="configuration"><a class="link" href="#configuration">3.6. Configuration</a></h3>
+<h3 id="configuration"><a class="link" href="#configuration">3.7. Configuration</a></h3>
 <div class="paragraph">
 <p>Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: <code>config.json</code>).</p>
 </div>
@@ -2384,6 +2427,81 @@ for <code>RemarkCommandParser</code>.</p>
 </li>
 </ul>
 </div>
+<h3 id="use-case-add-a-remark" class="discrete">Use case: Add a remark</h3>
+<div class="paragraph">
+<p><strong>MSS</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>User requests to list persons</p>
+</li>
+<li>
+<p>AddressBook shows a list of persons</p>
+</li>
+<li>
+<p>User requests to add/update the remark to a specific person in the list</p>
+</li>
+<li>
+<p>AddressBook add/update the remark of the specified person</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extensions</strong></p>
+</div>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>2a. The list is empty.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+<li>
+<p>3a. The given index is invalid.</p>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>3a1. AddressBook shows an error message.</p>
+<div class="paragraph">
+<p>Use case resumes at step 2.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>3b. User does not specify a remark to add.</p>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>3b1. AddressBook overwrites the previous remark and replaced it with an empty remark.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>3c. User updates valid remark with new value that is invalid.</p>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>3c1. AddressBook shows an error message.</p>
+<div class="paragraph">
+<p>Use case resumes at step 2.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
 <h3 id="use-case-sort-a-list-of-persons" class="discrete">Use case: Sort a list of persons</h3>
 <div class="paragraph">
 <p><strong>MSS</strong></p>
@@ -2540,7 +2658,7 @@ for <code>RemarkCommandParser</code>.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-10-23 05:29:13 +00:00
+Last updated 2017-10-26 19:36:28 +00:00
 </div>
 </div>
 </body>
