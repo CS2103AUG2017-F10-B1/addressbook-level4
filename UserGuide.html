@@ -178,6 +178,8 @@ Format: <code>add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]&#8230;&#8203;<
 </td>
 <td class="content">
 A person can have any number of tags (including 0)
+A person can be added with just the name being specified
+The Order of name, phone number, email, address and tags being added does not matter
 </td>
 </tr>
 </table>
@@ -191,7 +193,16 @@ A person can have any number of tags (including 0)
 <p><code>add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01</code></p>
 </li>
 <li>
+<p><code>add n/Betsy Crowe e/betsycrowe@example.com</code></p>
+</li>
+<li>
 <p><code>add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal</code></p>
+</li>
+<li>
+<p><code>add n/Betsy Crowe a/Newgate Prison p/1234567 e/betsycrowe@example.com</code></p>
+</li>
+<li>
+<p><code>add n/Betsy Crowe</code></p>
 </li>
 </ul>
 </div>
@@ -1196,7 +1207,7 @@ e.g. <code>remark 2 r/The husband of Juliet Lee</code></p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-10-27 02:17:31 +00:00
+Last updated 2017-10-27 10:50:55 +00:00
 </div>
 </div>
 </body>

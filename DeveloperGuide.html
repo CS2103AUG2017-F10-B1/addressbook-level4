@@ -49,10 +49,11 @@ Updated By: <code>CS2103 F10-B1</code></p>
 <li><a href="#removetag-command">3.2. removeTag command</a></li>
 <li><a href="#enhanced-code-find-code-command">3.3. Enhanced <code>find</code> command</a></li>
 <li><a href="#undo-redo-mechanism">3.4. Undo/Redo mechanism</a></li>
-<li><a href="#remark-mechanism">3.5. Remark mechanism</a></li>
-<li><a href="#code-clearhistory-code-command">3.6. <code>clearhistory</code> command</a></li>
-<li><a href="#logging">3.7. Logging</a></li>
-<li><a href="#configuration">3.8. Configuration</a></li>
+<li><a href="#enhanced-add-command-mechanism">3.5. Enhanced add command mechanism</a></li>
+<li><a href="#remark-mechanism">3.6. Remark mechanism</a></li>
+<li><a href="#code-clearhistory-code-command">3.7. <code>clearhistory</code> command</a></li>
+<li><a href="#logging">3.8. Logging</a></li>
+<li><a href="#configuration">3.9. Configuration</a></li>
 </ul>
 </li>
 <li><a href="#documentation">4. Documentation</a>
@@ -883,7 +884,26 @@ If the <code>redoStack</code> is empty, then there are no other commands left to
 </div>
 </div>
 <div class="sect2">
-<h3 id="remark-mechanism"><a class="link" href="#remark-mechanism">3.5. Remark mechanism</a></h3>
+<h3 id="enhanced-add-command-mechanism"><a class="link" href="#enhanced-add-command-mechanism">3.5. Enhanced add command mechanism</a></h3>
+<div class="paragraph">
+<p>A more flexible add command that only requires the name to be specified at the time of its execution. The other fields such as phone, email and address need not be specfied at the time of add command execution.<br>
+A separate parser for phone, email and address are used to accommodate this enhancement to isolate the interdependency between the modified enhanced add command with the other commands.<br></p>
+</div>
+<div class="sect3">
+<h4 id="design-considerations-5"><a class="link" href="#design-considerations-5">3.5.1. Design Considerations</a></h4>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Implementation of enhanced 'add command'<br>
+<strong>Alternative 1 (current choice):</strong> Add new parser methods <code>parseAddPhone</code>, <code>parseAddEmail</code> and <code>parseAddAddress</code> <br>
+<strong>Pros:</strong> Able to isolate the behaviour of the add command and the edit command so that editing an existing Person will not overwrite the fields that should not be edited.<br>
+<strong>Cons:</strong> More difficult to implement as more test cases has to be added for the new parser methods.<br>
+<strong>Alternative 2:</strong> Modify existing parser method <code>parsePhone</code>, <code>parseEmail</code> and <code>parseAddress</code><br>
+<strong>Pros:</strong> Easier to implement as we can re-use existing tests and codes and just add minor modifications<br>
+<strong>Cons:</strong> The behaviour of edit command overlaps with the behaviour of the add command, causing unintended overwrite of other fields such as address when we don&#8217;t want to.<br></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="remark-mechanism"><a class="link" href="#remark-mechanism">3.6. Remark mechanism</a></h3>
 <div class="paragraph">
 <p>The remark command takes in the user input through command line in the format remark INDEX r/ REMARK, where INDEX is the index of the person in the addressbook and REMARK is the remark of the relationship of that person to another person.<br>
 Eg. remark 1 r/ is the husband of Chelsea<br></p>
@@ -899,7 +919,7 @@ Eg. remark 1 r/ is the husband of Chelsea<br></p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-5"><a class="link" href="#design-considerations-5">3.5.1. Design Considerations</a></h4>
+<h4 id="design-considerations-6"><a class="link" href="#design-considerations-6">3.6.1. Design Considerations</a></h4>
 <div class="paragraph">
 <p><strong>Aspect:</strong> Implementation of remark command<br>
 <strong>Alternative 1 (current choice):</strong> Addition of a remarks command is a standalone<br>
@@ -925,12 +945,12 @@ Eg. remark 1 r/ is the husband of Chelsea<br></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="code-clearhistory-code-command"><a class="link" href="#code-clearhistory-code-command">3.6. <code>clearhistory</code> command</a></h3>
+<h3 id="code-clearhistory-code-command"><a class="link" href="#code-clearhistory-code-command">3.7. <code>clearhistory</code> command</a></h3>
 <div class="paragraph">
 <p>The <code>clearhistory</code> command is implemented as a regular command that calls <code>.clear()</code> methods added to <code>CommandHistory</code> and <code>UndoRedoStack</code>, which clears the command history and the undo/redo stack respectively.</p>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-6"><a class="link" href="#design-considerations-6">3.6.1. Design Considerations</a></h4>
+<h4 id="design-considerations-7"><a class="link" href="#design-considerations-7">3.7.1. Design Considerations</a></h4>
 <div class="paragraph">
 <p><strong>Aspect:</strong> Type of <code>clearhistory</code> command<br>
 <strong>Alternative 1 (current choice):</strong> <code>Command</code><br>
@@ -953,7 +973,7 @@ Eg. remark 1 r/ is the husband of Chelsea<br></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="logging"><a class="link" href="#logging">3.7. Logging</a></h3>
+<h3 id="logging"><a class="link" href="#logging">3.8. Logging</a></h3>
 <div class="paragraph">
 <p>We are using <code>java.util.logging</code> package for logging. The <code>LogsCenter</code> class is used to manage the logging levels and logging destinations.</p>
 </div>
@@ -991,7 +1011,7 @@ Eg. remark 1 r/ is the husband of Chelsea<br></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="configuration"><a class="link" href="#configuration">3.8. Configuration</a></h3>
+<h3 id="configuration"><a class="link" href="#configuration">3.9. Configuration</a></h3>
 <div class="paragraph">
 <p>Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: <code>config.json</code>).</p>
 </div>
@@ -2679,7 +2699,7 @@ for <code>RemarkCommandParser</code>.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-10-27 02:17:31 +00:00
+Last updated 2017-10-27 10:50:55 +00:00
 </div>
 </div>
 </body>
