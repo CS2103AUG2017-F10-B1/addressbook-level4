@@ -18,8 +18,9 @@ import seedu.address.model.person.exceptions.DuplicatePersonException;
 public class AddCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "add";
+    //@@author TanYikai
     public static final String COMMAND_ALIAS = "a";
-
+    //@@author
     public static final String COMMAND_PARAMETERS = PREFIX_NAME + "NAME "
             + PREFIX_PHONE + "PHONE "
             + PREFIX_EMAIL + "EMAIL "

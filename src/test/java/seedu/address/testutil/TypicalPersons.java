@@ -24,10 +24,11 @@ import seedu.address.model.person.exceptions.DuplicatePersonException;
  * A utility class containing a list of {@code Person} objects to be used in tests.
  */
 public class TypicalPersons {
-
+    //@@author TanYikai
     public static final Index INDEX_FIRST_PERSON = Index.fromOneBased(1);
     public static final Index INDEX_SECOND_PERSON = Index.fromOneBased(2);
-
+    public static final Index INDEX_THIRD_PERSON = Index.fromOneBased(3);
+    //@@author
     public static final ReadOnlyPerson ALICE = new PersonBuilder().withName("Alice Pauline")
             .withAddress("123, Jurong West Ave 6, #08-111").withEmail("alice@example.com")
             .withPhone("85355255")
@@ -82,7 +83,7 @@ public class TypicalPersons {
         }
         return ab;
     }
-
+    //@@author TanYikai
     /**
      * Returns an {@code AddressBook} with all the typical persons in unsorted order.
      */
@@ -97,11 +98,11 @@ public class TypicalPersons {
         }
         return ab;
     }
-
+    //@@author
     public static List<ReadOnlyPerson> getTypicalPersons() {
         return new ArrayList<>(Arrays.asList(ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE));
     }
-
+    //@@author TanYikai
     public static List<ReadOnlyPerson> getUnsortedTypicalPersons() {
         return new ArrayList<>(Arrays.asList(DANIEL, BENSON, CARL, ALICE, ELLE, FIONA, GEORGE));
     }

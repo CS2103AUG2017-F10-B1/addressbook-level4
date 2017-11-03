@@ -15,14 +15,14 @@ public class Email {
             "Person emails should be 2 alphanumeric/period strings separated by '@'";
     public static final String EMAIL_VALIDATION_REGEX = "[\\w\\.]+@[\\w\\.]+";
     public final String value;
-
+    //@@author TanYikai
     /**
      * The default Email constructor when email is not specified by the user
      */
     private Email() {
-        value = "<Unspecified email>";
+        value = "Unspecified email";
     }
-
+    //@@author
     /**
      * Validates given email.
      * An exception to the ILLegalValueException is the String "Unspecified email"
@@ -31,7 +31,7 @@ public class Email {
     public Email(String email) throws IllegalValueException {
         requireNonNull(email);
         String trimmedEmail = email.trim();
-        if (!isValidEmail(trimmedEmail)) {
+        if (!isValidEmail(trimmedEmail) && !"Unspecified email".equals(trimmedEmail)) {
             throw new IllegalValueException(MESSAGE_EMAIL_CONSTRAINTS);
         }
         this.value = trimmedEmail;

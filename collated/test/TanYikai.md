@@ -1,32 +1,13 @@
-package seedu.address.logic.commands;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_REMARK_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_REMARK_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.logic.commands.CommandTestUtil.showFirstPersonOnly;
-import static seedu.address.testutil.TypicalPersons.INDEX_FIRST_PERSON;
-import static seedu.address.testutil.TypicalPersons.INDEX_SECOND_PERSON;
-import static seedu.address.testutil.TypicalPersons.INDEX_THIRD_PERSON;
-import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
-
-import org.junit.Test;
-
-import seedu.address.commons.core.Messages;
-import seedu.address.commons.core.index.Index;
-import seedu.address.logic.CommandHistory;
-import seedu.address.logic.UndoRedoStack;
-import seedu.address.model.AddressBook;
-import seedu.address.model.Model;
-import seedu.address.model.ModelManager;
-import seedu.address.model.UserPrefs;
-import seedu.address.model.person.Person;
-import seedu.address.model.person.Remark;
-import seedu.address.testutil.PersonBuilder;
-import seedu.address.testutil.StorageStub;
-//@@author TanYikai
+# TanYikai
+###### \java\seedu\address\logic\commands\AddCommandTest.java
+``` java
+        @Override
+        public void sortPersons() {
+            fail("This method should not be called.");
+        }
+```
+###### \java\seedu\address\logic\commands\RemarkCommandTest.java
+``` java
 /**
  * Contains integration tests (interaction with the Model) and unit tests for RemarkCommand.
  */
@@ -165,3 +146,122 @@ public class RemarkCommandTest {
         return remarkCommand;
     }
 }
+```
+###### \java\seedu\address\logic\commands\SortCommandTest.java
+``` java
+/**
+ * Contains integration tests (interaction with the Model) and unit tests for SortCommand.
+ */
+public class SortCommandTest {
+
+    private Model model;
+    private Model expectedModel;
+    private Model unsortedModel;
+    private SortCommand sortCommand;
+
+    @Before
+    public void setUp() {
+        model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        unsortedModel = new ModelManager(getUnsortedAddressBook(), new UserPrefs());
+
+        sortCommand = new SortCommand();
+        sortCommand.setData(model, new CommandHistory(), new UndoRedoStack(), new StorageStub());
+    }
+
+    @Test
+    public void execute_sortListIsNotFiltered_showsSameSortList() {
+        assertCommandSuccess(sortCommand, model, SortCommand.MESSAGE_SUCCESS, expectedModel);
+    }
+
+    @Test
+    public void execute_sortListIsFiltered_showsEverything() {
+        showFirstPersonOnly(model);
+        assertCommandSuccess(sortCommand, model, SortCommand.MESSAGE_SUCCESS, expectedModel);
+    }
+
+    @Test
+    public void equals() {
+        unsortedModel.sortPersons();
+
+        // sort success -> returns true
+        assertTrue(expectedModel.equals(unsortedModel));
+    }
+}
+```
+###### \java\seedu\address\logic\parser\AddressBookParserTest.java
+``` java
+    @Test
+    public void parseCommand_remark() throws Exception {
+        final Remark remark = new Remark("Some remark.");
+        RemarkCommand command = (RemarkCommand) parser.parseCommand(RemarkCommand.COMMAND_WORD + " "
+                + INDEX_FIRST_PERSON.getOneBased() + " " + PREFIX_OTHER_INDEX + INDEX_SECOND_PERSON.getOneBased()
+                + " " + PREFIX_REMARK + " " + remark.value);
+        assertEquals(new RemarkCommand(INDEX_FIRST_PERSON, INDEX_SECOND_PERSON, remark), command);
+    }
+```
+###### \java\seedu\address\logic\parser\AddressBookParserTest.java
+``` java
+    @Test
+    public void parseCommand_sort() throws Exception {
+        assertTrue(parser.parseCommand(SortCommand.COMMAND_WORD) instanceof SortCommand);
+        assertTrue(parser.parseCommand(SortCommand.COMMAND_WORD + " 3") instanceof SortCommand);
+    }
+```
+###### \java\seedu\address\model\person\RemarkTest.java
+``` java
+public class RemarkTest {
+
+    @Test
+    public void equals() {
+        Remark remark = new Remark("Hello");
+
+        // same object -> returns true
+        assertTrue(remark.equals(remark));
+
+        // same values -> returns true
+        Remark remarkCopy = new Remark(remark.value);
+        assertTrue(remark.equals(remarkCopy));
+
+        // different types -> returns false
+        assertFalse(remark.equals(1));
+
+        // null -> returns false
+        assertFalse(remark.equals(null));
+
+        // different person -> returns false
+        Remark differentRemark = new Remark("Bye");
+        assertFalse(remark.equals(differentRemark));
+    }
+}
+```
+###### \java\seedu\address\testutil\TypicalPersons.java
+``` java
+    public static final Index INDEX_FIRST_PERSON = Index.fromOneBased(1);
+    public static final Index INDEX_SECOND_PERSON = Index.fromOneBased(2);
+    public static final Index INDEX_THIRD_PERSON = Index.fromOneBased(3);
+```
+###### \java\seedu\address\testutil\TypicalPersons.java
+``` java
+    /**
+     * Returns an {@code AddressBook} with all the typical persons in unsorted order.
+     */
+    public static AddressBook getUnsortedAddressBook() {
+        AddressBook ab = new AddressBook();
+        for (ReadOnlyPerson person : getUnsortedTypicalPersons()) {
+            try {
+                ab.addPerson(person);
+            } catch (DuplicatePersonException e) {
+                assert false : "not possible";
+            }
+        }
+        return ab;
+    }
+```
+###### \java\seedu\address\testutil\TypicalPersons.java
+``` java
+    public static List<ReadOnlyPerson> getUnsortedTypicalPersons() {
+        return new ArrayList<>(Arrays.asList(DANIEL, BENSON, CARL, ALICE, ELLE, FIONA, GEORGE));
+    }
+}
+```
