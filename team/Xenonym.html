@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.3">
+<title>Tan Zhen Yong - Project Portfolio</title>
+<link rel="stylesheet" href="../stylesheets/gh-pages.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="../stylesheets/coderay-asciidoctor.css">
+</head>
+<body class="article">
+<div id="header">
+<h1>Tan Zhen Yong - Project Portfolio</h1>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="project-intelli"><a class="link" href="#project-intelli">Project: Intelli</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Intelli is a desktop relationship tracker used by private investigators (PI) to manage their information and leads. The PI interacts with it using a CLI, and it has a GUI created with JavaFX and GraphStream. It is written in Java, and has about 6 kLoC.</p>
+</div>
+<div class="paragraph">
+<p><strong>Code contributed</strong>: [<a href="https://github.com/CS2103AUG2017-F10-B1/main/blob/master/collated/main/Xenonym.md">Functional code</a>] [<a href="https://github.com/CS2103AUG2017-F10-B1/main/blob/master/collated/test/Xenonym.md">Test code</a>]</p>
+</div>
+<div class="sect2">
+<h3 id="enhancement-added-backup"><a class="link" href="#enhancement-added-backup">Enhancement Added: Backup</a></h3>
+<div class="sect3">
+<h4 id="external-behavior"><a class="link" href="#external-behavior">External behavior</a></h4>
+<hr>
+<div class="paragraph">
+<p><mark>Start of Extract [from: User Guide]</mark></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="backing-up-code-backup-code"><a class="link" href="#backing-up-code-backup-code">Backing up: <code>backup</code></a></h3>
+<div class="paragraph">
+<p>Backs up the current address book to a fixed location (<code>addressbook.xml.bak</code> in current working directory).</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Any existing backup at the same location will be overwritten after running this command.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><mark>End of Extract</mark></p>
+</div>
+<hr>
+<div class="sect3">
+<h4 id="justification"><a class="link" href="#justification">Justification</a></h4>
+<div class="paragraph">
+<p>This is a simple way of backing up the current state of the address book before the user performs a complex series of commands that may not be undoable.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="implementation"><a class="link" href="#implementation">Implementation</a></h4>
+<hr>
+<div class="paragraph">
+<p><mark>Start of Extract [from: Developer Guide]</mark></p>
+</div>
+<div class="paragraph">
+<p><mark>End of Extract</mark></p>
+</div>
+<hr>
+</div>
+</div>
+<div class="sect2">
+<h3 id="enhancement-added-clear-command-history"><a class="link" href="#enhancement-added-clear-command-history">Enhancement Added: Clear command history</a></h3>
+<div class="sect3">
+<h4 id="external-behavior-2"><a class="link" href="#external-behavior-2">External behavior</a></h4>
+<hr>
+<div class="paragraph">
+<p><mark>Start of Extract [from: User Guide]</mark></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="clearing-command-history-code-clearhistory-code"><a class="link" href="#clearing-command-history-code-clearhistory-code">Clearing command history : <code>clearHistory</code></a></h3>
+<div class="paragraph">
+<p>Clears the command history.<br>
+Format: <code>clearHistory</code></p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>After the command history is cleared, you will not be able to undo any previous commands.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><mark>End of Extract</mark></p>
+</div>
+<hr>
+<div class="sect3">
+<h4 id="justification-2"><a class="link" href="#justification-2">Justification</a></h4>
+<div class="paragraph">
+<p>If information was added that may be too sensitive to be in the address book, clearing the command history ensures that the information is permanently removed.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="implementation-2"><a class="link" href="#implementation-2">Implementation</a></h4>
+<hr>
+<div class="paragraph">
+<p><mark>Start of Extract [from: Developer Guide]</mark></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="code-clearhistory-code-command"><a class="link" href="#code-clearhistory-code-command"><code>clearHistory</code> command</a></h3>
+<div class="paragraph">
+<p>The <code>clearHistory</code> command is implemented as a regular command that calls <code>.clear()</code> methods added to <code>CommandHistory</code> and <code>UndoRedoStack</code>, which clears the command history and the undo/redo stack respectively.</p>
+</div>
+<div class="sect3">
+<h4 id="design-considerations"><a class="link" href="#design-considerations">Design Considerations</a></h4>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Type of <code>clearHistory</code> command<br>
+<strong>Alternative 1 (current choice):</strong> <code>Command</code><br>
+<strong>Pros:</strong> History is permanently cleared.<br>
+<strong>Cons:</strong> Impossible to undo accidental clearing of history, meaning all undoable changes become permanent.<br>
+<strong>Alternative 2:</strong> <code>UndoableCommand</code><br>
+<strong>Pros:</strong> Possible to undo accidental clearing of history.<br>
+<strong>Cons:</strong> Since the most likely use for <code>clearHistory</code> is for it to be permanent, having it be undoable is counterintuitive to user expectations.</p>
+</div>
+<hr>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Behaviour of <code>clearHistory</code> command on empty history<br>
+<strong>Alternative 1 (current choice):</strong> Clear anyway and indicate success<br>
+<strong>Pros:</strong> Simple to implement, no additional cases to take care of.<br>
+<strong>Cons:</strong> May be confusing to declare an empty history cleared.<br>
+<strong>Alternative 2:</strong> Indicate that history is empty.<br>
+<strong>Pros:</strong> Clearer messages about the state of the command history.<br>
+<strong>Cons:</strong> More complex to implement, and the end result of clearing an empty history also results in a cleared history, meaning the user intention of clearing their history is fufilled regardless of which alternative is chosen.</p>
+</div>
+<div class="paragraph">
+<p><mark>End of Extract</mark></p>
+</div>
+<hr>
+</div>
+</div>
+<div class="sect2">
+<h3 id="enhancement-added-custom-tag-colours"><a class="link" href="#enhancement-added-custom-tag-colours">Enhancement Added: Custom tag colours</a></h3>
+<div class="sect3">
+<h4 id="external-behavior-3"><a class="link" href="#external-behavior-3">External behavior</a></h4>
+<hr>
+<div class="paragraph">
+<p><mark>Start of Extract [from: User Guide]</mark></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="setting-a-tag-colour-code-colourtag-code"><a class="link" href="#setting-a-tag-colour-code-colourtag-code">Setting a tag colour: <code>colourTag</code></a></h3>
+<div class="paragraph">
+<p>Sets a colour of a tag to a new colour.<br>
+Format: <code>colourTag TAG COLOUR</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Sets the colour of tag <code>TAG</code> to <code>COLOUR</code>.</p>
+</li>
+<li>
+<p><code>TAG</code> <strong>must be alphanumeric</strong> <code>a-z, A-Z, 0-9</code></p>
+</li>
+<li>
+<p><code>COLOUR</code> <strong>must be a CSS colour code</strong>.</p>
+</li>
+<li>
+<p>Changes will only take effect on next program start.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>colourTag friend red</code><br>
+Sets the colour of the tag <code>friend</code> to red on next program start.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><mark>End of Extract</mark></p>
+</div>
+<hr>
+<div class="sect3">
+<h4 id="justification-3"><a class="link" href="#justification-3">Justification</a></h4>
+<div class="paragraph">
+<p>A custom tag colour that is saved reduces confusion for the user and allows them to quickly identify people with the same tag quickly, especially if the address book is large.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="implementation-3"><a class="link" href="#implementation-3">Implementation</a></h4>
+<hr>
+<div class="paragraph">
+<p><mark>Start of Extract [from: Developer Guide]</mark></p>
+</div>
+<div class="paragraph">
+<p><mark>End of Extract</mark></p>
+</div>
+<hr>
+</div>
+</div>
+<div class="sect2">
+<h3 id="enhancement-added-shortest-relationship-path"><a class="link" href="#enhancement-added-shortest-relationship-path">Enhancement Added: Shortest relationship path</a></h3>
+<div class="sect3">
+<h4 id="external-behavior-4"><a class="link" href="#external-behavior-4">External behavior</a></h4>
+<hr>
+<div class="paragraph">
+<p><mark>Start of Extract [from: User Guide]</mark></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="finding-shortest-relationship-path-between-two-people-code-relpath-code"><a class="link" href="#finding-shortest-relationship-path-between-two-people-code-relpath-code">Finding shortest relationship path between two people: <code>relPath</code></a></h3>
+<div class="paragraph">
+<p>Highlights the shortest relationship path between two people in the address book in the graph display, if it exists.<br>
+Format: <code>relPath FROM_INDEX TO_INDEX</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Highlights the shortest relationship path between two people as specified by <code>FROM_INDEX</code> and <code>TO_INDEX</code>.</p>
+</li>
+<li>
+<p>Paths with higher minimum confidence estimates are preferred.</p>
+</li>
+<li>
+<p>The indices refers to the index number shown in the most recent listing.</p>
+</li>
+<li>
+<p>The indices <strong>must be positive integers</strong> 1, 2, 3, &#8230;&#8203;</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>relPath 1 2</code><br>
+Highlights the shortest path between the first and second person in the address book, if it exists.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><mark>End of Extract</mark></p>
+</div>
+<hr>
+<div class="sect3">
+<h4 id="justification-4"><a class="link" href="#justification-4">Justification</a></h4>
+<div class="paragraph">
+<p>This allows PIs to find the most confident way in which two people are related in a relationship path. For example, a PI may use someone they know very well to contact someone they don&#8217;t via the least amount of people possible.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="implementation-4"><a class="link" href="#implementation-4">Implementation</a></h4>
+<hr>
+<div class="paragraph">
+<p><mark>Start of Extract [from: Developer Guide]</mark></p>
+</div>
+<div class="paragraph">
+<p><mark>End of Extract</mark></p>
+</div>
+<hr>
+</div>
+</div>
+<div class="sect2">
+<h3 id="enhancement-proposed-add-command-code-listrelated-code"><a class="link" href="#enhancement-proposed-add-command-code-listrelated-code">Enhancement Proposed: Add command <code>listrelated</code></a></h3>
+<div class="sect3">
+<h4 id="external-behavior-5"><a class="link" href="#external-behavior-5">External behavior</a></h4>
+<hr>
+<div class="paragraph">
+<p><mark>Start of Extract [from: User Guide]</mark></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="list-all-related-persons-code-listrelated-code"><a class="link" href="#list-all-related-persons-code-listrelated-code">List all related persons : <code>listrelated</code></a></h3>
+<div class="paragraph">
+<p>Shows a list of all persons in the address book related to a given person.<br>
+Format: <code>listrelated INDEX</code></p>
+</div>
+<div class="paragraph">
+<p><mark>End of Extract</mark></p>
+</div>
+<hr>
+<div class="sect3">
+<h4 id="justification-5"><a class="link" href="#justification-5">Justification</a></h4>
+<div class="paragraph">
+<p>This allows PIs to quickly see who is related to a specific person, and filter out extraneous information.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="other-contributions"><a class="link" href="#other-contributions">Other contributions</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Added relationships to XML storage (Pull requests <a href="https://github.com/CS2103AUG2017-F10-B1/main/pull/106">#106</a>, <a href="https://github.com/CS2103AUG2017-F10-B1/main/pull/126">#126</a>)</p>
+</li>
+<li>
+<p>Restrict range of confidence estimates from 0 to 100 and added tests (Pull request <a href="https://github.com/CS2103AUG2017-F10-B1/main/pull/131">#131</a>)</p>
+</li>
+<li>
+<p>Created sample testing data (Pull request <a href="https://github.com/CS2103AUG2017-F10-B1/main/pull/134">#134</a>)</p>
+</li>
+<li>
+<p>Converted GraphWrapper class to use Singleton pattern (Commit <a href="https://github.com/CS2103AUG2017-F10-B1/main/commit/174f9ac3f520c0b26856ce00e9d5b4404d074c54">174f9ac</a>)</p>
+</li>
+<li>
+<p>Set up project and CI (Commit <a href="https://github.com/CS2103AUG2017-F10-B1/main/commit/332bb643930c5058aeef0e442ab0b0177d540416">332bb64</a>)</p>
+</li>
+<li>
+<p>Contributed to forum discussions on HashSets (<a href="https://github.com/nus-cs2103-AY1718S1/forum/issues/12">#12</a>) and exceptions (<a href="https://github.com/nus-cs2103-AY1718S1/forum/issues/34">#34</a>)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2017-11-09 19:57:06 +00:00
+</div>
+</div>
+</body>
+</html>
