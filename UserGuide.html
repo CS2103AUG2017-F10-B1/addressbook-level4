@@ -36,19 +36,20 @@ Updated by: <code>CS2103-F10-B1</code></p>
 <li><a href="#editing-a-person-code-edit-code">2.6. Editing a person : <code>edit</code></a></li>
 <li><a href="#locating-persons-code-find-code">2.7. Locating persons: <code>find</code></a></li>
 <li><a href="#deleting-a-person-code-delete-code">2.8. Deleting a person : <code>delete</code></a></li>
-<li><a href="#removing-a-tag-code-removetag-code">2.9. Removing a tag: <code>removeTag</code></a></li>
-<li><a href="#finding-shortest-relationship-path-between-two-people-code-relpath-code">2.10. Finding shortest relationship path between two people: <code>relPath</code></a></li>
-<li><a href="#setting-a-tag-colour-code-colourtag-code">2.11. Setting a tag colour: <code>colourTag</code></a></li>
-<li><a href="#selecting-a-person-code-select-code">2.12. Selecting a person : <code>select</code></a></li>
-<li><a href="#listing-entered-commands-code-history-code">2.13. Listing entered commands : <code>history</code></a></li>
-<li><a href="#undoing-previous-command-code-undo-code">2.14. Undoing previous command : <code>undo</code></a></li>
-<li><a href="#redoing-the-previously-undone-command-code-redo-code">2.15. Redoing the previously undone command : <code>redo</code></a></li>
-<li><a href="#clearing-all-entries-code-clear-code">2.16. Clearing all entries : <code>clear</code></a></li>
-<li><a href="#clearing-command-history-code-clearhistory-code">2.17. Clearing command history : <code>clearHistory</code></a></li>
-<li><a href="#adding-remarks-to-a-person-code-remark-code">2.18. Adding remarks to a person: <code>remark</code></a></li>
-<li><a href="#backing-up-code-backup-code">2.19. Backing up: <code>backup</code></a></li>
-<li><a href="#exiting-the-program-code-exit-code">2.20. Exiting the program : <code>exit</code></a></li>
-<li><a href="#saving-the-data">2.21. Saving the data</a></li>
+<li><a href="#deleting-a-relationship-between-two-persons-code-deleterelationship-code">2.9. Deleting a relationship between two persons : <code>deleteRelationship</code></a></li>
+<li><a href="#removing-a-tag-code-removetag-code">2.10. Removing a tag: <code>removeTag</code></a></li>
+<li><a href="#finding-shortest-relationship-path-between-two-people-code-relpath-code">2.11. Finding shortest relationship path between two people: <code>relPath</code></a></li>
+<li><a href="#setting-a-tag-colour-code-colourtag-code">2.12. Setting a tag colour: <code>colourTag</code></a></li>
+<li><a href="#selecting-a-person-code-select-code">2.13. Selecting a person : <code>select</code></a></li>
+<li><a href="#listing-entered-commands-code-history-code">2.14. Listing entered commands : <code>history</code></a></li>
+<li><a href="#undoing-previous-command-code-undo-code">2.15. Undoing previous command : <code>undo</code></a></li>
+<li><a href="#redoing-the-previously-undone-command-code-redo-code">2.16. Redoing the previously undone command : <code>redo</code></a></li>
+<li><a href="#clearing-all-entries-code-clear-code">2.17. Clearing all entries : <code>clear</code></a></li>
+<li><a href="#clearing-command-history-code-clearhistory-code">2.18. Clearing command history : <code>clearHistory</code></a></li>
+<li><a href="#adding-remarks-to-a-person-code-remark-code">2.19. Adding remarks to a person: <code>remark</code></a></li>
+<li><a href="#backing-up-code-backup-code">2.20. Backing up: <code>backup</code></a></li>
+<li><a href="#exiting-the-program-code-exit-code">2.21. Exiting the program : <code>exit</code></a></li>
+<li><a href="#saving-the-data">2.22. Saving the data</a></li>
 </ul>
 </li>
 <li><a href="#features-coming-in-v2-0">3. Features(Coming in v2.0)</a>
@@ -578,7 +579,43 @@ Deletes the 1st person in the results of the <code>find</code> command.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="removing-a-tag-code-removetag-code"><a class="link" href="#removing-a-tag-code-removetag-code">2.9. Removing a tag: <code>removeTag</code></a></h3>
+<h3 id="deleting-a-relationship-between-two-persons-code-deleterelationship-code"><a class="link" href="#deleting-a-relationship-between-two-persons-code-deleterelationship-code">2.9. Deleting a relationship between two persons : <code>deleteRelationship</code></a></h3>
+<div class="paragraph">
+<p>Deletes the relationship between two persons from the address book.<br>
+Format: <code>delete INDEX_FROM_PERSON INDEX_TO_PERSON</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Deletes the relationship between two persons as specified using the indexes.</p>
+</li>
+<li>
+<p>The index refers to the index number shown in the most recent listing.</p>
+</li>
+<li>
+<p>The index <strong>must be a positive integer</strong> 1, 2, 3, &#8230;&#8203;</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>list</code><br>
+<code>deleteRelationship 1 2</code><br>
+Deletes the relationship between the first and the 2nd person in the address book.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="removing-a-tag-code-removetag-code"><a class="link" href="#removing-a-tag-code-removetag-code">2.10. Removing a tag: <code>removeTag</code></a></h3>
 <div class="paragraph">
 <p>Removes the specific tag from the address book.<br>
 Format: <code>removeTag TAG</code></p>
@@ -610,7 +647,7 @@ Removes the tag <code>friend</code> from all the persons in the address book.</p
 </div>
 </div>
 <div class="sect2">
-<h3 id="finding-shortest-relationship-path-between-two-people-code-relpath-code"><a class="link" href="#finding-shortest-relationship-path-between-two-people-code-relpath-code">2.10. Finding shortest relationship path between two people: <code>relPath</code></a></h3>
+<h3 id="finding-shortest-relationship-path-between-two-people-code-relpath-code"><a class="link" href="#finding-shortest-relationship-path-between-two-people-code-relpath-code">2.11. Finding shortest relationship path between two people: <code>relPath</code></a></h3>
 <div class="paragraph">
 <p>Highlights the shortest relationship path between two people in the address book in the graph display, if it exists.<br>
 Format: <code>relPath FROM_INDEX TO_INDEX</code></p>
@@ -648,7 +685,7 @@ Highlights the shortest path between the first and second person in the address 
 </div>
 </div>
 <div class="sect2">
-<h3 id="setting-a-tag-colour-code-colourtag-code"><a class="link" href="#setting-a-tag-colour-code-colourtag-code">2.11. Setting a tag colour: <code>colourTag</code></a></h3>
+<h3 id="setting-a-tag-colour-code-colourtag-code"><a class="link" href="#setting-a-tag-colour-code-colourtag-code">2.12. Setting a tag colour: <code>colourTag</code></a></h3>
 <div class="paragraph">
 <p>Sets a colour of a tag to a new colour.<br>
 Format: <code>colourTag TAG COLOUR</code></p>
@@ -686,7 +723,7 @@ Sets the colour of the tag <code>friend</code> to red on next program start.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="selecting-a-person-code-select-code"><a class="link" href="#selecting-a-person-code-select-code">2.12. Selecting a person : <code>select</code></a></h3>
+<h3 id="selecting-a-person-code-select-code"><a class="link" href="#selecting-a-person-code-select-code">2.13. Selecting a person : <code>select</code></a></h3>
 <div class="paragraph">
 <p>Selects the person identified by the index number used in the last person listing.<br>
 Format: <code>select INDEX</code></p>
@@ -727,7 +764,7 @@ Selects the 1st person in the results of the <code>find</code> command.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="listing-entered-commands-code-history-code"><a class="link" href="#listing-entered-commands-code-history-code">2.13. Listing entered commands : <code>history</code></a></h3>
+<h3 id="listing-entered-commands-code-history-code"><a class="link" href="#listing-entered-commands-code-history-code">2.14. Listing entered commands : <code>history</code></a></h3>
 <div class="paragraph">
 <p>Lists all the commands that you have entered in reverse chronological order.<br>
 Format: <code>history</code></p>
@@ -748,7 +785,7 @@ Format: <code>history</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="undoing-previous-command-code-undo-code"><a class="link" href="#undoing-previous-command-code-undo-code">2.14. Undoing previous command : <code>undo</code></a></h3>
+<h3 id="undoing-previous-command-code-undo-code"><a class="link" href="#undoing-previous-command-code-undo-code">2.15. Undoing previous command : <code>undo</code></a></h3>
 <div class="paragraph">
 <p>Restores the address book to the state before the previous <em>undoable</em> command was executed.<br>
 Format: <code>undo</code></p>
@@ -794,7 +831,7 @@ The <code>undo</code> command fails as there are no undoable commands executed p
 </div>
 </div>
 <div class="sect2">
-<h3 id="redoing-the-previously-undone-command-code-redo-code"><a class="link" href="#redoing-the-previously-undone-command-code-redo-code">2.15. Redoing the previously undone command : <code>redo</code></a></h3>
+<h3 id="redoing-the-previously-undone-command-code-redo-code"><a class="link" href="#redoing-the-previously-undone-command-code-redo-code">2.16. Redoing the previously undone command : <code>redo</code></a></h3>
 <div class="paragraph">
 <p>Reverses the most recent <code>undo</code> command.<br>
 Format: <code>redo</code></p>
@@ -826,14 +863,14 @@ The <code>redo</code> command fails as there are no <code>undo</code> commands e
 </div>
 </div>
 <div class="sect2">
-<h3 id="clearing-all-entries-code-clear-code"><a class="link" href="#clearing-all-entries-code-clear-code">2.16. Clearing all entries : <code>clear</code></a></h3>
+<h3 id="clearing-all-entries-code-clear-code"><a class="link" href="#clearing-all-entries-code-clear-code">2.17. Clearing all entries : <code>clear</code></a></h3>
 <div class="paragraph">
 <p>Clears all entries from the address book.<br>
 Format: <code>clear</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="clearing-command-history-code-clearhistory-code"><a class="link" href="#clearing-command-history-code-clearhistory-code">2.17. Clearing command history : <code>clearHistory</code></a></h3>
+<h3 id="clearing-command-history-code-clearhistory-code"><a class="link" href="#clearing-command-history-code-clearhistory-code">2.18. Clearing command history : <code>clearHistory</code></a></h3>
 <div class="paragraph">
 <p>Clears the command history.<br>
 Format: <code>clearHistory</code></p>
@@ -854,7 +891,7 @@ Format: <code>clearHistory</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="adding-remarks-to-a-person-code-remark-code"><a class="link" href="#adding-remarks-to-a-person-code-remark-code">2.18. Adding remarks to a person: <code>remark</code></a></h3>
+<h3 id="adding-remarks-to-a-person-code-remark-code"><a class="link" href="#adding-remarks-to-a-person-code-remark-code">2.19. Adding remarks to a person: <code>remark</code></a></h3>
 <div class="paragraph">
 <p>Adds a remark to a person in the address book<br>
 Format: <code>remark INDEX r/REMARK</code></p>
@@ -895,7 +932,7 @@ The index <strong>must be a positive integer</strong> 1, 2, 3, &#8230;&#8203;</p
 </div>
 </div>
 <div class="sect2">
-<h3 id="backing-up-code-backup-code"><a class="link" href="#backing-up-code-backup-code">2.19. Backing up: <code>backup</code></a></h3>
+<h3 id="backing-up-code-backup-code"><a class="link" href="#backing-up-code-backup-code">2.20. Backing up: <code>backup</code></a></h3>
 <div class="paragraph">
 <p>Backs up the current address book to a fixed location (<code>addressbook.xml.bak</code> in current working directory).</p>
 </div>
@@ -915,14 +952,14 @@ The index <strong>must be a positive integer</strong> 1, 2, 3, &#8230;&#8203;</p
 </div>
 </div>
 <div class="sect2">
-<h3 id="exiting-the-program-code-exit-code"><a class="link" href="#exiting-the-program-code-exit-code">2.20. Exiting the program : <code>exit</code></a></h3>
+<h3 id="exiting-the-program-code-exit-code"><a class="link" href="#exiting-the-program-code-exit-code">2.21. Exiting the program : <code>exit</code></a></h3>
 <div class="paragraph">
 <p>Exits the program.<br>
 Format: <code>exit</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="saving-the-data"><a class="link" href="#saving-the-data">2.21. Saving the data</a></h3>
+<h3 id="saving-the-data"><a class="link" href="#saving-the-data">2.22. Saving the data</a></h3>
 <div class="paragraph">
 <p>Address book data are saved in the hard disk automatically after any command that changes the data.<br>
 There is no need to save manually.</p>
@@ -1124,7 +1161,7 @@ Format: <code>set PASSWORD</code></p>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Add</strong> <code>add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]&#8230;&#8203;</code><br>
+<p><strong>Add</strong> : <code>add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]&#8230;&#8203;</code><br>
 e.g. <code>add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague</code></p>
 </li>
 <li>
@@ -1133,6 +1170,10 @@ e.g. <code>addRelationship 2 3 directed ce/1212312.2 n/is cousin of</code></p>
 </li>
 <li>
 <p><strong>Back up</strong> : <code>backup</code></p>
+</li>
+<li>
+<p><strong>AddRelationship</strong> : <code>addRelationship INDEX_FROM_PERSON INDEX_TO_PERSON DIRECTION [n/NAME] [ce/CONFIDENCE_ESTIMATE}</code><br>
+e.g. <code>addRelationship 2 3 directed ce/1212312.2 n/is cousin of</code></p>
 </li>
 <li>
 <p><strong>Colour tags</strong> : <code>colourTag TAG COLOUR</code><br>
@@ -1147,6 +1188,10 @@ e.g. <code>colourTag friend red</code></p>
 <li>
 <p><strong>Delete</strong> : <code>delete INDEX</code><br>
 e.g. <code>delete 3</code></p>
+</li>
+<li>
+<p><strong>DeleteRelationship</strong> : <code>deleteRelationship FROM_PERSON_INDEX TO_PERSON_INDEX</code><br>
+e.g. <code>deleteRelationship 2 3</code></p>
 </li>
 <li>
 <p><strong>Edit</strong> : <code>edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]&#8230;&#8203;</code><br>
@@ -1200,7 +1245,7 @@ e.g.<code>select 2</code></p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-11-09 15:32:15 +00:00
+Last updated 2017-11-09 16:21:26 +00:00
 </div>
 </div>
 </body>
