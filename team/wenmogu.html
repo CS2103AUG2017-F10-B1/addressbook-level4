@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.3">
+<title>Wen Xin - Project Portfolio</title>
+<link rel="stylesheet" href="../stylesheets/gh-pages.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="../stylesheets/coderay-asciidoctor.css">
+</head>
+<body class="article">
+<div id="header">
+<h1>Wen Xin - Project Portfolio</h1>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="project-intelli"><a class="link" href="#project-intelli">Project: Intelli</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Intelli is a desktop relationship tracker used by private investigators (PI) to manage their information and leads. The PI interacts with it using a CLI, and it has a GUI created with JavaFX and GraphStream. It is written in Java, and has about 6 kLoC.</p>
+</div>
+<div class="paragraph">
+<p><strong>Code contributed</strong>: [<a href="https://github.com/CS2103AUG2017-F10-B1/main/blob/master/collated/main/wenmogu.md">Functional code</a>] [<a href="https://github.com/CS2103AUG2017-F10-B1/main/blob/master/collated/test/wenmogu.md">Test code</a>]</p>
+</div>
+<div class="sect2">
+<h3 id="enhancement-added-add-relationships"><a class="link" href="#enhancement-added-add-relationships">Enhancement Added: Add Relationships</a></h3>
+<div class="sect3">
+<h4 id="external-behavior"><a class="link" href="#external-behavior">External behavior</a></h4>
+<hr>
+<div class="paragraph">
+<p><mark>Start of Extract [from: User Guide]</mark></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="adding-a-relationship-between-two-persons-code-addrelationship-code"><a class="link" href="#adding-a-relationship-between-two-persons-code-addrelationship-code">Adding a relationship between two persons: <code>addRelationship</code></a></h3>
+<div class="paragraph">
+<p>Adds a relationship between two persons in the address book<br>
+Format: <code>addRelationship FROM_INDEX TO_INDEX DIRECTION [n/NAME] [ce/CONFIDENCE_ESTIMATE]</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>The indexes of the persons are based on the most recent listing shown</p>
+</li>
+<li>
+<p>The direction of the relationship can only be <code>directed</code> or <code>undirected</code>. The direction is case-insensitive</p>
+</li>
+<li>
+<p>The order of the indexes matters only when the direction is <code>directed</code>, as the relationship points from the person with FROM_INDEX to the person with TO_INDEX</p>
+</li>
+<li>
+<p>At any point of time there will be at most 1 relationship between any two persons. If adding a different relationship from the existing one between two persons is attempted, upon the addition the previous relationship between these two persons will be removed.</p>
+</li>
+<li>
+<p><code>NAME</code> referring to the name of the relationship <strong>can only be alphanumeric</strong>.</p>
+</li>
+<li>
+<p><code>CONFIDENCE_ESTIMATE</code> refers to the confidence estimate the user gives to the relationship. <code>CONFIDENCE_ESTIMATE</code> <strong>can only be numbers from 0 to 100 inclusive</strong>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>addRelationship 1 3 directed ce/12.32131</code></p>
+</li>
+<li>
+<p><code>addRelationship 2 3 undirected n/husband and wife ce/100</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><mark>End of Extract</mark></p>
+</div>
+<hr>
+<div class="sect3">
+<h4 id="justification"><a class="link" href="#justification">Justification</a></h4>
+<div class="paragraph">
+<p>This feature allows the user to record information about relationships between the persons in the address book and puts all the persons into a network which can be displayed using a graph.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="implementation"><a class="link" href="#implementation">Implementation</a></h4>
+<hr>
+<div class="paragraph">
+<p><mark>Start of Extract [from: Developer Guide]</mark></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="addrelationship-command"><a class="link" href="#addrelationship-command">addRelationship command</a></h3>
+<div class="paragraph">
+<p>The addRelationship command adds a directed or undirected relationship between two persons in the address book.
+Name and confidence estimate are the optional fields in this command.
+The user is able to view the changes in the relationships in the graph window.</p>
+</div>
+<div class="sect3">
+<h4 id="design-considerations"><a class="link" href="#design-considerations">Design Considerations</a></h4>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Implementation for addRelationship command<br>
+<strong>Alternative 1 (current choice):</strong> The command is implemented by adding one additional attribute <code>UniqueRelationshipList</code> to each person.<br>
+<strong>Pros:</strong> Implementation is easier as it follows the same logic as having the UniqueTagList.<br>
+<strong>Cons:</strong> All the relationships in the address book are not organized into a single entity (e.g. an adjacency list) which is more intuitive when the implementation involves a graph.<br>
+<strong>Alternative 2:</strong> Organize all the relationships into a single entity, instead of making them into lists under persons in the address book.<br>
+<strong>Pros:</strong> It is more intuitive to organize all the relationships into a single entity when the implementation involves a graph.<br>
+<strong>Cons:</strong> Maintenance of this single entity of graph can be costly as it can become massive.<br>
+<strong>Cons:</strong> Currently a person is identified by his/her index in the most recent listing. As the indexes of persons change, matching the relationship to the correct persons involved will be a headache.</p>
+</div>
+<hr>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Record of the relationship in the address book<br>
+<strong>Alternative 1 (current choice):</strong> A relationship between two persons are recorded in both persons' <code>UniqueRelationshipList</code>.<br>
+<strong>Pros:</strong> Easy search of the relationship in the address book as both parties involved in the relationship have record of it.<br>
+<strong>Cons:</strong> Maintenance of the relationships is troublesome as a single relationship has to be added, modified or deleted twice.<br>
+<strong>Alternative 2:</strong> A relationship between two persons are recorded in the <code>fromPerson&#8217;s `UniqueRelationshipList</code>, except that when the relationship is undirected, it is recorded twice under both parties.<br>
+<strong>Pros:</strong> Easy maintenance of the relationships.<br>
+<strong>Cons:</strong> More scenarios to consider when performing actions to the relationship. Hence, it will lead to more difficult implementation.</p>
+</div>
+<div class="paragraph">
+<p><mark>End of Extract</mark></p>
+</div>
+<hr>
+</div>
+</div>
+<div class="sect2">
+<h3 id="enhancement-added-delete-relationships"><a class="link" href="#enhancement-added-delete-relationships">Enhancement Added: Delete Relationships</a></h3>
+<div class="sect3">
+<h4 id="external-behavior-2"><a class="link" href="#external-behavior-2">External behavior</a></h4>
+<hr>
+<div class="paragraph">
+<p><mark>Start of Extract [from: User Guide]</mark></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="deleting-a-relationship-between-two-persons-code-deleterelationship-code"><a class="link" href="#deleting-a-relationship-between-two-persons-code-deleterelationship-code">Deleting a relationship between two persons : <code>deleteRelationship</code></a></h3>
+<div class="paragraph">
+<p>Deletes the relationship between two persons from the address book.<br>
+Format: <code>delete INDEX_FROM_PERSON INDEX_TO_PERSON</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Deletes the relationship between two persons as specified using the indexes.</p>
+</li>
+<li>
+<p>The index refers to the index number shown in the most recent listing.</p>
+</li>
+<li>
+<p>The index <strong>must be a positive integer</strong> 1, 2, 3, &#8230;&#8203;</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>list</code><br>
+<code>deleteRelationship 1 2</code><br>
+Deletes the relationship between the first and the 2nd person in the address book.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><mark>End of Extract</mark></p>
+</div>
+<hr>
+<div class="sect3">
+<h4 id="justification-2"><a class="link" href="#justification-2">Justification</a></h4>
+<div class="paragraph">
+<p>This feature allows the user to remove a redundant or wrong relationship.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="implementation-2"><a class="link" href="#implementation-2">Implementation</a></h4>
+<hr>
+<div class="paragraph">
+<p><mark>Start of Extract [from: Developer Guide]</mark></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="deleterelationship-command"><a class="link" href="#deleterelationship-command">deleteRelationship command</a></h3>
+<div class="paragraph">
+<p>The deleteRelationship command deletes a relationship between two persons in the address book.
+The user is able to view the disappearance of the relationship in the graph window.</p>
+</div>
+<div class="sect3">
+<h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">Design Considerations</a></h4>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Implementation for deleteRelationship command<br>
+<strong>Alternative 1 (current choice):</strong> The indexes of the persons specified in user input does not matter.<br>
+<strong>Pros:</strong> User only needs to remember the two parties involved in the relationship to be deleted, making this command more user friendly.<br>
+<strong>Cons:</strong> More memory needed for the double record of relationships under both parties involved.<br>
+<strong>Alternative 2:</strong> The indexes of the persons specified in user input matters.<br>
+<strong>Pros:</strong> Less memory needed for recording the relationship.<br>
+<strong>Cons:</strong> User has to know the specific information of the relationship, making this command not user-friendly.</p>
+</div>
+<div class="paragraph">
+<p><mark>End of Extract</mark></p>
+</div>
+<hr>
+</div>
+</div>
+<div class="sect2">
+<h3 id="enhancement-added-remove-tags"><a class="link" href="#enhancement-added-remove-tags">Enhancement Added: Remove tags</a></h3>
+<div class="sect3">
+<h4 id="external-behavior-3"><a class="link" href="#external-behavior-3">External behavior</a></h4>
+<hr>
+<div class="paragraph">
+<p><mark>Start of Extract [from: User Guide]</mark></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="removing-a-tag-code-removetag-code"><a class="link" href="#removing-a-tag-code-removetag-code">Removing a tag: <code>removeTag</code></a></h3>
+<div class="paragraph">
+<p>Removes the specific tag from the address book.<br>
+Format: <code>removeTag TAG</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Removes the tag <code>TAG</code>.</p>
+</li>
+<li>
+<p><code>TAG</code> <strong>must be alphanumeric</strong> <code>a-z, A-Z, 0-9</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>removeTag friend</code><br>
+Removes the tag <code>friend</code> from all the persons in the address book.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><mark>End of Extract</mark></p>
+</div>
+<hr>
+<div class="sect3">
+<h4 id="justification-3"><a class="link" href="#justification-3">Justification</a></h4>
+<div class="paragraph">
+<p>This feature allows the user to remove a specific tag from all persons in the address book within a single command.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="implementation-3"><a class="link" href="#implementation-3">Implementation</a></h4>
+<hr>
+<div class="paragraph">
+<p><mark>Start of Extract [from: Developer Guide]</mark></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="removetag-command"><a class="link" href="#removetag-command">removeTag command</a></h3>
+<div class="paragraph">
+<p>The removeTag command removes a tag with the specified name from the address book. All the appearances of the tag in the address book are removed.
+This command is implemented in the style of the <code>edit</code> command and <code>delete</code> command.</p>
+</div>
+<div class="sect3">
+<h4 id="design-considerations-3"><a class="link" href="#design-considerations-3">Design Considerations</a></h4>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Implementation for removeTag command<br>
+<strong>Alternative 1 (current choice):</strong> The command is implemented using methods which remove the tag from each person&#8217;s tag list.<br>
+<strong>Pros:</strong> Implementation is modular and less dependent on methods used for other commands.<br>
+<strong>Cons:</strong> More tedious to implement since it is not making use of the existing resources such as <code>edit</code> command.<br>
+<strong>Alternative 2:</strong> Adapt current <code>edit</code> command so that removing the tag is done by editing every person&#8217;s tag list.<br>
+<strong>Pros:</strong> Making use of existing resources and easier implementation.<br>
+<strong>Cons:</strong> More dependency between commands and the relationship between <code>edit</code> and <code>remove</code> is not clear.</p>
+</div>
+<hr>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Type of command implemented<br>
+<strong>Alternative 1 (current choice):</strong> <code>removeTag</code> command extends <code>UndoableCommand</code> instead of <code>Command</code>.<br>
+<strong>Pros:</strong> Accidental removal of tags can be recovered.<br>
+<strong>Cons:</strong> Additional memory needed for recording the previous stage of the address book.<br>
+<strong>Alternative 2:</strong> <code>removeTag</code> command extends <code>Command</code>.<br>
+<strong>Pros:</strong> No additional memory needed for recording the previous stage of the address book.<br>
+<strong>Cons:</strong> As the removal of Tag is from all the persons in address book, an accidental removal can be disastrous if the user does not intend a complete removal.</p>
+</div>
+<hr>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Removal of the tag from all instead of some by user&#8217;s choice<br>
+<strong>Alternative 1 (current choice):</strong> The command currently does not support the removal of a tag from persons specified in the user input.<br>
+<strong>Pros:</strong> Easier implementation since it does not deal with the parsing of more user input.<br>
+<strong>Cons:</strong> The user cannot remove the tags from a few specific people in one command. <br>
+<strong>Alternative 2:</strong> The command allows the user input to specify the persons from whom the tag should be removed.<br>
+<strong>Pros:</strong> The user can remove the tags from a few specific people in one command.<br>
+<strong>Cons:</strong> Implementation is more difficult as parsing of additional user input required. It is also unlikely for user to remove the tag from many persons at once, hence there is a function overlap with <code>edit</code> command.</p>
+</div>
+<div class="paragraph">
+<p><mark>End of Extract</mark></p>
+</div>
+<hr>
+</div>
+</div>
+<div class="sect2">
+<h3 id="other-contributions"><a class="link" href="#other-contributions">Other contributions</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Wrote additional tests to increase coverage from 78% to 83% (Pull requests <a href="https://github.com/CS2103AUG2017-F10-B1/main/pull/130">#130</a>, <a href="https://github.com/CS2103AUG2017-F10-B1/main/pull/133">#133</a>)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2017-11-10 00:46:01 +00:00
+</div>
+</div>
+</body>
+</html>
