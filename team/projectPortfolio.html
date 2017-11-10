@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.3">
+<title>Tan Yikai - Project Portfolio</title>
+<link rel="stylesheet" href="../stylesheets/gh-pages.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="../stylesheets/coderay-asciidoctor.css">
+</head>
+<body class="article">
+<div id="header">
+<h1>Tan Yikai - Project Portfolio</h1>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="project-intelli"><a class="link" href="#project-intelli">Project: Intelli</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Intelli is a desktop relationship tracker used by private investigators (PI) to manage their information and leads. The PI interacts with it using a CLI, and it has a GUI created with JavaFX and GraphStream. It is written in Java, and has about 6 kLoC.</p>
+</div>
+<div class="paragraph">
+<p><strong>Code contributed</strong>: [<a href="https://github.com/CS2103AUG2017-F10-B1/main/tree/master/collated/main/TanYikai.md">Functional code</a>] [<a href="https://github.com/CS2103AUG2017-F10-B1/main/tree/master/collated/test/TanYikai.md">Test code</a>] {give links to collated code files}</p>
+</div>
+<div class="sect2">
+<h3 id="enhancement-added-alias"><a class="link" href="#enhancement-added-alias">Enhancement Added: Alias</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="enhancement-added-sort"><a class="link" href="#enhancement-added-sort">Enhancement Added: Sort</a></h3>
+<div class="sect3">
+<h4 id="external-behavior"><a class="link" href="#external-behavior">External behavior</a></h4>
+<hr>
+<div class="paragraph">
+<p><mark>Start of Extract [from: User Guide]</mark></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="sorting-all-persons-code-sort-code"><a class="link" href="#sorting-all-persons-code-sort-code">Sorting all persons : <code>sort</code></a></h3>
+<div class="paragraph">
+<p>Shows a list of all persons in the address book sorted alphanumerically by name.<br>
+Format: <code>sort</code></p>
+</div>
+<div class="paragraph">
+<p><mark>End of Extract</mark></p>
+</div>
+<hr>
+<div class="sect3">
+<h4 id="justification"><a class="link" href="#justification">Justification</a></h4>
+<div class="paragraph">
+<p>The Sort command sorts the person list alphanumerically by person&#8217;s name.<br>
+It is useful when the addressbook has alot of entries and allows user the option to organize their addressbook for a more pleasant appearance of the addressbook data.<br></p>
+</div>
+<div class="paragraph">
+<p>It is most useful in providing user with the overall content of the addressbook in an organised manner which groups those with similar names together.<br></p>
+</div>
+<div class="paragraph">
+<p><mark>End of Extract</mark></p>
+</div>
+<hr>
+</div>
+</div>
+<div class="sect2">
+<h3 id="enhancement-added-enhanced-add-command"><a class="link" href="#enhancement-added-enhanced-add-command">Enhancement Added: Enhanced add command</a></h3>
+<div class="sect3">
+<h4 id="external-behavior-2"><a class="link" href="#external-behavior-2">External behavior</a></h4>
+<hr>
+<div class="paragraph">
+<p><mark>Start of Extract [from: User Guide]</mark></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="adding-a-person-code-add-code"><a class="link" href="#adding-a-person-code-add-code">Adding a person: <code>add</code></a></h3>
+<div class="paragraph">
+<p>Adds a person to the address book<br>
+Format: <code>add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS r/REMARK [t/TAG]&#8230;&#8203;</code></p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+A person can have any number of tags (including 0)
+A person can be added with just the name being specified
+The Order of name, phone number, email, address, remark and tags being added does not matter
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01</code></p>
+</li>
+<li>
+<p><code>add n/Betsy Crowe e/betsycrowe@example.com</code></p>
+</li>
+<li>
+<p><code>add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal</code></p>
+</li>
+<li>
+<p><code>add n/Betsy Crowe a/Newgate Prison p/1234567 e/betsycrowe@example.com</code></p>
+</li>
+<li>
+<p><code>add n/Betsy Crowe</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><mark>End of Extract</mark></p>
+</div>
+<hr>
+<div class="sect3">
+<h4 id="justification-2"><a class="link" href="#justification-2">Justification</a></h4>
+<div class="paragraph">
+<p>The original implementation of the add command requires the user to input every field (name, phone, email, address, tag) before enabling the person to be added to the addressbook.<br>
+This causes inconvenience to the user as the user needs to remember the long sequence of commands before able to successfully implement the add command.<br>
+In addition, during a practical use, the user may not always know all the fields related to a particular person but may wish to still put some information regarding the person into the addressbook.<br></p>
+</div>
+<div class="paragraph">
+<p>Hence, the Enhanced add command was made which only made the name input of the add command compulsory.<br>
+The rationale behind deciding on at least a single compulsory field is so that it is more logical to have at least one information before adding into the addressbook and that an empty addressbook is still invalid.<br>
+Name was chosen as the compulsory field as a person&#8217;s name is the main information that will identify and distinguish one person input from another in the adressbook.<br></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="implementation"><a class="link" href="#implementation">Implementation</a></h4>
+<hr>
+<div class="paragraph">
+<p><mark>Start of Extract [from: Developer Guide]</mark></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="enhanced-add-command-mechanism"><a class="link" href="#enhanced-add-command-mechanism">Enhanced add command mechanism</a></h3>
+<div class="paragraph">
+<p>A more flexible add command that only requires the name to be specified at the time of its execution. The other fields such as phone, email, address and remark need not be specified at the time of add command execution.<br>
+A separate parser for phone, email, address and remark are used to accommodate this enhancement to isolate the interdependency between the modified enhanced add command with the other commands.<br></p>
+</div>
+<div class="sect3">
+<h4 id="design-considerations"><a class="link" href="#design-considerations">Design Considerations</a></h4>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Implementation of enhanced 'add command'<br>
+<strong>Alternative 1 (current choice):</strong> Add new parser methods <code>parseAddPhone</code>, <code>parseAddEmail</code> and <code>parseAddAddress</code> <br>
+<strong>Pros:</strong> Able to isolate the behaviour of the add command and the edit command so that editing an existing Person will not overwrite the fields that should not be edited.<br>
+<strong>Cons:</strong> More difficult to implement as more test cases has to be added for the new parser methods.<br>
+<strong>Alternative 2:</strong> Modify existing parser method <code>parsePhone</code>, <code>parseEmail</code> and <code>parseAddress</code><br>
+<strong>Pros:</strong> Easier to implement as we can re-use existing tests and codes and just add minor modifications<br>
+<strong>Cons:</strong> The behaviour of edit command overlaps with the behaviour of the add command, causing unintended overwrite of other fields such as address when we don&#8217;t want to.<br></p>
+</div>
+<hr>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Implement separate remark instead of modifying tag<br>
+<strong>Alternative 1 (current choice):</strong> Create a new separate remark command<br>
+<strong>Pros:</strong> Able to provide a cleaner user interface and experience. Also reduces complications in modifying existing working tag system.<br>
+<strong>Cons:</strong> More work has to be done in testing and creating a new command.<br>
+<strong>Alternative 2:</strong> update the tag to accept sentences for remarks<br>
+<strong>Pros:</strong> Easy to implement as we do not need to add a new command.<br>
+<strong>Cons:</strong> The Tag may be more difficult to find and more work is needed to change the find tag command. Additionally, the user interface of tag command also needs to be changed to accommodate long tags.<br></p>
+</div>
+<div class="paragraph">
+<p><mark>End of Extract</mark></p>
+</div>
+<hr>
+</div>
+</div>
+<div class="sect2">
+<h3 id="enhancement-added-integrated-remark"><a class="link" href="#enhancement-added-integrated-remark">Enhancement Added: Integrated remark</a></h3>
+<div class="sect3">
+<h4 id="external-behavior-3"><a class="link" href="#external-behavior-3">External behavior</a></h4>
+<hr>
+<div class="paragraph">
+<p><mark>Start of Extract [from: User Guide]</mark></p>
+</div>
+<div class="paragraph">
+<p><mark>End of Extract</mark></p>
+</div>
+<hr>
+</div>
+<div class="sect3">
+<h4 id="justification-3"><a class="link" href="#justification-3">Justification</a></h4>
+<div class="paragraph">
+<p>Initially, the remark command was a separate command because the original purpose of remark is add and edit a remark field on 2 person concurrently.<br>
+The initial idea for the remark field was for the user to put down a common relationship between 2 person in the form of sentences or words describing the relationship.<br>
+This feature was later made obsolete by the more comprehensive relationship feature and hence the remark command was removed.<br></p>
+</div>
+<div class="paragraph">
+<p>However, we still want the user to be able to store sentences or notes regarding the person entries into the addressbook.<br>
+The remark could accommodate sentences and has no limitations which is a difference from the existing Tag feature which can only accept single words.<br>
+The Tag was also not modified as it will defeat the purpose of a tag which should be short and clear for user to remember.<br>
+Hence a new field which was remark was integrated into the whole addressbook system through the modification of existing add and edit command.<br></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="implementation-2"><a class="link" href="#implementation-2">Implementation</a></h4>
+<hr>
+<div class="paragraph">
+<p><mark>Start of Extract [from: Developer Guide]</mark></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="enhanced-add-command-mechanism-2"><a class="link" href="#enhanced-add-command-mechanism-2">Enhanced add command mechanism</a></h3>
+<div class="paragraph">
+<p>A more flexible add command that only requires the name to be specified at the time of its execution. The other fields such as phone, email, address and remark need not be specified at the time of add command execution.<br>
+A separate parser for phone, email, address and remark are used to accommodate this enhancement to isolate the interdependency between the modified enhanced add command with the other commands.<br></p>
+</div>
+<div class="sect3">
+<h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">Design Considerations</a></h4>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Implementation of enhanced 'add command'<br>
+<strong>Alternative 1 (current choice):</strong> Add new parser methods <code>parseAddPhone</code>, <code>parseAddEmail</code> and <code>parseAddAddress</code> <br>
+<strong>Pros:</strong> Able to isolate the behaviour of the add command and the edit command so that editing an existing Person will not overwrite the fields that should not be edited.<br>
+<strong>Cons:</strong> More difficult to implement as more test cases has to be added for the new parser methods.<br>
+<strong>Alternative 2:</strong> Modify existing parser method <code>parsePhone</code>, <code>parseEmail</code> and <code>parseAddress</code><br>
+<strong>Pros:</strong> Easier to implement as we can re-use existing tests and codes and just add minor modifications<br>
+<strong>Cons:</strong> The behaviour of edit command overlaps with the behaviour of the add command, causing unintended overwrite of other fields such as address when we don&#8217;t want to.<br></p>
+</div>
+<hr>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Implement separate remark instead of modifying tag<br>
+<strong>Alternative 1 (current choice):</strong> Create a new separate remark command<br>
+<strong>Pros:</strong> Able to provide a cleaner user interface and experience. Also reduces complications in modifying existing working tag system.<br>
+<strong>Cons:</strong> More work has to be done in testing and creating a new command.<br>
+<strong>Alternative 2:</strong> update the tag to accept sentences for remarks<br>
+<strong>Pros:</strong> Easy to implement as we do not need to add a new command.<br>
+<strong>Cons:</strong> The Tag may be more difficult to find and more work is needed to change the find tag command. Additionally, the user interface of tag command also needs to be changed to accommodate long tags.<br></p>
+</div>
+<div class="paragraph">
+<p><mark>End of Extract</mark></p>
+</div>
+<hr>
+</div>
+<div class="sect3">
+<h4 id="enhancement-proposed-enhanced-sort-command"><a class="link" href="#enhancement-proposed-enhanced-sort-command">Enhancement Proposed: Enhanced sort command</a></h4>
+<hr>
+</div>
+</div>
+<div class="sect2">
+<h3 id="other-contributions"><a class="link" href="#other-contributions">Other contributions</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Enhanced Remark Command which was left out of the final product due to the more fitting relationship graph</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2017-11-10 02:05:07 +00:00
+</div>
+</div>
+</body>
+</html>
