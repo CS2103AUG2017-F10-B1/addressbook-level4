@@ -123,16 +123,17 @@ public class AddressBook implements ReadOnlyAddressBook {
             ReadOnlyPerson counterPart = oldRelationshipCopy.counterpartOf(target); //the old counterpart
             //a copy of counterpart to be modified into new counterpart and put into the new relationship
             ReadOnlyPerson counterPartCopy = new Person(counterPart);
+            Person counterPartCopyCast = (Person) counterPartCopy;
 
-            ((Person) counterPartCopy).removeRelationship(oldRelationshipCopy);
+            counterPartCopyCast.removeRelationship(oldRelationshipCopy);
             Relationship newRelationship = tempNewRelationship.replacePerson(counterPart,
-                    counterPartCopy);
+                    counterPartCopyCast);
             try {
                 editedPerson.addRelationship(newRelationship);
-                ((Person) counterPartCopy).addRelationship(newRelationship);
-                persons.setPerson(counterPart, counterPartCopy);
+                counterPartCopyCast.addRelationship(newRelationship);
+                persons.setPerson(counterPart, counterPartCopyCast);
             } catch (DuplicateRelationshipException dre) {
-                assert false: "impossible";
+                assert false : "impossible";
             }
         }
         syncMasterTagListWith(editedPerson);
