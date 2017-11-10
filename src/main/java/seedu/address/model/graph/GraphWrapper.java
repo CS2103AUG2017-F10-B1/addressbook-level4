@@ -197,7 +197,6 @@ public class GraphWrapper {
         for (ReadOnlyPerson person: filteredPersons) {
             Set<Relationship> relationshipSet = person.getRelationships();
             for (Relationship relationship: relationshipSet) {
-                System.out.print(relationship.toString());
                 Edge edge = addEdge(relationship.getFromPerson(), relationship.getToPerson(),
                         relationship.getDirection());
                 edge.addAttribute(nodeAttributeCe, relationship.getConfidenceEstimate().value);
