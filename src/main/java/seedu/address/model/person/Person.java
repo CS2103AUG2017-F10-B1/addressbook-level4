@@ -240,4 +240,18 @@ public class Person implements ReadOnlyPerson, Comparable<Person> {
         return this.getName().toString().compareToIgnoreCase(o.getName().toString());
     }
 
+    /**
+     * Used in debugging to print out the relationshipList of this person
+     */
+    public void printRelationshipList() {
+        System.out.println("-----------------------------------------------------");
+        System.out.print("Intro: ");
+        System.out.println(this.toString());
+        Set<Relationship> relationships = this.getRelationships();
+        for (Relationship relationship: relationships) {
+            System.out.println(relationship.toString());
+        }
+        System.out.println("-----------------------------------------------------");
+    }
+
 }
