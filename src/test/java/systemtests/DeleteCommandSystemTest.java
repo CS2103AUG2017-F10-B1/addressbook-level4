@@ -92,7 +92,7 @@ public class DeleteCommandSystemTest extends AddressBookSystemTest {
         /* Case: delete a person with relationship -> relationship disappears*/
         showPersonsWithName(KEYWORD_MATCHING_MEIER);
         expectedModel = getModel();
-        deletedPerson = removePerson(expectedModel,INDEX_FIRST_PERSON);
+        deletedPerson = removePerson(expectedModel, INDEX_FIRST_PERSON);
         expectedResultMessage = String.format(MESSAGE_DELETE_PERSON_SUCCESS, deletedPerson);
         String addRelationshipCommand = "addre 1 2 directed";
         executeCommand(addRelationshipCommand);
