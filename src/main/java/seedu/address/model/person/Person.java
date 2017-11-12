@@ -11,6 +11,7 @@ import java.util.Set;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.relationship.Relationship;
 import seedu.address.model.relationship.RelationshipDirection;
 import seedu.address.model.relationship.UniqueRelationshipList;
@@ -244,14 +245,14 @@ public class Person implements ReadOnlyPerson, Comparable<Person> {
      * Used in debugging to print out the relationshipList of this person
      */
     public void printRelationshipList() {
-        System.out.println("-----------------------------------------------------");
-        System.out.print("Intro: ");
-        System.out.println(this.toString());
+        String border = "-----------------------------------------------------" + "\n";
+        String intro = "Intro: " + this.toString() + "\n";
+        String relationshipStr = "";
         Set<Relationship> relationships = this.getRelationships();
         for (Relationship relationship: relationships) {
-            System.out.println(relationship.toString());
+            relationshipStr = relationshipStr + relationship.toString() + "\n";
         }
-        System.out.println("-----------------------------------------------------");
+        LogsCenter.getLogger(Person.class).fine(border + intro + relationshipStr + border);
     }
 
 }
