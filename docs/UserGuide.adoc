@@ -488,7 +488,7 @@ After the command history is cleared, you will not be able to undo any previous 
 // tag::backup[]
 === Backing up: `backup`
 
-Backs up the current address book to a fixed location (`addressbook.xml.bak` in current working directory).
+Backs up the current address book to a fixed location (`intelli.xml.bak` in the `data` directory).
 
 [WARNING]
 ====

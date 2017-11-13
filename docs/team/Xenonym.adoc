@@ -140,7 +140,7 @@ This allows PIs to quickly see who is related to a specific person, and filter o
 
 === Other contributions
 
-* Added relationships to XML storage (Pull requests https://github.com/CS2103AUG2017-F10-B1/main/pull/106[#106], https://github.com/CS2103AUG2017-F10-B1/main/pull/126[#126])
+* Added relationships to XML storage (Pull requests https://github.com/CS2103AUG2017-F10-B1/main/pull/106[#106], https://github.com/CS2103AUG2017-F10-B1/main/pull/126[#126] and https://github.com/CS2103AUG2017-F10-B1/main/pull/154[#154])
 * Restrict range of confidence estimates from 0 to 100 and added tests (Pull request https://github.com/CS2103AUG2017-F10-B1/main/pull/131[#131])
 * Created sample testing data (Pull request https://github.com/CS2103AUG2017-F10-B1/main/pull/134[#134])
 * Converted GraphWrapper class to use Singleton pattern (Commit https://github.com/CS2103AUG2017-F10-B1/main/commit/174f9ac3f520c0b26856ce00e9d5b4404d074c54[174f9ac])

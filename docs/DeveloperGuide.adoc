@@ -221,6 +221,42 @@ Classes used by multiple components are in the `seedu.addressbook.commons` packa
 
 This section describes some noteworthy details on how certain features are implemented.
 
+// tag::backup[]
+=== Backup mechanism
+
+The backup mechanism is facilitated by the `backupAddressBook()` method added to the `Storage` component, which saves the current state of the address book to a predefined backup location (`intelli.xml.bak` in the `data` directory). This functionality is then invoked through the `backup` command, and the `Command` and `Logic` classes have been extended to have access to the `Storage` component of the address book.
+
+==== Design Considerations
+
+**Aspect:** Type of command implemented +
+**Alternative 1 (current choice):** `Command` +
+**Pros:** Simple to implement; undo / redo mechanism does not need to know how to interact with `Storage` to undo a backup. +
+**Cons:** Accidental backups may be invoked, potentially overwriting an existing backup. +
+**Alternative 2:** `UndoableCommand` +
+**Pros:** Possible to undo a backup; prevents accidental overwrites of an existing backup. +
+**Cons:** The undo / redo mechanism needs to be extended to be able to redo / undo backups, increasing interaction with the `Storage` component.
+
+---
+
+**Aspect:** Location of backup file +
+**Alternative 1 (current choice):** `data/intelli.xml.bak` +
+**Pros:** Easy to locate for the user; file is always in a predictable location. +
+**Cons:** Accidental backups may be invoked, potentially overwriting an existing backup in the same location. +
+**Alternative 2:** Add a timestamp to the backup filename +
+**Pros:** Will not overwrite existing backups, can serve as rudimentary version control mechanism. +
+**Cons:** User may not be aware of how many backups they have created; might cause a lot of backups to exist, creating confusion.
+
+---
+
+**Aspect:** Interaction between `Command` and `StorageManager` +
+**Alternative 1 (current choice):** Extend `setData()` to also recieve the `Storage` component +
+**Pros:** In line with existing architecture, does not introduce global state. +
+**Cons:** All invocations of `setData()` have to be changed; but only one command uses `StorageManager`, creating unnessasary busywork. +
+**Alternative 2:** Make `StorageManager` a Singleton +
+**Pros:** Does not affect existing commands; easy for `BackupCommand` to access. +
+**Cons:** Changes architecture of app, introduces more global state.
+// end::backup[]
+
 // tag::addrelationship[]
 === addRelationship command
 
@@ -249,6 +285,32 @@ The user is able to view the changes in the relationships in the graph window.
 **Pros:** Easy maintenance of the relationships. +
 **Cons:** More scenarios to consider when performing actions to the relationship. Hence, it will lead to more difficult implementation.
 // end::addrelationship[]
+
+// tag::colourTag[]
+=== `colorTag` command mechanism
+
+The `colourTag` command sets a tag colour for a given tag that is stored in `UserPrefs` as a `Map<Tag, String>` of tag-colour pairs.
+
+==== Design Considerations
+
+**Aspect:** Persistence mechanism for tag colours +
+**Alternative 1 (current choice):** Store in `UserPrefs` as GUI settings +
+**Pros:** Tag colour settings remain the same for different data files, more consistency for user. +
+**Cons:** `Storage` has to be extended to provide access to `UserPrefs` for `Command`, difficult to signal a tag colour change when no user data is modified. +
+**Alternative 2:** Store in `XmlAddressBookStorage` as user data. +
+**Pros:** Easier to signal tag colour changes to GUI. +
+**Cons:** Tag colours will be different depending on which data file is loaded, leading to inconsistency and confusion for the user.
+
+---
+
+**Aspect:** Location for storing tag colours +
+**Alternative 1 (current choice):** Global tag colour mapping +
+**Pros:** No possibility of two identical tags having different colours, easy to update all instances of one tag with new colour. +
+**Cons:**  More difficult to indicate a tag colour change to the GUI as no user data is visibly modified+
+**Alternative 2:** Each tag stores its own colour. +
+**Pros:** Easier to signal tag colour changes to GUI. +
+**Cons:** Possibility of identical tag containing different colours.
+// end::colourTag[]
 
 // tag::deleterelationship[]
 === deleteRelationship command
@@ -329,6 +391,40 @@ This command is implemented in the style of the `edit` command and `delete` comm
 **Pros:** The user can remove the tags from a few specific people in one command. +
 **Cons:** Implementation is more difficult as parsing of additional user input required. It is also unlikely for user to remove the tag from many persons at once, hence there is a function overlap with `edit` command.
 // end::removetag[]
+
+// tag::relPath[]
+=== `relPath` command mechanism
+
+`relPath` finds a shortest relationship path between two people that has the highest minimum confidence estimate, and highlights this path on the graph display. In other words, it prioritises relationships with a higher confidence level over those with lower confidence levels when deciding the shortest path.
+
+To do so, a modifiied version of the standard Dijkstra's shortest path algorithm is used, which takes into account path _width_ (the smallest confidence estimate on the path) and selects edges that maximises the minimum width of the path. The algorithm can be briefly described as follows:
+
+1. For all persons from the source person, set the path width to them at -Infinity.
+2. Keep track of the width of the path to each person from the source.
+3. At each iteration, take the person with the smallest width so far and consider its outgoing edges. Add an edge into the shortest path to this person if it will increase the minimum confidence estimate of the path.
+4. When all persons are processed, all shortest paths with the highest minimum confidence estimate will be found.
+
+==== Design Considerations
+
+**Aspect:** Implementation of modified Dijkstra's +
+**Alternative 1 (current choice):** Extend the current `Dijkstra` algorithm in the GraphStream library. +
+**Pros:** Easy to implement since most of the algorithm is the same, easy to use with graph display. +
+**Cons:** Relies on external library for correctness, unable to guarantee correctness of external library.  +
+**Alternative 2:** Implement modified Dijkstra's from scratch. +
+**Pros:** Can ensure testablity and reliablity of own code, less reliance on external correctness. +
+**Cons:** More difficult implementation as it is from scratch, less compatability with graph display means integration between display and algorithm has to be manually written.
+
+---
+
+**Aspect:** Access to `GraphWrapper` from `RelPathCommand` +
+**Alternative 1 (current choice):** Make `GraphWrapper` a Singleton. +
+**Pros:** Easy to access from `relPathCommand`, no need to modify all commands like if `setData()` was extended. +
+**Cons:** Increases global state.  +
+**Alternative 2:** Extend `Command.setData()` to take in `GraphWrapper` +
+**Pros:** Similar to how other components are allowed to interact with commands, better consistency. +
+**Cons:** Since the graph display is a GUI component, no straightforward way to have `Command` access it. Also means that every command's `setData()` has to be modified to take into account an external parameter.
+
+// end::relPath[]
 
 // tag::find[]
 === Enhanced `find` command
@@ -533,7 +629,7 @@ A separate parser for phone, email, address and remark are used to accommodate t
 // end::EnhancedAddCommand[]
 
 // tag::clearHistory[]
-=== `clearHistory` command
+=== `clearHistory` command mechanism
 
 The `clearHistory` command is implemented as a regular command that calls `.clear()` methods added to `CommandHistory` and `UndoRedoStack`, which clears the command history and the undo/redo stack respectively.
 
