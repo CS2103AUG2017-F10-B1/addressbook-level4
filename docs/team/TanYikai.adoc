@@ -6,7 +6,7 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 == Project: Intelli
 Intelli is a desktop relationship tracker used by private investigators (PI) to manage their information and leads. The PI interacts with it using a CLI, and it has a GUI created with JavaFX and GraphStream. It is written in Java, and has about 6 kLoC.
 
-*Code contributed*: [https://github.com/CS2103AUG2017-F10-B1/main/tree/master/collated/main/TanYikai.md[Functional code]] [https://github.com/CS2103AUG2017-F10-B1/main/tree/master/collated/test/TanYikai.md[Test code]] {give links to collated code files}
+*Code contributed*: [https://github.com/CS2103AUG2017-F10-B1/main/tree/master/collated/main/TanYikai.md[Functional code]] [https://github.com/CS2103AUG2017-F10-B1/main/tree/master/collated/test/TanYikai.md[Test code]] [https://github.com/CS2103AUG2017-F10-B1/main/tree/master/collated/unused/TanYikai.md[Unused code]]
 
 === Enhancement Added: Alias
 
@@ -111,5 +111,3 @@ include::../DeveloperGuide.adoc[tag=EnhancedAddCommand]
 === Other contributions
 
 * Enhanced Remark Command which was left out of the final product due to the more fitting relationship graph
-
-
