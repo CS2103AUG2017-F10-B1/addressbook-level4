@@ -1,21 +1,29 @@
 # joanneong
-###### \java\guitests\guihandles\CommandBoxHandle.java
+###### /java/guitests/guihandles/CommandBoxHandle.java
 ``` java
     /**
-     * Enters the given input in the Command Box without executing the input and
-     * chooses the first option in the auto-complete list.
+     * Enters the given input in the {@code CommandBox} without executing the input and
+     * without using autocompletion.
+     */
+    public void enterInputWithoutAutocompletion(String input) {
+        click();
+        guiRobot.interact(() -> getRootNode().setText(input));
+    }
+
+    /**
+     * Enters the given input in the {@code CommandBox} without executing the input and
+     * chooses the first option in the auto-complete suggestions.
+     *
      * Note that the input is not executed.
      */
     public void enterInput(String input) {
-        click();
-        guiRobot.interact(() -> getRootNode().setText(input));
-        guiRobot.pauseForAutoComplete(400);
+        enterInputWithoutAutocompletion(input);
 
-        guiRobot.type(KeyCode.ENTER);
+        guiRobot.type(KeyCode.TAB);
     }
 
 ```
-###### \java\guitests\guihandles\GraphDisplayHandle.java
+###### /java/guitests/guihandles/GraphDisplayHandle.java
 ``` java
 /**
  * A handler for the {@code GraphDisplay} of the UI.
@@ -39,81 +47,232 @@ public class GraphDisplayHandle extends NodeHandle<Node> {
     }
 }
 ```
-###### \java\guitests\GuiRobot.java
+###### /java/seedu/address/logic/commands/AddCommandTest.java
 ``` java
-    /**
-     * Pauses execution for a given period of time to allow auto-completion popup to execute.
-     */
-    public void pauseForAutoComplete(int time) {
-        sleep(time);
-    }
+        @Override
+        public void editRelationship(Index indexFromPerson, Index indexToPerson, Name name,
+                              ConfidenceEstimate confidenceEstimate)
+                throws IllegalValueException, RelationshipNotFoundException, DuplicateRelationshipException {
+            fail("This method should not be called.");
+        };
 
-    /**
-     * Waits for {@code event} to be true by {@code DEFAULT_WAIT_FOR_EVENT_TIMEOUT_MILLISECONDS} milliseconds.
-     *
-     * @throws EventTimeoutException if the time taken exceeds {@code DEFAULT_WAIT_FOR_EVENT_TIMEOUT_MILLISECONDS}
-     * milliseconds.
-     */
-    public void waitForEvent(BooleanSupplier event) {
-        waitForEvent(event, DEFAULT_WAIT_FOR_EVENT_TIMEOUT_MILLISECONDS);
-    }
-
-    /**
-     * Waits for {@code event} to be true.
-     *
-     * @param timeOut in milliseconds
-     * @throws EventTimeoutException if the time taken exceeds {@code timeOut}.
-     */
-    public void waitForEvent(BooleanSupplier event, int timeOut) {
-        int timePassed = 0;
-        final int retryInterval = 50;
-
-        while (!event.getAsBoolean()) {
-            sleep(retryInterval);
-            timePassed += retryInterval;
-
-            if (timePassed >= timeOut) {
-                throw new EventTimeoutException();
-            }
+        @Override
+        public void updatePerson(ReadOnlyPerson target, ReadOnlyPerson editedPerson)
+                throws DuplicatePersonException {
+            fail("This method should not be called.");
         }
 
-        pauseForHuman();
+        public void removeTag(String tagToBeRemoved) throws TagNotFoundException, IllegalValueException {
+            fail("This method should not be called.");
+        }
+```
+###### /java/seedu/address/logic/commands/EditRelationshipCommandTest.java
+``` java
+/**
+ * Contains integration tests (interaction with the Model) and unit tests for EditRelationshipCommand.
+ */
+public class EditRelationshipCommandTest {
+
+    private Model model = new ModelManager(getTypicalAddressBookWithRelationships(), new UserPrefs());
+
+    @Test
+    public void execute_allFieldsSpecified_success() throws Exception {
+        try {
+            int lengthOfPersonList = model.getFilteredPersonList().size();
+            Index firstPerson = Index.fromOneBased(lengthOfPersonList - 1);
+            Index secondPerson = Index.fromOneBased(lengthOfPersonList);
+
+            Name newName = new Name("friends");
+            ConfidenceEstimate newConfidenceEstimate = new ConfidenceEstimate(10);
+
+            EditRelationshipCommand editRelationshipCommand = prepareCommand(firstPerson, secondPerson,
+                    newName, newConfidenceEstimate);
+
+            String expectedMessage = String.format(EditRelationshipCommand.MESSAGE_EDIT_RELATIONSHIP_SUCCESS,
+                    firstPerson, secondPerson);
+
+            ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+            expectedModel.editRelationship(firstPerson, secondPerson, newName, newConfidenceEstimate);
+
+            assertCommandSuccess(editRelationshipCommand, model, expectedMessage, expectedModel);
+        } catch (IllegalValueException ive) {
+            fail("This is not supposed to fail");
+        }
+    }
+
+    @Test
+    public void execute_nameFieldSpecified_success() throws Exception {
+        try {
+            int lengthOfPersonList = model.getFilteredPersonList().size();
+            Index firstPerson = Index.fromOneBased(lengthOfPersonList - 1);
+            Index secondPerson = Index.fromOneBased(lengthOfPersonList);
+
+            Name newName = new Name("friends");
+            ReadOnlyPerson fromPerson = model.getFilteredPersonList().get(firstPerson.getZeroBased());
+            Relationship relationship = fromPerson.getRelationships().iterator().next();
+            ConfidenceEstimate originalConfidenceEstimate = relationship.getConfidenceEstimate();
+
+            EditRelationshipCommand editRelationshipCommand = prepareCommand(firstPerson, secondPerson,
+                    newName, originalConfidenceEstimate);
+
+            String expectedMessage = String.format(EditRelationshipCommand.MESSAGE_EDIT_RELATIONSHIP_SUCCESS,
+                    firstPerson, secondPerson);
+
+            ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+            expectedModel.editRelationship(firstPerson, secondPerson, newName, originalConfidenceEstimate);
+
+            assertCommandSuccess(editRelationshipCommand, model, expectedMessage, expectedModel);
+        } catch (IllegalValueException ive) {
+            fail("This is not supposed to fail");
+        }
+    }
+
+    @Test
+    public void execute_confidenceEstimateFieldSpecified_success() throws Exception {
+        try {
+            int lengthOfPersonList = model.getFilteredPersonList().size();
+            Index firstPerson = Index.fromOneBased(lengthOfPersonList - 1);
+            Index secondPerson = Index.fromOneBased(lengthOfPersonList);
+
+            ConfidenceEstimate newConfidenceEstimate = new ConfidenceEstimate(90);
+            ReadOnlyPerson fromPerson = model.getFilteredPersonList().get(firstPerson.getZeroBased());
+            Relationship relationship = fromPerson.getRelationships().iterator().next();
+            Name name = relationship.getName();
+
+            EditRelationshipCommand editRelationshipCommand = prepareCommand(firstPerson, secondPerson,
+                   name, newConfidenceEstimate);
+
+            String expectedMessage = String.format(EditRelationshipCommand.MESSAGE_EDIT_RELATIONSHIP_SUCCESS,
+                    firstPerson, secondPerson);
+
+            ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+            expectedModel.editRelationship(firstPerson, secondPerson, name, newConfidenceEstimate);
+
+            assertCommandSuccess(editRelationshipCommand, model, expectedMessage, expectedModel);
+        } catch (IllegalValueException ive) {
+            fail("This is not supposed to fail");
+        }
+    }
+
+    @Test
+    public void execute_noFieldsSpecified_success() throws Exception {
+        try {
+            int lengthOfPersonList = model.getFilteredPersonList().size();
+            Index firstPerson = Index.fromOneBased(lengthOfPersonList - 1);
+            Index secondPerson = Index.fromOneBased(lengthOfPersonList);
+
+            ReadOnlyPerson fromPerson = model.getFilteredPersonList().get(firstPerson.getZeroBased());
+            Relationship relationship = fromPerson.getRelationships().iterator().next();
+            Name name = relationship.getName();
+            ConfidenceEstimate cE = relationship.getConfidenceEstimate();
+
+            EditRelationshipCommand editRelationshipCommand = prepareCommand(firstPerson, secondPerson,
+                    name, cE);
+
+            String expectedMessage = String.format(EditRelationshipCommand.MESSAGE_EDIT_RELATIONSHIP_SUCCESS,
+                    firstPerson, secondPerson);
+
+            ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+            expectedModel.editRelationship(firstPerson, secondPerson, name, cE);
+
+            assertCommandSuccess(editRelationshipCommand, model, expectedMessage, expectedModel);
+        } catch (IllegalValueException ive) {
+            fail("This is not supposed to fail");
+        }
+    }
+
+    @Test
+    public void execute_invalidFromPersonIndex_throwsCommandException() throws Exception {
+        try {
+            int lengthOfPersonList = model.getFilteredPersonList().size();
+            Index firstPerson = Index.fromOneBased(lengthOfPersonList - 1);
+            Index outOfBoundIndex = Index.fromOneBased(lengthOfPersonList + 1);
+            Name newName = new Name("friends");
+            ConfidenceEstimate newConfidenceEstimate = new ConfidenceEstimate(90);
+
+            EditRelationshipCommand editRelationshipCommand = prepareCommand(firstPerson, outOfBoundIndex,
+                    newName, newConfidenceEstimate);
+
+            assertCommandFailure(editRelationshipCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+
+        } catch (IllegalValueException ive) {
+            fail("This is not supposed to fail");
+        }
+    }
+
+    @Test
+    public void execute_invalidToPersonIndex_throwsCommandException() throws Exception {
+        try {
+            int lengthOfPersonList = model.getFilteredPersonList().size();
+            Index outOfBoundIndex = Index.fromOneBased(lengthOfPersonList + 1);
+            Index secondPerson = Index.fromOneBased(lengthOfPersonList - 1);
+            Name newName = new Name("friends");
+            ConfidenceEstimate newConfidenceEstimate = new ConfidenceEstimate(90);
+
+            EditRelationshipCommand editRelationshipCommand = prepareCommand(outOfBoundIndex, secondPerson,
+                    newName, newConfidenceEstimate);
+
+            assertCommandFailure(editRelationshipCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+
+        } catch (IllegalValueException ive) {
+            fail("This is not supposed to fail");
+        }
+    }
+
+    @Test
+    public void execute_invalidRelationship_throwsCommandException() throws Exception {
+        try {
+            Name name = new Name("friends");
+            ConfidenceEstimate confidenceEstimate = new ConfidenceEstimate(90);
+
+            EditRelationshipCommand editRelationshipCommand = prepareCommand(INDEX_FIRST_PERSON, INDEX_SECOND_PERSON,
+                    name, confidenceEstimate);
+
+            assertCommandFailure(editRelationshipCommand, model, Messages.MESSAGE_RELATIONSHIP_NOT_FOUND);
+        } catch (IllegalValueException ive) {
+            fail("This is not supposed to fail");
+        }
+    }
+
+    @Test
+    public void equals() {
+        EditRelationshipCommand editRelationshipFirstCommand =
+                new EditRelationshipCommand(TypicalIndexes.INDEX_FIRST_PERSON, TypicalIndexes.INDEX_SECOND_PERSON,
+                        Name.UNSPECIFIED, ConfidenceEstimate.UNSPECIFIED);
+        EditRelationshipCommand editRelationshipSecondCommand =
+                new EditRelationshipCommand(TypicalIndexes.INDEX_SECOND_PERSON, TypicalIndexes.INDEX_THIRD_PERSON,
+                        Name.UNSPECIFIED, ConfidenceEstimate.UNSPECIFIED);
+
+        // same object -> returns true
+        assertTrue(editRelationshipFirstCommand.equals(editRelationshipFirstCommand));
+
+        // same values -> returns true
+        EditRelationshipCommand editRelationshipFirstCommandCopy =
+                new EditRelationshipCommand(TypicalIndexes.INDEX_FIRST_PERSON, TypicalIndexes.INDEX_SECOND_PERSON,
+                Name.UNSPECIFIED, ConfidenceEstimate.UNSPECIFIED);
+        assertTrue(editRelationshipFirstCommand.equals(editRelationshipFirstCommandCopy));
+
+        // different types -> returns false
+        assertFalse(editRelationshipFirstCommand.equals(1));
+
+        // null -> returns false
+        assertFalse(editRelationshipFirstCommand.equals(null));
+
+        // different from person and to person -> returns false
+        assertFalse(editRelationshipFirstCommand.equals(editRelationshipSecondCommand));
     }
 
     /**
-     * Returns true if the window with {@code stageTitle} is currently open.
+     * Returns an {@code EditRelationshipCommand} with the parameters fromPerson and toPerson indexes.
      */
-    public boolean isWindowShown(String stageTitle) {
-        return listTargetWindows().stream()
-                .filter(window -> window instanceof Stage && ((Stage) window).getTitle().equals(stageTitle))
-                .count() >= 1;
-    }
-
-    /**
-     * Returns the first stage, ordered by proximity to the current target window, with the stage title.
-     * The order that the windows are searched are as follows (proximity): current target window,
-     * children of the target window, rest of the windows.
-     *
-     * @throws StageNotFoundException if the stage is not found.
-     */
-    public Stage getStage(String stageTitle) {
-        Optional<Stage> targetStage = listTargetWindows().stream()
-                .filter(Stage.class::isInstance)    // checks that the window is of type Stage
-                .map(Stage.class::cast)
-                .filter(stage -> stage.getTitle().equals(stageTitle))
-                .findFirst();
-
-        return targetStage.orElseThrow(StageNotFoundException::new);
-    }
-
-    /**
-     * Represents an error which occurs when a timeout occurs when waiting for an event.
-     */
-    private class EventTimeoutException extends RuntimeException {
+    private EditRelationshipCommand prepareCommand(Index fromPerson, Index toPerson, Name name, ConfidenceEstimate ce) {
+        EditRelationshipCommand editRelationshipCommand = new EditRelationshipCommand(fromPerson, toPerson, name, ce);
+        editRelationshipCommand.setData(model, new CommandHistory(), new UndoRedoStack(), new StorageStub());
+        return editRelationshipCommand;
     }
 }
 ```
-###### \java\seedu\address\logic\commands\FindCommandTest.java
+###### /java/seedu/address/logic/commands/FindCommandTest.java
 ``` java
 /**
  * Contains integration tests (interaction with the Model) for {@code FindCommand}.
@@ -382,7 +541,7 @@ public class FindCommandTest {
     }
 }
 ```
-###### \java\seedu\address\logic\parser\AddressBookParserTest.java
+###### /java/seedu/address/logic/parser/AddressBookParserTest.java
 ``` java
     @Test
     public void parseCommand_find() throws Exception {
@@ -413,7 +572,39 @@ public class FindCommandTest {
     }
 
 ```
-###### \java\seedu\address\logic\parser\FindCommandParserTest.java
+###### /java/seedu/address/logic/parser/EditRelationshipCommandParserTest.java
+``` java
+public class EditRelationshipCommandParserTest {
+
+    private EditRelationshipCommandParser parser = new EditRelationshipCommandParser();
+
+    @Test
+    public void parse_validArgs_returnsEditRelationshipCommand() {
+        assertParseSuccess(parser, "1 2", new EditRelationshipCommand(INDEX_FIRST_PERSON, INDEX_SECOND_PERSON,
+                Name.UNSPECIFIED, ConfidenceEstimate.UNSPECIFIED));
+    }
+
+    @Test
+    public void parse_validArgsWithNameAndCE_returnsEditRelationshipCommand() throws Exception {
+        try {
+            Name name = new Name("friends");
+            ConfidenceEstimate confidenceEstimate = new ConfidenceEstimate(90);
+            assertParseSuccess(parser, "1 2 n/friends ce/90",
+                    new EditRelationshipCommand(INDEX_FIRST_PERSON, INDEX_SECOND_PERSON, name, confidenceEstimate));
+        } catch (IllegalValueException ive) {
+            fail("This is not supposed to fail");
+        }
+    }
+
+    @Test
+    public void parse_invalidArgs_throwsParseException() {
+        assertParseFailure(parser, "a", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                EditRelationshipCommand.MESSAGE_USAGE));
+    }
+
+}
+```
+###### /java/seedu/address/logic/parser/FindCommandParserTest.java
 ``` java
 public class FindCommandParserTest {
 
@@ -465,7 +656,7 @@ public class FindCommandParserTest {
 
 }
 ```
-###### \java\seedu\address\model\TagContainsKeywordsPredicateTest.java
+###### /java/seedu/address/model/TagContainsKeywordsPredicateTest.java
 ``` java
 public class TagContainsKeywordsPredicateTest {
 
@@ -536,7 +727,122 @@ public class TagContainsKeywordsPredicateTest {
 }
 
 ```
-###### \java\seedu\address\ui\GraphDisplayTest.java
+###### /java/seedu/address/relationship/RelationshipTest.java
+``` java
+public class RelationshipTest {
+
+    @Test
+    public void equals() {
+        Relationship relationshipOne = new RelationshipBuilder().getRelationship();
+        ReadOnlyPerson fromPerson = relationshipOne.getFromPerson();
+        ReadOnlyPerson toPerson = relationshipOne.getToPerson();
+        RelationshipDirection relationshipDirection = relationshipOne.getDirection();
+        Name name = relationshipOne.getName();
+        ConfidenceEstimate confidenceEstimate = relationshipOne.getConfidenceEstimate();
+
+        ReadOnlyPerson differentFromPerson = new PersonBuilder().withName("Alice").build();
+        ReadOnlyPerson differentToPerson = new PersonBuilder().withName("Bob").build();
+        RelationshipDirection differentRelationshipDirection = RelationshipDirection.DIRECTED;
+
+        // same object -> returns true
+        assertTrue(relationshipOne.equals(relationshipOne));
+
+        // same from person, to person, and direction -> returns true
+        Relationship relationshipTwo = new RelationshipBuilder(fromPerson, toPerson,
+                relationshipDirection).getRelationship();
+        assertTrue(relationshipOne.equals(relationshipTwo));
+
+        // same from person, to person, direction, name, and confidence estimate -> returns true
+        Relationship relationshipThree = new RelationshipBuilder(fromPerson, toPerson, relationshipDirection,
+                name, confidenceEstimate).getRelationship();
+        assertTrue(relationshipOne.equals(relationshipThree));
+
+        // null -> returns false
+        assertFalse(relationshipOne.equals(null));
+
+        // different types -> returns false
+        assertFalse(relationshipOne.equals("123"));
+
+        // different from person -> returns false
+        Relationship relationshipFour = new RelationshipBuilder(differentFromPerson, toPerson, relationshipDirection,
+                name, confidenceEstimate).getRelationship();
+        assertFalse(relationshipOne.equals(relationshipFour));
+
+        // different to person -> returns false
+        Relationship relationshipFive = new RelationshipBuilder(fromPerson, differentToPerson, relationshipDirection,
+                name, confidenceEstimate).getRelationship();
+        assertFalse(relationshipOne.equals(relationshipFive));
+
+        // different direction -> returns false
+        Relationship relationshipSix = new RelationshipBuilder(fromPerson, toPerson, differentRelationshipDirection,
+                name, confidenceEstimate).getRelationship();
+        assertFalse(relationshipOne.equals(relationshipSix));
+    }
+
+}
+```
+###### /java/seedu/address/testutil/RelationshipBuilder.java
+``` java
+/**
+ * A utility class to help with building Relationships between two persons.
+ */
+public class RelationshipBuilder {
+
+    private static final Person DEFAULT_FROM_PERSON = new PersonBuilder().build();
+    private static final Person DEFAULT_TO_PERSON = new PersonBuilder().withName("Intelli").build();
+    private static final RelationshipDirection DEFAULT_DIRECTION = RelationshipDirection.UNDIRECTED;
+
+    private Relationship relationship;
+
+    public RelationshipBuilder() {
+        this.relationship = new Relationship(DEFAULT_FROM_PERSON, DEFAULT_TO_PERSON, DEFAULT_DIRECTION);
+    }
+
+    public RelationshipBuilder(ReadOnlyPerson fromPerson, ReadOnlyPerson toPerson, RelationshipDirection direction) {
+        this.relationship = new Relationship(fromPerson, toPerson, direction);
+    }
+
+    public RelationshipBuilder(ReadOnlyPerson fromPerson, ReadOnlyPerson toPerson, RelationshipDirection direction,
+                               Name name, ConfidenceEstimate confidenceEstimate) {
+        this.relationship = new Relationship(fromPerson, toPerson, direction, name, confidenceEstimate);
+    }
+
+    public Relationship getRelationship() {
+        return relationship;
+    }
+}
+```
+###### /java/seedu/address/ui/CommandBoxTest.java
+``` java
+    @Test
+    public void handleKeyPress_startingWithControl() {
+        // empty input
+        guiRobot.push(KeyCode.CONTROL);
+        assertEmptyCommandBox();
+
+        // single word input
+        commandBoxHandle.enterInput(COMMAND_THAT_SUCCEEDS);
+        guiRobot.push(KeyCode.CONTROL);
+        assertEmptyCommandBox();
+
+        // multi-words input
+        commandBoxHandle.enterInput(COMMAND_THAT_FAILS);
+        guiRobot.push(KeyCode.CONTROL);
+        assertEmptyCommandBox();
+    }
+
+```
+###### /java/seedu/address/ui/CommandBoxTest.java
+``` java
+    /**
+     * Checks that the input in the {@code commandBox} is empty.
+     */
+    private void assertEmptyCommandBox() {
+        assertEquals("", commandBoxHandle.getInput());
+    }
+}
+```
+###### /java/seedu/address/ui/GraphDisplayTest.java
 ``` java
 public class GraphDisplayTest extends GuiUnitTest {
 
@@ -585,6 +891,78 @@ public class GraphDisplayTest extends GuiUnitTest {
             fail("This method should not be called.");
             return null;
         }
+    }
+}
+```
+###### /java/systemtests/AutocompletionSystemTest.java
+``` java
+/**
+ * A series of tests to test the auto-completion function.
+ *
+ * Each test is related to multiple components in Intelli, namely {@code CommandBox} and {@code ResultDisplay}.
+ */
+public class AutocompletionSystemTest extends AddressBookSystemTest {
+
+    private static final String COMMAND_THAT_FAILS = "@#!";
+    private static final String COMMAND_THAT_SUCCEEDS = AddRelationshipCommand.COMMAND_WORD;
+    private static final String INCOMPLETE_COMMAND_THAT_SUCCEEDS = AddRelationshipCommand.COMMAND_WORD.substring(0, 4);
+    private static final String SHORT_INCOMPLETE_COMMAND_THAT_SUCCEEDS =
+            AddRelationshipCommand.COMMAND_WORD.substring(0, 1);
+
+    @Test
+    public void checkAutocompletion() {
+        CommandBoxHandle commandBoxHandle = getCommandBox();
+
+        //Case: no autocomplete suggestion
+        commandBoxHandle.enterInput(COMMAND_THAT_FAILS);
+        assertEquals(COMMAND_THAT_FAILS, commandBoxHandle.getInput());
+
+        //Case: single autocomplete suggestion
+        commandBoxHandle.enterInput(INCOMPLETE_COMMAND_THAT_SUCCEEDS);
+        assertEquals(COMMAND_THAT_SUCCEEDS, commandBoxHandle.getInput());
+
+        //Case: multiple autocomplete suggestions
+        commandBoxHandle.enterInput(SHORT_INCOMPLETE_COMMAND_THAT_SUCCEEDS);
+        assertEquals("add", commandBoxHandle.getInput());
+    }
+
+}
+```
+###### /java/systemtests/InfoDisplaySystemTest.java
+``` java
+/**
+ * A series of tests to test the information display function.
+ *
+ * Each test is related to multiple components in Intelli, namely {@code CommandBox} and {@code ResultDisplay}.
+ */
+public class InfoDisplaySystemTest extends AddressBookSystemTest {
+
+    private static final String COMMAND_THAT_FAILS = "@#!";
+    private static final String COMMAND_THAT_SUCCEEDS = AddRelationshipCommand.COMMAND_WORD;
+    private static final String COMMAND_THAT_SUCCEEDS_ALIAS = AddRelationshipCommand.COMMAND_ALIAS;
+    private static final String SHORT_COMMAND_USAGE = AddRelationshipCommand.SHORT_MESSAGE_USAGE;
+    private static final String FORMATTED_SHORT_COMMAND_USAGE = "How to use:\n" + SHORT_COMMAND_USAGE;
+
+    @Test
+    public void informationDisplay() {
+        CommandBoxHandle commandBoxHandle = getCommandBox();
+        ResultDisplayHandle resultDisplayHandle = getInfoDisplay();
+
+        //Case: no command in the command box
+        commandBoxHandle.enterInputWithoutAutocompletion("");
+        assertEquals("", resultDisplayHandle.getText());
+
+        //Case: no corresponding information displayed
+        commandBoxHandle.enterInputWithoutAutocompletion(COMMAND_THAT_FAILS);
+        assertEquals("", resultDisplayHandle.getText());
+
+        //Case: corresponding usage information displayed for typed command
+        commandBoxHandle.enterInputWithoutAutocompletion(COMMAND_THAT_SUCCEEDS);
+        assertEquals(FORMATTED_SHORT_COMMAND_USAGE, resultDisplayHandle.getText());
+
+        //Case: corresponding usage information displayed for typed alias
+        commandBoxHandle.enterInputWithoutAutocompletion(COMMAND_THAT_SUCCEEDS_ALIAS);
+        assertEquals(FORMATTED_SHORT_COMMAND_USAGE, resultDisplayHandle.getText());
     }
 }
 ```

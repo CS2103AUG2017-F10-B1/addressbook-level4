@@ -1,5 +1,5 @@
 # TanYikai
-###### \java\seedu\address\logic\commands\SortCommand.java
+###### /java/seedu/address/logic/commands/SortCommand.java
 ``` java
 
 import static java.util.Objects.requireNonNull;
@@ -35,7 +35,7 @@ public class SortCommand extends UndoableCommand {
     }
 }
 ```
-###### \java\seedu\address\logic\parser\ParserUtil.java
+###### /java/seedu/address/logic/parser/ParserUtil.java
 ``` java
     /**
      * Parses the String to return int according to the corresponding prefix
@@ -70,7 +70,7 @@ public class SortCommand extends UndoableCommand {
         NAME, PHONE, EMAIL, ADDRESS, REMARK
     }
 ```
-###### \java\seedu\address\logic\parser\ParserUtil.java
+###### /java/seedu/address/logic/parser/ParserUtil.java
 ``` java
     /**
      * Parses a {@code Optional<String> phone} into an {@code Optional<Phone>} if {@code phone} is present.
@@ -82,7 +82,7 @@ public class SortCommand extends UndoableCommand {
         return phone.isPresent() ? Optional.of(new Phone(phone.get())) : Optional.of(Phone.UNSPECIFIED);
     }
 ```
-###### \java\seedu\address\logic\parser\ParserUtil.java
+###### /java/seedu/address/logic/parser/ParserUtil.java
 ``` java
     /**
      * Parses a {@code Optional<String> address} into an {@code Optional<Address>} if {@code address} is present.
@@ -94,7 +94,7 @@ public class SortCommand extends UndoableCommand {
         return address.isPresent() ? Optional.of(new Address(address.get())) : Optional.of(Address.UNSPECIFIED);
     }
 ```
-###### \java\seedu\address\logic\parser\ParserUtil.java
+###### /java/seedu/address/logic/parser/ParserUtil.java
 ``` java
     /**
      * Parses a {@code Optional<String> email} into an {@code Optional<Email>} if {@code email} is present.
@@ -125,7 +125,7 @@ public class SortCommand extends UndoableCommand {
         return remark.isPresent() ? Optional.of(new Remark(remark.get())) : Optional.of(Remark.UNSPECIFIED);
     }
 ```
-###### \java\seedu\address\logic\parser\SortCommandParser.java
+###### /java/seedu/address/logic/parser/SortCommandParser.java
 ``` java
 /**
  * Parses input arguments and creates a new SortCommand object
@@ -150,7 +150,7 @@ public class SortCommandParser implements Parser<SortCommand> {
 
 }
 ```
-###### \java\seedu\address\model\AddressBook.java
+###### /java/seedu/address/model/AddressBook.java
 ``` java
     /**
      *Sorts the persons object according to the sortOption.
@@ -160,7 +160,7 @@ public class SortCommandParser implements Parser<SortCommand> {
         persons.sort(sortOption);
     }
 ```
-###### \java\seedu\address\model\ModelManager.java
+###### /java/seedu/address/model/ModelManager.java
 ``` java
     @Override
     public void sortPersons(ParserUtil.Option sortOption) {
@@ -169,7 +169,7 @@ public class SortCommandParser implements Parser<SortCommand> {
         indicateAddressBookChanged();
     }
 ```
-###### \java\seedu\address\model\person\Address.java
+###### /java/seedu/address/model/person/Address.java
 ``` java
     /**
      * The default Address constructor when address is not specified by the user
@@ -178,37 +178,7 @@ public class SortCommandParser implements Parser<SortCommand> {
         value = "Unspecified address";
     }
 ```
-###### \java\seedu\address\model\person\Person.java
-``` java
-    /**
-     * Sets the sort option using integer
-     * 0,1,2,3,4 represents name, phone, email, address and remark respectively
-     */
-    public void setSortOption(Option option) {
-        this.sortOption = option;
-    }
-```
-###### \java\seedu\address\model\person\Person.java
-``` java
-    /**
-     * The compareTo method compares different attribute of the person object according to sortOption number
-     * The default is compare by name
-     */
-    @Override
-    public int compareTo(Person o) {
-        if (sortOption == Option.PHONE) {
-            return this.getPhone().toString().compareToIgnoreCase(o.getPhone().toString());
-        } else if (sortOption == Option.EMAIL) {
-            return this.getEmail().toString().compareToIgnoreCase(o.getEmail().toString());
-        } else if (sortOption == Option.ADDRESS) {
-            return this.getAddress().toString().compareToIgnoreCase(o.getAddress().toString());
-        } else if (sortOption == Option.REMARK) {
-            return this.getRemark().toString().compareToIgnoreCase(o.getRemark().toString());
-        }
-        return this.getName().toString().compareToIgnoreCase(o.getName().toString());
-    }
-```
-###### \java\seedu\address\model\person\Phone.java
+###### /java/seedu/address/model/person/Phone.java
 ``` java
     /**
      * The default Phone constructor when phone is not specified by the user
@@ -217,7 +187,7 @@ public class SortCommandParser implements Parser<SortCommand> {
         value = "Unspecified phone number";
     }
 ```
-###### \java\seedu\address\model\person\Remark.java
+###### /java/seedu/address/model/person/Remark.java
 ``` java
 /**
  * Represents a Person's remark in the address book.
@@ -259,36 +229,25 @@ public class Remark {
 }
 
 ```
-###### \java\seedu\address\model\person\UniquePersonList.java
+###### /java/seedu/address/model/person/UniquePersonList.java
 ``` java
     /**
      * Sorts the persons object according to the sortOption.
-     * 0,1,2,3,4 represents name, phone, email, address, remark respectively
      */
     public void sort(Option sortOption) {
         requireNonNull(internalList);
         if (sortOption == Option.NAME) {
-            for (Person p: internalList) {
-                p.setSortOption(Option.NAME);
-            }
+            compare = Comparator.comparing(Person::getName, Comparator.comparing(Name::toString));
         } else if (sortOption == Option.PHONE) {
-            for (Person p: internalList) {
-                p.setSortOption(Option.PHONE);
-            }
+            compare = Comparator.comparing(Person::getPhone, Comparator.comparing(Phone::toString));
         } else if (sortOption == Option.EMAIL) {
-            for (Person p: internalList) {
-                p.setSortOption(Option.EMAIL);
-            }
+            compare = Comparator.comparing(Person::getEmail, Comparator.comparing(Email::toString));
         } else if (sortOption == Option.ADDRESS) {
-            for (Person p: internalList) {
-                p.setSortOption(Option.ADDRESS);
-            }
+            compare = Comparator.comparing(Person::getAddress, Comparator.comparing(Address::toString));
         } else if (sortOption == Option.REMARK) {
-            for (Person p: internalList) {
-                p.setSortOption(Option.REMARK);
-            }
+            compare = Comparator.comparing(Person::getRemark, Comparator.comparing(Remark::toString));
         }
 
-        Collections.sort(internalList);
+        Collections.sort(internalList, compare);
     }
 ```

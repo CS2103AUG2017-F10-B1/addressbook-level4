@@ -1,294 +1,5 @@
 # Xenonym
-###### \data\ManualTesting\[F10-B1][Intelli]SampleData.xml
-``` xml
-<addressbook>
-    <persons>
-        <name>Alysha Zhen</name>
-        <phone>90250442</phone>
-        <email>doe.john@yahoo.com</email>
-        <address>15 Nanyang Hill, #02-44</address>
-        <remark>S9091038U</remark>
-        <tagged>classmates</tagged>
-    </persons>
-    <persons>
-        <name>Stanton Sun</name>
-        <phone>91509534</phone>
-        <email>kdoe@yahoo.com</email>
-        <address>57 Commonwealth Junction, #12-19</address>
-        <remark>S3930089X</remark>
-        <tagged>friends</tagged>
-    </persons>
-    <persons>
-        <name>Owen Klass</name>
-        <phone>64701140</phone>
-        <email>jane57@doe.info</email>
-        <address>Blk 39 Yishun Street 28, #07-15</address>
-        <remark></remark>
-        <tagged>colleagues</tagged>
-    </persons>
-    <persons>
-        <name>Mohamed Saat</name>
-        <phone>96008158</phone>
-        <email>jane.doe@yahoo.com</email>
-        <address>81 Tiong Bahru Gate, #11-27</address>
-        <remark></remark>
-    </persons>
-    <persons>
-        <name>Alan Miller</name>
-        <phone>68222937</phone>
-        <email>john.doe@yahoo.com</email>
-        <address>Blk 47 Lorong 5 Woodlands, #15-06</address>
-        <remark></remark>
-    </persons>
-    <persons>
-        <name>Isabella Thia</name>
-        <phone>64369268</phone>
-        <email>doe.john@gmail.com</email>
-        <address>Blk 331 Pasir Ris Street 12, #15-41</address>
-        <remark>S2249672C</remark>
-    </persons>
-    <persons>
-        <name>Najah Salleh</name>
-        <phone>60087741</phone>
-        <email>doe.jane@doedoe.com</email>
-        <address>81 Boon Lay Hill, #13-31</address>
-        <remark>S4365752G</remark>
-        <tagged>colleagues</tagged>
-    </persons>
-    <persons>
-        <name>Marion Ang</name>
-        <phone>88259335</phone>
-        <email>jane.doe@doedoe.net</email>
-        <address>9 Jalan Nam Seng</address>
-        <remark>S7086576U</remark>
-    </persons>
-    <persons>
-        <name>Reuben Li</name>
-        <phone>93192289</phone>
-        <email>jane.doe@hotmail.com</email>
-        <address>Blk 437 Bukit Merah Street 89, #17-15</address>
-        <remark>S7926191X</remark>
-    </persons>
-    <persons>
-        <name>Ashley Vijiaratnam</name>
-        <phone>96670945</phone>
-        <email>odoe@doe.org</email>
-        <address>58 Jalan Pasiran</address>
-        <remark>S4986350K</remark>
-        <tagged>family</tagged>
-    </persons>
-    <persons>
-        <name>Eileen Hong</name>
-        <phone>61631488</phone>
-        <email>fdoe@doe.com</email>
-        <address>7 Balestier Avenue North</address>
-        <remark></remark>
-        <tagged>colleagues</tagged>
-    </persons>
-    <persons>
-        <name>Stanley Quek Weiliang</name>
-        <phone>69197113</phone>
-        <email>john.doe@yahoo.com</email>
-        <address>7 Woodgrove Point</address>
-        <remark>S2119543M</remark>
-        <tagged>colleagues</tagged>
-    </persons>
-    <persons>
-        <name>Estelle Yu</name>
-        <phone>68372294</phone>
-        <email>john18@gmail.com</email>
-        <address>Blk 31 Lorong 4 Novena, #14-32</address>
-        <remark>S7383750D</remark>
-        <tagged>family</tagged>
-    </persons>
-    <persons>
-        <name>Dorothy Yeoh Mee Mee</name>
-        <phone>60898714</phone>
-        <email>doe.jane@doe.com</email>
-        <address>Blk 41 Bedok Street 72, #16-19</address>
-        <remark>S6627382K</remark>
-        <tagged>family</tagged>
-    </persons>
-    <persons>
-        <name>Margie Yeoh Puay Sian</name>
-        <phone>91619177</phone>
-        <email>doe.john@doe.com</email>
-        <address>46 Simpang Point</address>
-        <remark></remark>
-    </persons>
-    <persons>
-        <name>Herman Tan</name>
-        <phone>81670263</phone>
-        <email>john.doe@doe.info</email>
-        <address>Blk 28 Toa Payoh Street 80, #05-20</address>
-        <remark></remark>
-        <tagged>classmates</tagged>
-    </persons>
-    <persons>
-        <name>Lindsey Iswaran</name>
-        <phone>84295368</phone>
-        <email>john96@yahoo.com</email>
-        <address>3 Jalan Benaan Kapal</address>
-        <remark>S6238033E</remark>
-        <tagged>family</tagged>
-    </persons>
-    <persons>
-        <name>Teoh Pek Har Dorothy</name>
-        <phone>98127797</phone>
-        <email>hdoe@doedoe.com</email>
-        <address>Blk 47 Pasir Ris Street 29, #13-18</address>
-        <remark></remark>
-        <tagged>neighbours</tagged>
-    </persons>
-    <persons>
-        <name>Kate Low</name>
-        <phone>60445237</phone>
-        <email>zdoe@doedoe.info</email>
-        <address>Blk 39 Serangoon North Street 81, #09-32</address>
-        <remark>S0800947A</remark>
-        <tagged>classmates</tagged>
-    </persons>
-    <persons>
-        <name>Felicia Chia</name>
-        <phone>98450552</phone>
-        <email>doe.john@doe.biz</email>
-        <address>8 Bukit Timah Crescent</address>
-        <remark>S2399884G</remark>
-    </persons>
-    <tags>colleagues</tags>
-    <tags>classmates</tags>
-    <tags>neighbours</tags>
-    <tags>family</tags>
-    <tags>friends</tags>
-    <relationships>
-        <fromIndex>0</fromIndex>
-        <toIndex>2</toIndex>
-        <isDirected>false</isDirected>
-        <confidenceEstimate>9.0</confidenceEstimate>
-        <name></name>
-    </relationships>
-    <relationships>
-        <fromIndex>3</fromIndex>
-        <toIndex>5</toIndex>
-        <isDirected>false</isDirected>
-        <confidenceEstimate>15.0</confidenceEstimate>
-        <name></name>
-    </relationships>
-    <relationships>
-        <fromIndex>5</fromIndex>
-        <toIndex>2</toIndex>
-        <isDirected>false</isDirected>
-        <confidenceEstimate>11.0</confidenceEstimate>
-        <name></name>
-    </relationships>
-    <relationships>
-        <fromIndex>1</fromIndex>
-        <toIndex>0</toIndex>
-        <isDirected>false</isDirected>
-        <confidenceEstimate>14.0</confidenceEstimate>
-        <name></name>
-    </relationships>
-    <relationships>
-        <fromIndex>2</fromIndex>
-        <toIndex>5</toIndex>
-        <isDirected>false</isDirected>
-        <confidenceEstimate>11.0</confidenceEstimate>
-        <name></name>
-    </relationships>
-    <relationships>
-        <fromIndex>2</fromIndex>
-        <toIndex>3</toIndex>
-        <isDirected>false</isDirected>
-        <confidenceEstimate>10.0</confidenceEstimate>
-        <name></name>
-    </relationships>
-    <relationships>
-        <fromIndex>3</fromIndex>
-        <toIndex>2</toIndex>
-        <isDirected>false</isDirected>
-        <confidenceEstimate>10.0</confidenceEstimate>
-        <name></name>
-    </relationships>
-    <relationships>
-        <fromIndex>0</fromIndex>
-        <toIndex>1</toIndex>
-        <isDirected>false</isDirected>
-        <confidenceEstimate>14.0</confidenceEstimate>
-        <name></name>
-    </relationships>
-    <relationships>
-        <fromIndex>3</fromIndex>
-        <toIndex>0</toIndex>
-        <isDirected>false</isDirected>
-        <confidenceEstimate>7.0</confidenceEstimate>
-        <name></name>
-    </relationships>
-    <relationships>
-        <fromIndex>1</fromIndex>
-        <toIndex>2</toIndex>
-        <isDirected>false</isDirected>
-        <confidenceEstimate>2.0</confidenceEstimate>
-        <name></name>
-    </relationships>
-    <relationships>
-        <fromIndex>1</fromIndex>
-        <toIndex>4</toIndex>
-        <isDirected>false</isDirected>
-        <confidenceEstimate>9.0</confidenceEstimate>
-        <name></name>
-    </relationships>
-    <relationships>
-        <fromIndex>5</fromIndex>
-        <toIndex>4</toIndex>
-        <isDirected>false</isDirected>
-        <confidenceEstimate>6.0</confidenceEstimate>
-        <name></name>
-    </relationships>
-    <relationships>
-        <fromIndex>4</fromIndex>
-        <toIndex>1</toIndex>
-        <isDirected>false</isDirected>
-        <confidenceEstimate>9.0</confidenceEstimate>
-        <name></name>
-    </relationships>
-    <relationships>
-        <fromIndex>0</fromIndex>
-        <toIndex>3</toIndex>
-        <isDirected>false</isDirected>
-        <confidenceEstimate>7.0</confidenceEstimate>
-        <name></name>
-    </relationships>
-    <relationships>
-        <fromIndex>2</fromIndex>
-        <toIndex>0</toIndex>
-        <isDirected>false</isDirected>
-        <confidenceEstimate>9.0</confidenceEstimate>
-        <name></name>
-    </relationships>
-    <relationships>
-        <fromIndex>5</fromIndex>
-        <toIndex>3</toIndex>
-        <isDirected>false</isDirected>
-        <confidenceEstimate>15.0</confidenceEstimate>
-        <name></name>
-    </relationships>
-    <relationships>
-        <fromIndex>2</fromIndex>
-        <toIndex>1</toIndex>
-        <isDirected>false</isDirected>
-        <confidenceEstimate>2.0</confidenceEstimate>
-        <name></name>
-    </relationships>
-    <relationships>
-        <fromIndex>4</fromIndex>
-        <toIndex>5</toIndex>
-        <isDirected>false</isDirected>
-        <confidenceEstimate>6.0</confidenceEstimate>
-        <name></name>
-    </relationships>
-</addressbook>
-```
-###### \java\org\graphstream\algorithm\test\WidestPathTest.java
+###### /java/org/graphstream/algorithm/test/WidestPathTest.java
 ``` java
     @Test
     public void widestPathTest() {
@@ -358,7 +69,7 @@
         assertFalse(source.hasAttribute("result"));
     }
 ```
-###### \java\seedu\address\logic\CommandHistoryTest.java
+###### /java/seedu/address/logic/CommandHistoryTest.java
 ``` java
     @Test
     public void clear() {
@@ -368,7 +79,7 @@
         assertEquals(Collections.EMPTY_LIST, history.getHistory());
     }
 ```
-###### \java\seedu\address\logic\commands\BackupCommandTest.java
+###### /java/seedu/address/logic/commands/BackupCommandTest.java
 ``` java
 public class BackupCommandTest {
 
@@ -407,7 +118,7 @@ public class BackupCommandTest {
     }
 }
 ```
-###### \java\seedu\address\logic\commands\ClearHistoryCommandTest.java
+###### /java/seedu/address/logic/commands/ClearHistoryCommandTest.java
 ``` java
 public class ClearHistoryCommandTest {
     private ClearHistoryCommand clearHistoryCommand;
@@ -449,7 +160,7 @@ public class ClearHistoryCommandTest {
     }
 }
 ```
-###### \java\seedu\address\logic\commands\ColourTagCommandTest.java
+###### /java/seedu/address/logic/commands/ColourTagCommandTest.java
 ``` java
 public class ColourTagCommandTest {
 
@@ -470,7 +181,57 @@ public class ColourTagCommandTest {
     }
 }
 ```
-###### \java\seedu\address\logic\parser\AddressBookParserTest.java
+###### /java/seedu/address/logic/commands/RelPathCommandTest.java
+``` java
+/**
+ * Contains integration tests (interaction with the Model) and unit tests for RelPathCommand.
+ */
+public class RelPathCommandTest {
+
+    private Model model;
+    private Model expectedModel;
+    private GraphWrapper graph;
+    private RelPathCommand relPathCommand;
+
+    @Before
+    public void setUp() {
+        model = new ModelManager(getTypicalAddressBookWithRelationships(), new UserPrefs());
+        expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        graph = GraphWrapper.getInstance();
+        graph.buildGraph(model);
+    }
+
+    @Test
+    public void execute_hadUndirectedPath_pathFound() {
+        relPathCommand = new RelPathCommand(INDEX_FIRST_PERSON_WITH_REL, INDEX_SECOND_PERSON_WITH_REL);
+        relPathCommand.setData(model, null, null, null);
+        String expectedMessage = String.format(MESSAGE_PATH_FOUND, JAMES.getName().fullName,
+                KELVIN.getName().fullName);
+
+        assertCommandSuccess(relPathCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_hasDirectedPath_pathFound() {
+        relPathCommand = new RelPathCommand(INDEX_SECOND_PERSON_WITH_REL, INDEX_THIRD_PERSON_WITH_REL);
+        relPathCommand.setData(model, null, null, null);
+        String expectedMessage = String.format(MESSAGE_PATH_FOUND, KELVIN.getName().fullName,
+                LISA.getName().fullName);
+
+        assertCommandSuccess(relPathCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_hasNoPath_pathNotFound() {
+        relPathCommand = new RelPathCommand(INDEX_FIRST_PERSON, INDEX_SECOND_PERSON);
+        relPathCommand.setData(model, null, null, null);
+        String expectedMessage = String.format(MESSAGE_NO_PATH, ALICE.getName().fullName, BENSON.getName().fullName);
+
+        assertCommandSuccess(relPathCommand, model, expectedMessage, expectedModel);
+    }
+}
+```
+###### /java/seedu/address/logic/parser/AddressBookParserTest.java
 ``` java
     @Test
     public void parseCommand_backup() throws Exception {
@@ -478,7 +239,7 @@ public class ColourTagCommandTest {
         assertTrue(parser.parseCommand(BackupCommand.COMMAND_WORD + " 3") instanceof BackupCommand);
     }
 ```
-###### \java\seedu\address\logic\parser\AddressBookParserTest.java
+###### /java/seedu/address/logic/parser/AddressBookParserTest.java
 ``` java
     @Test
     public void parseCommand_clearhistory() throws Exception {
@@ -495,7 +256,7 @@ public class ColourTagCommandTest {
         assertEquals(new ColourTagCommand(tag, colour), command);
     }
 ```
-###### \java\seedu\address\logic\parser\ColourTagCommandParserTest.java
+###### /java/seedu/address/logic/parser/ColourTagCommandParserTest.java
 ``` java
 public class ColourTagCommandParserTest {
 
@@ -521,7 +282,7 @@ public class ColourTagCommandParserTest {
     }
 }
 ```
-###### \java\seedu\address\logic\parser\RelPathCommandParserTest.java
+###### /java/seedu/address/logic/parser/RelPathCommandParserTest.java
 ``` java
 public class RelPathCommandParserTest {
     private RelPathCommandParser parser = new RelPathCommandParser();
@@ -540,7 +301,31 @@ public class RelPathCommandParserTest {
     }
 }
 ```
-###### \java\seedu\address\logic\UndoRedoStackTest.java
+###### /java/seedu/address/logic/parser/RemoveTagCommandParserTest.java
+``` java
+public class RemoveTagCommandParserTest {
+
+    private RemoveTagCommandParser parser = new RemoveTagCommandParser();
+
+    @Test
+    public void parse_emptyArg_throwsParseException() {
+        assertParseFailure(parser, "     ", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                RemoveTagCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_invalidArgs_throwsParseException() {
+        assertParseFailure(parser, "!nvalid_T&g(", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                RemoveTagCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_validArgs_returnsRemoveTagCommand() {
+        assertParseSuccess(parser, "validtag", new RemoveTagCommand("validtag"));
+    }
+}
+```
+###### /java/seedu/address/logic/UndoRedoStackTest.java
 ``` java
     @Test
     public void clear() {
@@ -551,7 +336,7 @@ public class RelPathCommandParserTest {
         assertFalse(undoRedoStack.canRedo());
     }
 ```
-###### \java\seedu\address\relationship\ConfidenceEstimateTest.java
+###### /java/seedu/address/relationship/ConfidenceEstimateTest.java
 ``` java
 public class ConfidenceEstimateTest {
 
@@ -569,7 +354,7 @@ public class ConfidenceEstimateTest {
     }
 }
 ```
-###### \java\seedu\address\storage\JsonUserPrefsStorageTest.java
+###### /java/seedu/address/storage/JsonUserPrefsStorageTest.java
 ``` java
     private static Map<Tag, String> getSampleTagColours() {
         HashMap<Tag, String> sampleTagColours = new HashMap<>();
@@ -585,7 +370,7 @@ public class ConfidenceEstimateTest {
         return sampleTagColours;
     }
 ```
-###### \java\seedu\address\storage\StorageManagerTest.java
+###### /java/seedu/address/storage/StorageManagerTest.java
 ``` java
     @Test
     public void backupAddressBookReadSave() throws Exception {
@@ -594,20 +379,20 @@ public class ConfidenceEstimateTest {
          * {@link XmlAddressBookStorage} class.
          * More extensive testing of UserPref saving/reading is done in {@link XmlAddressBookStorageTest} class.
          */
-        AddressBook original = getTypicalAddressBook();
+        AddressBook original = getTypicalAddressBookWithRelationships();
         storageManager.backupAddressBook(original);
         ReadOnlyAddressBook retrieved = storageManager.readBackupAddressBook().get();
         assertEquals(original, new AddressBook(retrieved));
     }
 ```
-###### \java\seedu\address\storage\XmlAddressBookStorageTest.java
+###### /java/seedu/address/storage/XmlAddressBookStorageTest.java
 ``` java
         //Backup address book and read back
         xmlAddressBookStorage.backupAddressBook(original);
         readBack = xmlAddressBookStorage.readBackupAddressBook().get();
         assertEquals(original, new AddressBook(readBack));
 ```
-###### \java\seedu\address\testutil\StorageStub.java
+###### /java/seedu/address/testutil/StorageStub.java
 ``` java
 /**
  * A default storage stub that has all of the methods failing.
@@ -680,4 +465,155 @@ public class StorageStub implements Storage {
         return null;
     }
 }
+```
+###### /java/seedu/address/testutil/TypicalPersons.java
+``` java
+    // These persons have relationships for the purpose of testing storage mechanisms.
+    // they are separate so as not to affect other tests that assume persons are independent eg. system tests
+    public static final ReadOnlyPerson JAMES = new PersonBuilder().withName("James King").withPhone("65637492")
+            .withEmail("jamesk@example.com").withAddress("123 Griffin Rd").build();
+    public static final ReadOnlyPerson KELVIN = new PersonBuilder().withName("Kelvin Klein").withPhone("98762456")
+            .withEmail("kklein@example.com").withAddress("23 Mobius Strip").build();
+    public static final ReadOnlyPerson LISA = new PersonBuilder().withName("Lisa McAvoy").withPhone("65243679")
+            .withEmail("lisamc@example.com").withAddress("43 Trance Ave").build();
+
+    public static final String KEYWORD_MATCHING_MEIER = "Meier"; // A keyword that matches MEIER
+
+    /**
+     * Static initializer is for adding relationships to persons after they are all instantiated.
+     */
+    static {
+        try {
+            Relationship undirectedFrom = new Relationship(JAMES, KELVIN, RelationshipDirection.UNDIRECTED,
+                    new Name("undirected"), new ConfidenceEstimate(29));
+            Relationship undirectedTo = new Relationship(KELVIN, JAMES, RelationshipDirection.UNDIRECTED,
+                    new Name("undirected"), new ConfidenceEstimate(29));
+            Relationship directed = new Relationship(KELVIN, LISA, RelationshipDirection.DIRECTED,
+                    new Name("directed"), new ConfidenceEstimate(30));
+
+            Person james = (Person) JAMES;
+            Person kelvin = (Person) KELVIN;
+            Person lisa = (Person) LISA;
+
+            james.addRelationship(undirectedFrom);
+            kelvin.addRelationship(undirectedTo);
+            kelvin.addRelationship(directed);
+            lisa.addRelationship(directed);
+        } catch (DuplicateRelationshipException | IllegalValueException e) {
+            assert false : "impossible to have invalid data in test data";
+        }
+    }
+```
+###### /java/seedu/address/testutil/TypicalPersons.java
+``` java
+    /**
+     * Returns an {@code AddressBook} with all the typical persons sorted by address.
+     */
+    public static AddressBook getTypicalSortedAddressAddressBook() {
+        AddressBook ab = new AddressBook();
+        for (ReadOnlyPerson person : getTypicalSortedAddressPersons()) {
+            try {
+                ab.addPerson(person);
+            } catch (DuplicatePersonException e) {
+                assert false : "not possible";
+            }
+        }
+        return ab;
+    }
+
+    /**
+     * Returns an {@code AddressBook} with all the typical persons sorted by remark.
+     */
+    public static AddressBook getTypicalSortedRemarkAddressBook() {
+        AddressBook ab = new AddressBook();
+        for (ReadOnlyPerson person : getTypicalSortedRemarkPersons()) {
+            try {
+                ab.addPerson(person);
+            } catch (DuplicatePersonException e) {
+                assert false : "not possible";
+            }
+        }
+        return ab;
+    }
+
+    /**
+     * Returns an {@code AddressBook} with all the typical persons in unsorted order by name.
+     */
+    public static AddressBook getUnsortedNameAddressBook() {
+        AddressBook ab = new AddressBook();
+        for (ReadOnlyPerson person : getUnsortedNameTypicalPersons()) {
+            try {
+                ab.addPerson(person);
+            } catch (DuplicatePersonException e) {
+                assert false : "not possible";
+            }
+        }
+        return ab;
+    }
+
+    /**
+     * Returns an {@code AddressBook} with all the typical persons in unsorted order by phone.
+     */
+    public static AddressBook getUnsortedPhoneAddressBook() {
+        AddressBook ab = new AddressBook();
+        for (ReadOnlyPerson person : getUnsortedPhoneTypicalPersons()) {
+            try {
+                ab.addPerson(person);
+            } catch (DuplicatePersonException e) {
+                assert false : "not possible";
+            }
+        }
+        return ab;
+    }
+
+    /**
+     * Returns an {@code AddressBook} with all the typical persons in unsorted order by email.
+     */
+    public static AddressBook getUnsortedEmailAddressBook() {
+        AddressBook ab = new AddressBook();
+        for (ReadOnlyPerson person : getUnsortedEmailTypicalPersons()) {
+            try {
+                ab.addPerson(person);
+            } catch (DuplicatePersonException e) {
+                assert false : "not possible";
+            }
+        }
+        return ab;
+    }
+
+    /**
+     * Returns an {@code AddressBook} with all the typical persons in unsorted order by address.
+     */
+    public static AddressBook getUnsortedAddressAddressBook() {
+        AddressBook ab = new AddressBook();
+        for (ReadOnlyPerson person : getUnsortedAddressTypicalPersons()) {
+            try {
+                ab.addPerson(person);
+            } catch (DuplicatePersonException e) {
+                assert false : "not possible";
+            }
+        }
+        return ab;
+    }
+
+    /**
+     * Returns an {@code AddressBook} with all the typical persons in unsorted order by address.
+     */
+    public static AddressBook getUnsortedRemarkAddressBook() {
+        AddressBook ab = new AddressBook();
+        for (ReadOnlyPerson person : getUnsortedRemarkTypicalPersons()) {
+            try {
+                ab.addPerson(person);
+            } catch (DuplicatePersonException e) {
+                assert false : "not possible";
+            }
+        }
+        return ab;
+    }
+```
+###### /java/seedu/address/testutil/TypicalPersons.java
+``` java
+    public static List<ReadOnlyPerson> getTypicalPersonsWithRelationships() {
+        return new ArrayList<>(Arrays.asList(ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE, JAMES, KELVIN, LISA));
+    }
 ```

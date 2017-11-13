@@ -1,5 +1,5 @@
 # wenmogu
-###### \java\seedu\address\logic\commands\AddRelationshipCommand.java
+###### /java/seedu/address/logic/commands/AddRelationshipCommand.java
 ``` java
 /**
  * This class is to specify a command for adding relationship between two persons
@@ -86,7 +86,7 @@ public class AddRelationshipCommand extends UndoableCommand {
 
 }
 ```
-###### \java\seedu\address\logic\commands\DeleteRelationshipCommand.java
+###### /java/seedu/address/logic/commands/DeleteRelationshipCommand.java
 ``` java
 /**
  * This class is to specify a command for deleting relationship between two persons
@@ -150,13 +150,15 @@ public class DeleteRelationshipCommand extends UndoableCommand {
     }
 }
 ```
-###### \java\seedu\address\logic\commands\RemoveTagCommand.java
+###### /java/seedu/address/logic/commands/RemoveTagCommand.java
 ``` java
 /**
  * Remove a tag from the tag lists of the address book and all persons in the address book
  */
 public class RemoveTagCommand extends UndoableCommand {
     public static final String COMMAND_WORD = "removeTag";
+    public static final String COMMAND_ALIAS = "rt";
+
 
     public static final String COMMAND_PARAMETERS = "TAGNAME (must be alphanumeric)";
 
@@ -198,12 +200,12 @@ public class RemoveTagCommand extends UndoableCommand {
     }
 }
 ```
-###### \java\seedu\address\logic\LogicManager.java
+###### /java/seedu/address/logic/LogicManager.java
 ``` java
     private final GraphWrapper graphWrapper;
 
 ```
-###### \java\seedu\address\logic\parser\AddRelationshipCommandParser.java
+###### /java/seedu/address/logic/parser/AddRelationshipCommandParser.java
 ``` java
 /**
  * This is a argument parser for AddRelationshipCommand
@@ -222,6 +224,12 @@ public class AddRelationshipCommandParser implements Parser<AddRelationshipComma
                 ArgumentTokenizer.tokenize(userInput, PREFIX_NAME, PREFIX_CONFIDENCE_ESTIMATE);
 
         List<String> listOfArgs = Arrays.asList(trimmedArgs.split(" "));
+
+        if (listOfArgs.size() < 3) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddRelationshipCommand.MESSAGE_USAGE));
+        }
+
         String firstIndexString = listOfArgs.get(0);
         String secondIndexString = listOfArgs.get(1);
 
@@ -254,7 +262,7 @@ public class AddRelationshipCommandParser implements Parser<AddRelationshipComma
 
 }
 ```
-###### \java\seedu\address\logic\parser\DeleteRelationshipCommandParser.java
+###### /java/seedu/address/logic/parser/DeleteRelationshipCommandParser.java
 ``` java
 /**
  * This is a argument parser for DeleteRelationshipCommand
@@ -302,7 +310,7 @@ public class DeleteRelationshipCommandParser implements Parser<DeleteRelationshi
 
 }
 ```
-###### \java\seedu\address\logic\parser\RemoveTagCommandParser.java
+###### /java/seedu/address/logic/parser/RemoveTagCommandParser.java
 ``` java
 /**
  * Parses input argument and creates a new RemoveTagCommand object.
@@ -316,7 +324,6 @@ public class RemoveTagCommandParser implements Parser<RemoveTagCommand> {
     public RemoveTagCommand parse(String args) throws ParseException {
         String trimmedArgs = args.trim();
         if (Tag.isValidTagName(trimmedArgs)) {
-            System.out.println(Tag.isValidTagName(trimmedArgs));
             return new RemoveTagCommand(trimmedArgs);
         } else {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RemoveTagCommand.MESSAGE_USAGE));
@@ -325,7 +332,57 @@ public class RemoveTagCommandParser implements Parser<RemoveTagCommand> {
 
 }
 ```
-###### \java\seedu\address\model\AddressBook.java
+###### /java/seedu/address/model/AddressBook.java
+``` java
+    /**
+     * Replaces the given person {@code target} in the list with {@code editedReadOnlyPerson}.
+     * {@code AddressBook}'s tag list will be updated with the tags of {@code editedReadOnlyPerson}.
+     *
+     * @throws DuplicatePersonException if updating the person's details causes the person to be equivalent to
+     *      another existing person in the list.
+     * @throws PersonNotFoundException if {@code target} could not be found in the list.
+     *
+     * @see #syncMasterTagListWith(Person)
+     */
+    public void updatePerson(ReadOnlyPerson target, ReadOnlyPerson editedReadOnlyPerson)
+            throws DuplicatePersonException, PersonNotFoundException {
+        requireNonNull(editedReadOnlyPerson);
+
+        Person editedPerson = new Person(editedReadOnlyPerson);
+
+        Set<Relationship> oldRelationships = target.getRelationships();
+
+        for (Relationship oldRelationship: oldRelationships) {
+            //keep a copy of the original relationship
+            Relationship oldRelationshipCopy = new Relationship(oldRelationship);
+
+            Relationship tempNewRelationship = oldRelationship.replacePerson(target, editedPerson);
+
+            ReadOnlyPerson counterPart = oldRelationshipCopy.counterpartOf(target); //the old counterpart
+            //a copy of counterpart to be modified into new counterpart and put into the new relationship
+            ReadOnlyPerson counterPartCopy = new Person(counterPart);
+            Person counterPartCopyCast = (Person) counterPartCopy;
+
+            counterPartCopyCast.removeRelationship(oldRelationshipCopy);
+            Relationship newRelationship = tempNewRelationship.replacePerson(counterPart,
+                    counterPartCopyCast);
+            try {
+                editedPerson.addRelationship(newRelationship);
+                counterPartCopyCast.addRelationship(newRelationship);
+                persons.setPerson(counterPart, counterPartCopyCast);
+            } catch (DuplicateRelationshipException dre) {
+                assert false : "impossible";
+            }
+        }
+        syncMasterTagListWith(editedPerson);
+        // TODO: the tags master list will be updated even though the below line fails.
+        // This can cause the tags master list to have additional tags that are not tagged to any person
+        // in the person list.
+        persons.setPerson(target, editedPerson);
+    }
+
+```
+###### /java/seedu/address/model/AddressBook.java
 ``` java
     /**
      * Remove a Tag from tags and everyone with the tag.
@@ -349,7 +406,7 @@ public class RemoveTagCommandParser implements Parser<RemoveTagCommand> {
     //// util methods
 
 ```
-###### \java\seedu\address\model\graph\GraphWrapper.java
+###### /java/seedu/address/model/graph/GraphWrapper.java
 ``` java
     private GraphWrapper() {
         this.graph = new SingleGraph(graphId);
@@ -377,7 +434,7 @@ public class RemoveTagCommandParser implements Parser<RemoveTagCommand> {
     }
 
 ```
-###### \java\seedu\address\model\graph\GraphWrapper.java
+###### /java/seedu/address/model/graph/GraphWrapper.java
 ``` java
     /**
      * add an edge between two persons with direction specified
@@ -392,7 +449,7 @@ public class RemoveTagCommandParser implements Parser<RemoveTagCommand> {
     }
 
 ```
-###### \java\seedu\address\model\graph\GraphWrapper.java
+###### /java/seedu/address/model/graph/GraphWrapper.java
 ``` java
     public static GraphWrapper getInstance() {
         return instance;
@@ -427,7 +484,7 @@ public class RemoveTagCommandParser implements Parser<RemoveTagCommand> {
     }
 
 ```
-###### \java\seedu\address\model\graph\GraphWrapper.java
+###### /java/seedu/address/model/graph/GraphWrapper.java
 ``` java
     /**
      * Read all the edges from model and store into graph
@@ -448,7 +505,7 @@ public class RemoveTagCommandParser implements Parser<RemoveTagCommand> {
     }
 
 ```
-###### \java\seedu\address\model\graph\GraphWrapper.java
+###### /java/seedu/address/model/graph/GraphWrapper.java
 ``` java
     private String getNodeIdFromPerson(ReadOnlyPerson person) throws IllegalValueException {
         requireNonNull(person);
@@ -549,7 +606,7 @@ public class RemoveTagCommandParser implements Parser<RemoveTagCommand> {
     }
 
 ```
-###### \java\seedu\address\model\Model.java
+###### /java/seedu/address/model/Model.java
 ``` java
     void addRelationship(Index indexFromPerson, Index indexToPerson, RelationshipDirection direction,
                          Name name, ConfidenceEstimate confidenceEstimate)
@@ -558,7 +615,7 @@ public class RemoveTagCommandParser implements Parser<RemoveTagCommand> {
     void deleteRelationship(Index indexFromPerson, Index indexToPerson) throws IllegalValueException;
 
 ```
-###### \java\seedu\address\model\Model.java
+###### /java/seedu/address/model/Model.java
 ``` java
     /**
      * @throws TagNotFoundException if the tag is not found in tag list of address book
@@ -567,7 +624,7 @@ public class RemoveTagCommandParser implements Parser<RemoveTagCommand> {
     void removeTag(String tagToBeRemoved) throws TagNotFoundException, IllegalValueException;
 
 ```
-###### \java\seedu\address\model\ModelManager.java
+###### /java/seedu/address/model/ModelManager.java
 ``` java
     /**
      * Removes a tag with the tagGettingRemoved string
@@ -654,10 +711,8 @@ public class RemoveTagCommandParser implements Parser<RemoveTagCommand> {
         updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
     }
 
-    //=========== Filtered Person List Accessors =============================================================
-
 ```
-###### \java\seedu\address\model\person\exceptions\RelationshipNotFoundException.java
+###### /java/seedu/address/model/person/exceptions/RelationshipNotFoundException.java
 ``` java
 /**
  * Signal that the operation is not able to find the specified relationship.
@@ -671,7 +726,7 @@ public class RelationshipNotFoundException extends Exception {
     }
 }
 ```
-###### \java\seedu\address\model\person\exceptions\TagNotFoundException.java
+###### /java/seedu/address/model/person/exceptions/TagNotFoundException.java
 ``` java
 /**
  * Signal that the operation is not able to find the specified tag.
@@ -685,18 +740,7 @@ public class TagNotFoundException extends Exception {
     }
 }
 ```
-###### \java\seedu\address\model\person\Person.java
-``` java
-    /**
-     * Removes a relationship from a person's relationships
-     */
-    public boolean removeRelationship(Relationship re) {
-        UniqueRelationshipList reList = relationships.get();
-        return reList.removeRelationship(re);
-    }
-
-```
-###### \java\seedu\address\model\relationship\ConfidenceEstimate.java
+###### /java/seedu/address/model/relationship/ConfidenceEstimate.java
 ``` java
 /**
  * This is a value of how confident the user is towards the information recorded.
@@ -729,8 +773,12 @@ public class ConfidenceEstimate {
         this.value = Double.parseDouble(trimmedEstimate);
     }
 
-    public ConfidenceEstimate(double estimate) {
-        value = estimate;
+    public ConfidenceEstimate(double estimate) throws IllegalValueException {
+        if (estimate >= 0 && estimate <= 100) {
+            value = estimate;
+        } else {
+            throw new IllegalValueException(MESSAGE_CONFIDENCE_ESTIMATE_CONSTRAINTS);
+        }
     }
 
     /**
@@ -767,7 +815,7 @@ public class ConfidenceEstimate {
     }
 }
 ```
-###### \java\seedu\address\model\relationship\exceptions\DuplicateRelationshipException.java
+###### /java/seedu/address/model/relationship/exceptions/DuplicateRelationshipException.java
 ``` java
 /**
  * Signals that an operation would have violated the 'no duplicates' property of the list.
@@ -778,7 +826,7 @@ public class DuplicateRelationshipException extends Exception {
     }
 }
 ```
-###### \java\seedu\address\model\relationship\Relationship.java
+###### /java/seedu/address/model/relationship/Relationship.java
 ``` java
 /**
  * This class defines the relationship between two ReadOnlyPersons
@@ -914,28 +962,33 @@ public class Relationship {
 
     @Override
     public boolean equals(Object other) {
-        boolean correspondingPersonCheck = true;
-        if (this.getDirection() != ((Relationship) other).getDirection()) {
-            return false;
-        } else {
-            if (this.isUndirected() && ((Relationship) other).isUndirected()) {
-                correspondingPersonCheck = (this.getFromPerson().equals(((Relationship) other).getFromPerson())
-                        && this.getToPerson().equals(((Relationship) other).getToPerson()))
-                        || (this.getFromPerson().equals(((Relationship) other).getToPerson())
-                                && this.getToPerson().equals(((Relationship) other).getFromPerson()));
-            } else if (!this.isUndirected() && !((Relationship) other).isUndirected()) {
-                correspondingPersonCheck = this.getFromPerson().equals(((Relationship) other).getFromPerson())
-                        && this.getToPerson().equals(((Relationship) other).getToPerson());
-            }
-        }
 
-        return other == this // short circuit if same object
-                || (other instanceof Relationship // instanceof handles nulls
-                && correspondingPersonCheck);
+        if (other == this) { // short circuit if same object
+            return true;
+        } else if (other instanceof Relationship) { //instance of handles null
+
+            boolean correspondingPersonCheck = true;
+            if (this.getDirection() != ((Relationship) other).getDirection()) {
+                return false;
+            } else {
+                if (this.isUndirected() && ((Relationship) other).isUndirected()) {
+                    correspondingPersonCheck = (this.getFromPerson().equals(((Relationship) other).getFromPerson())
+                            && this.getToPerson().equals(((Relationship) other).getToPerson()))
+                            || (this.getFromPerson().equals(((Relationship) other).getToPerson())
+                            && this.getToPerson().equals(((Relationship) other).getFromPerson()));
+                } else if (!this.isUndirected() && !((Relationship) other).isUndirected()) {
+                    correspondingPersonCheck = this.getFromPerson().equals(((Relationship) other).getFromPerson())
+                            && this.getToPerson().equals(((Relationship) other).getToPerson());
+                }
+            }
+            return correspondingPersonCheck;
+        } else {
+            return false;
+        }
     }
 }
 ```
-###### \java\seedu\address\model\relationship\RelationshipDirection.java
+###### /java/seedu/address/model/relationship/RelationshipDirection.java
 ``` java
 /**
  * This class defines the direction of relationships for Relationship class
@@ -962,7 +1015,7 @@ public enum RelationshipDirection {
     }
 }
 ```
-###### \java\seedu\address\model\relationship\UniqueRelationshipList.java
+###### /java/seedu/address/model/relationship/UniqueRelationshipList.java
 ``` java
 /**
  * A list of relationships that enforces no nulls and uniqueness between its elements.
@@ -1006,18 +1059,6 @@ public class UniqueRelationshipList implements Iterable<Relationship> {
     public void setRelationships(Set<Relationship> relationships) {
         requireAllNonNull(relationships);
         internalList.setAll(relationships);
-        assert CollectionUtil.elementsAreUnique(internalList);
-    }
-
-    /**
-     * Ensures every relationship in the argument list exists in this object.
-     */
-    public void mergeFrom(UniqueRelationshipList from) {
-        final Set<Relationship> alreadyInside = this.toSet();
-        from.internalList.stream()
-                .filter(relationship -> !alreadyInside.contains(relationship))
-                .forEach(internalList::add);
-
         assert CollectionUtil.elementsAreUnique(internalList);
     }
 
@@ -1075,16 +1116,6 @@ public class UniqueRelationshipList implements Iterable<Relationship> {
                 && this.internalList.equals(((UniqueRelationshipList) other).internalList));
     }
 
-    /**
-     * Returns true if the element in this list is equal to the elements in {@code other}.
-     * The elements do not have to be in the same order.
-     */
-    public boolean equalsOrderInsensitive(UniqueRelationshipList other) {
-        assert CollectionUtil.elementsAreUnique(internalList);
-        assert CollectionUtil.elementsAreUnique(other.internalList);
-        return this == other || new HashSet<>(this.internalList).equals(new HashSet<>(other.internalList));
-    }
-
     @Override
     public int hashCode() {
         assert CollectionUtil.elementsAreUnique(internalList);
@@ -1092,7 +1123,7 @@ public class UniqueRelationshipList implements Iterable<Relationship> {
     }
 }
 ```
-###### \java\seedu\address\model\tag\UniqueTagList.java
+###### /java/seedu/address/model/tag/UniqueTagList.java
 ``` java
     /**
      * If the tag name is valid and the tag present in the list.
@@ -1107,7 +1138,7 @@ public class UniqueRelationshipList implements Iterable<Relationship> {
     }
 
 ```
-###### \java\seedu\address\model\tag\UniqueTagList.java
+###### /java/seedu/address/model/tag/UniqueTagList.java
 ``` java
     /**
      * Remove a Tag from the list. The tag is identified by its name.

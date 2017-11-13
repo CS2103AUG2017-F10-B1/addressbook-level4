@@ -1,22 +1,22 @@
 # TanYikai
-###### \java\seedu\address\logic\commands\AddCommandTest.java
+###### /java/seedu/address/logic/commands/AddCommandTest.java
 ``` java
         @Override
-        public void sortPersons(int sortOption) {
+        public void sortPersons(Option sortOption) {
             fail("This method should not be called.");
         }
 ```
-###### \java\seedu\address\logic\commands\SortCommandTest.java
+###### /java/seedu/address/logic/commands/SortCommandTest.java
 ``` java
 /**
  * Contains integration tests (interaction with the Model) and unit tests for SortCommand.
  */
 public class SortCommandTest {
-    private static final int sortOptionName = 0;
-    private static final int sortOptionPhone = 1;
-    private static final int sortOptionEmail = 2;
-    private static final int sortOptionAddress = 3;
-    private static final int sortOptionRemark = 4;
+    private static final Option sortOptionName = Option.NAME;
+    private static final Option sortOptionPhone = Option.PHONE;
+    private static final Option sortOptionEmail = Option.EMAIL;
+    private static final Option sortOptionAddress = Option.ADDRESS;
+    private static final Option sortOptionRemark = Option.REMARK;
 
     private Model modelName;
     private Model modelPhone;
@@ -150,7 +150,47 @@ public class SortCommandTest {
     }
 }
 ```
-###### \java\seedu\address\logic\parser\AddressBookParserTest.java
+###### /java/seedu/address/logic/parser/AddCommandParserTest.java
+``` java
+        // multiple remarks - last remarks accepted
+        assertParseSuccess(parser, AddCommand.COMMAND_WORD + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+                + ADDRESS_DESC_BOB + REMARK_DESC_AMY + REMARK_DESC_BOB + TAG_DESC_FRIEND,
+                new AddCommand(expectedPerson));
+```
+###### /java/seedu/address/logic/parser/AddCommandParserTest.java
+``` java
+        // unspecified phone prefix
+        expectedPerson = new PersonBuilder().withName(VALID_NAME_AMY).withUnspecifiedPhone()
+                .withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY).withRemark(VALID_REMARK_AMY)
+                .withTags().build();
+        assertParseSuccess(parser, AddCommand.COMMAND_WORD + NAME_DESC_AMY
+                + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + REMARK_DESC_AMY, new AddCommand(expectedPerson));
+
+        // unspecified email prefix
+        expectedPerson = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
+                .withUnspecifiedEmail().withAddress(VALID_ADDRESS_AMY).withRemark(VALID_REMARK_AMY).withTags().build();
+        assertParseSuccess(parser, AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY
+                + ADDRESS_DESC_AMY + REMARK_DESC_AMY, new AddCommand(expectedPerson));
+
+        //unspecified address prefix
+        expectedPerson = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
+                .withEmail(VALID_EMAIL_AMY).withUnspecifiedAddress().withRemark(VALID_REMARK_AMY).withTags().build();
+        assertParseSuccess(parser, AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY
+                + EMAIL_DESC_AMY + REMARK_DESC_AMY, new AddCommand(expectedPerson));
+
+        //unspecified remark prefix
+        expectedPerson = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
+                .withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY).withUnspecifiedRemark().withTags().build();
+        assertParseSuccess(parser, AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY
+                + EMAIL_DESC_AMY + ADDRESS_DESC_AMY, new AddCommand(expectedPerson));
+
+        //unspecified phone, email, address and remark prefix
+        expectedPerson = new PersonBuilder().withName(VALID_NAME_AMY).withUnspecifiedPhone()
+                .withUnspecifiedEmail().withUnspecifiedAddress().withUnspecifiedRemark().withTags().build();
+        assertParseSuccess(parser, AddCommand.COMMAND_WORD + NAME_DESC_AMY, new AddCommand(expectedPerson));
+    }
+```
+###### /java/seedu/address/logic/parser/AddressBookParserTest.java
 ``` java
     @Test
     public void parseCommand_sort() throws Exception {
@@ -161,7 +201,15 @@ public class SortCommandTest {
         assertTrue(parser.parseCommand(SortCommand.COMMAND_WORD + " " + PREFIX_REMARK) instanceof SortCommand);
     }
 ```
-###### \java\seedu\address\model\person\RemarkTest.java
+###### /java/seedu/address/logic/parser/EditCommandParserTest.java
+``` java
+        // remark
+        userInput = targetIndex.getOneBased() + REMARK_DESC_BOB;
+        descriptor = new EditPersonDescriptorBuilder().withRemark(VALID_REMARK_BOB).build();
+        expectedCommand = new EditCommand(targetIndex, descriptor);
+        assertParseSuccess(parser, userInput, expectedCommand);
+```
+###### /java/seedu/address/model/person/RemarkTest.java
 ``` java
 public class RemarkTest {
 
@@ -188,7 +236,7 @@ public class RemarkTest {
     }
 }
 ```
-###### \java\seedu\address\testutil\TypicalPersons.java
+###### /java/seedu/address/testutil/TypicalPersons.java
 ``` java
     /**
      * Returns an {@code AddressBook} with all the typical persons sorted by name.
@@ -235,112 +283,8 @@ public class RemarkTest {
         return ab;
     }
 
-    /**
-     * Returns an {@code AddressBook} with all the typical persons sorted by address.
-     */
-    public static AddressBook getTypicalSortedAddressAddressBook() {
-        AddressBook ab = new AddressBook();
-        for (ReadOnlyPerson person : getTypicalSortedAddressPersons()) {
-            try {
-                ab.addPerson(person);
-            } catch (DuplicatePersonException e) {
-                assert false : "not possible";
-            }
-        }
-        return ab;
-    }
-
-    /**
-     * Returns an {@code AddressBook} with all the typical persons sorted by remark.
-     */
-    public static AddressBook getTypicalSortedRemarkAddressBook() {
-        AddressBook ab = new AddressBook();
-        for (ReadOnlyPerson person : getTypicalSortedRemarkPersons()) {
-            try {
-                ab.addPerson(person);
-            } catch (DuplicatePersonException e) {
-                assert false : "not possible";
-            }
-        }
-        return ab;
-    }
-
-    /**
-     * Returns an {@code AddressBook} with all the typical persons in unsorted order by name.
-     */
-    public static AddressBook getUnsortedNameAddressBook() {
-        AddressBook ab = new AddressBook();
-        for (ReadOnlyPerson person : getUnsortedNameTypicalPersons()) {
-            try {
-                ab.addPerson(person);
-            } catch (DuplicatePersonException e) {
-                assert false : "not possible";
-            }
-        }
-        return ab;
-    }
-
-    /**
-     * Returns an {@code AddressBook} with all the typical persons in unsorted order by phone.
-     */
-    public static AddressBook getUnsortedPhoneAddressBook() {
-        AddressBook ab = new AddressBook();
-        for (ReadOnlyPerson person : getUnsortedPhoneTypicalPersons()) {
-            try {
-                ab.addPerson(person);
-            } catch (DuplicatePersonException e) {
-                assert false : "not possible";
-            }
-        }
-        return ab;
-    }
-
-    /**
-     * Returns an {@code AddressBook} with all the typical persons in unsorted order by email.
-     */
-    public static AddressBook getUnsortedEmailAddressBook() {
-        AddressBook ab = new AddressBook();
-        for (ReadOnlyPerson person : getUnsortedEmailTypicalPersons()) {
-            try {
-                ab.addPerson(person);
-            } catch (DuplicatePersonException e) {
-                assert false : "not possible";
-            }
-        }
-        return ab;
-    }
-
-    /**
-     * Returns an {@code AddressBook} with all the typical persons in unsorted order by address.
-     */
-    public static AddressBook getUnsortedAddressAddressBook() {
-        AddressBook ab = new AddressBook();
-        for (ReadOnlyPerson person : getUnsortedAddressTypicalPersons()) {
-            try {
-                ab.addPerson(person);
-            } catch (DuplicatePersonException e) {
-                assert false : "not possible";
-            }
-        }
-        return ab;
-    }
-
-    /**
-     * Returns an {@code AddressBook} with all the typical persons in unsorted order by address.
-     */
-    public static AddressBook getUnsortedRemarkAddressBook() {
-        AddressBook ab = new AddressBook();
-        for (ReadOnlyPerson person : getUnsortedRemarkTypicalPersons()) {
-            try {
-                ab.addPerson(person);
-            } catch (DuplicatePersonException e) {
-                assert false : "not possible";
-            }
-        }
-        return ab;
-    }
 ```
-###### \java\seedu\address\testutil\TypicalPersons.java
+###### /java/seedu/address/testutil/TypicalPersons.java
 ``` java
     public static List<ReadOnlyPerson> getTypicalSortedNamePersons() {
         return new ArrayList<>(Arrays.asList(ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE));
@@ -381,4 +325,5 @@ public class RemarkTest {
     public static List<ReadOnlyPerson> getUnsortedRemarkTypicalPersons() {
         return new ArrayList<>(Arrays.asList(ALICE, FIONA, CARL, GEORGE, DANIEL, ELLE, BENSON));
     }
+
 ```
