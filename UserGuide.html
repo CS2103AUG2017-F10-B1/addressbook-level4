@@ -370,9 +370,36 @@ Format: <code>list</code></p>
 </div>
 <div class="sect2">
 <h3 id="sorting-all-persons-code-sort-code"><a class="link" href="#sorting-all-persons-code-sort-code">2.8. Sorting all persons : <code>sort</code></a></h3>
+<div class="sidebarblock">
+<div class="content">
 <div class="paragraph">
-<p>Shows a list of all persons in Intelli sorted alphanumerically by name.<br>
-Format: <code>sort</code></p>
+<p>Only one type of sorting is permitted at a time. Input of multiple PREFIX will result in an error message.
+The format for PREFIX are the same as the format of the prefix for adding, editing and finding the respective fields ( [n/] [p/] [e/] [a/] [r/] ).</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Shows a list of all persons in the address book sorted alphanumerically by name, phone, email, address or remark.<br>
+Format: <code>sort PREFIX</code></p>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>sort n/</code><br>
+Sorts a person alphanumerically by name.<br></p>
+</li>
+<li>
+<p><code>sort p/</code><br>
+Sorts a person by phone number. Numbers are compared according to their respective ASCII values.<br></p>
+</li>
+<li>
+<p><code>sort e/</code><br>
+Sorts a person by email alphanumerically. Non-alphabetical characters are compared according to their respective ASCII values.<br></p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect2">
@@ -1225,7 +1252,12 @@ e.g. <code>relPath 1 2</code></p>
 e.g. <code>removeTag friend</code></p>
 </li>
 <li>
-<p><strong>Sort</strong> : <code>sort</code></p>
+<p><strong>Find shortest relationship path</strong> : <code>relPath FROM_INDEX TO_INDEX</code><br>
+e.g. <code>relPath 1 2</code></p>
+</li>
+<li>
+<p><strong>Sort</strong> : <code>sort PREFIX</code><br>
+e.g. <code>sort n/</code></p>
 </li>
 <li>
 <p><strong>Select</strong> : <code>select INDEX</code><br>
@@ -1241,7 +1273,7 @@ e.g.<code>select 2</code></p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-11-13 15:57:18 +00:00
+Last updated 2017-11-13 16:51:14 +00:00
 </div>
 </div>
 </body>

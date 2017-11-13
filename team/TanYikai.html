@@ -26,12 +26,29 @@
 </div>
 <div class="sect2">
 <h3 id="enhancement-added-alias"><a class="link" href="#enhancement-added-alias">Enhancement Added: Alias</a></h3>
-
+<div class="sect3">
+<h4 id="external-behavior"><a class="link" href="#external-behavior">External behavior</a></h4>
+<hr>
+<div class="paragraph">
+<p>Instead of typing the standard command such as <code>add</code>, <code>edit</code>, etc, user can use <code>a</code>, <code>e</code> to execute the same commands.<br>
+---</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="justification"><a class="link" href="#justification">Justification</a></h4>
+<div class="paragraph">
+<p>To enable user to type in command at a faster rate, command shortcuts or command alias was introduced.<br></p>
+</div>
+<div class="paragraph">
+<p><mark>End of Extract</mark></p>
+</div>
+<hr>
+</div>
 </div>
 <div class="sect2">
 <h3 id="enhancement-added-sort"><a class="link" href="#enhancement-added-sort">Enhancement Added: Sort</a></h3>
 <div class="sect3">
-<h4 id="external-behavior"><a class="link" href="#external-behavior">External behavior</a></h4>
+<h4 id="external-behavior-2"><a class="link" href="#external-behavior-2">External behavior</a></h4>
 <hr>
 <div class="paragraph">
 <p><mark>Start of Extract [from: User Guide]</mark></p>
@@ -40,54 +57,59 @@
 </div>
 <div class="sect2">
 <h3 id="sorting-all-persons-code-sort-code"><a class="link" href="#sorting-all-persons-code-sort-code">Sorting all persons : <code>sort</code></a></h3>
+<div class="sidebarblock">
+<div class="content">
 <div class="paragraph">
-<p>Shows a list of all persons in Intelli sorted alphanumerically by name.<br>
-Format: <code>sort</code></p>
+<p>Only one type of sorting is permitted at a time. Input of multiple PREFIX will result in an error message.
+The format for PREFIX are the same as the format of the prefix for adding, editing and finding the respective fields ( [n/] [p/] [e/] [a/] [r/] ).</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Shows a list of all persons in the address book sorted alphanumerically by name, phone, email, address or remark.<br>
+Format: <code>sort PREFIX</code></p>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>sort n/</code><br>
+Sorts a person alphanumerically by name.<br></p>
+</li>
+<li>
+<p><code>sort p/</code><br>
+Sorts a person by phone number. Numbers are compared according to their respective ASCII values.<br></p>
+</li>
+<li>
+<p><code>sort e/</code><br>
+Sorts a person by email alphanumerically. Non-alphabetical characters are compared according to their respective ASCII values.<br></p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
 <p><mark>End of Extract</mark></p>
 </div>
 <hr>
-<div class="sect3">
-<h4 id="justification"><a class="link" href="#justification">Justification</a></h4>
-<div class="paragraph">
-<p>The Sort command sorts the person list alphanumerically by person&#8217;s name.<br>
-It is useful when the addressbook has alot of entries and allows user the option to organize their addressbook for a more pleasant appearance of the addressbook data.<br></p>
-</div>
-<div class="paragraph">
-<p>It is most useful in providing user with the overall content of the addressbook in an organised manner which groups those with similar names together.<br></p>
-</div>
-<div class="paragraph">
-<p><mark>End of Extract</mark></p>
-</div>
-<hr>
-</div>
-</div>
-<div class="sect2">
-<h3 id="enhancement-added-enhanced-add-command"><a class="link" href="#enhancement-added-enhanced-add-command">Enhancement Added: Enhanced add command</a></h3>
-<div class="sect3">
-<h4 id="external-behavior-2"><a class="link" href="#external-behavior-2">External behavior</a></h4>
-<hr>
-<div class="paragraph">
-<p><mark>Start of Extract [from: User Guide]</mark></p>
-</div>
-<div class="paragraph">
-<p><mark>End of Extract</mark></p>
-</div>
-<hr>
-</div>
 <div class="sect3">
 <h4 id="justification-2"><a class="link" href="#justification-2">Justification</a></h4>
 <div class="paragraph">
-<p>The original implementation of the add command requires the user to input every field (name, phone, email, address, tag) before enabling the person to be added to the addressbook.<br>
-This causes inconvenience to the user as the user needs to remember the long sequence of commands before able to successfully implement the add command.<br>
-In addition, during a practical use, the user may not always know all the fields related to a particular person but may wish to still put some information regarding the person into the addressbook.<br></p>
+<p>The Sort command sorts the person list alphanumerically by person&#8217;s name, phone, email, address or remark.<br>
+It is useful when the addressbook has alot of entries and allows user the option to organize their addressbook for a more pleasant appearance of the data presented.<br></p>
 </div>
 <div class="paragraph">
-<p>Hence, the Enhanced add command was made which only made the name input of the add command compulsory.<br>
-The rationale behind deciding on at least a single compulsory field is so that it is more logical to have at least one information before adding into the addressbook and that an empty addressbook is still invalid.<br>
-Name was chosen as the compulsory field as a person&#8217;s name is the main information that will identify and distinguish one person input from another in the adressbook.<br></p>
+<p>It is most useful in providing user with the overall content of the addressbook in an organised manner which groups those with similar names together.<br>
+Using it to sort Phone number allows user to see the numbers that are similar or the same to be grouped together.<br>
+Using it to sort Address enable one to see those who lives in the same place being place close together within the addressbook.<br></p>
 </div>
+<div class="paragraph">
+<p>This feature is particularly useful to supplement the find command which although returns any person which contains certain substring that the user requested but in an order in which the person is being added.<br></p>
+</div>
+<div class="paragraph">
+<p><mark>End of Extract</mark></p>
+</div>
+<hr>
 </div>
 <div class="sect3">
 <h4 id="implementation"><a class="link" href="#implementation">Implementation</a></h4>
@@ -98,31 +120,59 @@ Name was chosen as the compulsory field as a person&#8217;s name is the main inf
 </div>
 </div>
 <div class="sect2">
-<h3 id="enhanced-add-command-mechanism"><a class="link" href="#enhanced-add-command-mechanism">Enhanced add command mechanism</a></h3>
+<h3 id="sort-command-mechanism"><a class="link" href="#sort-command-mechanism">Sort Command mechanism</a></h3>
 <div class="paragraph">
-<p>A more flexible add command that only requires the name to be specified at the time of its execution. The other fields such as phone, email, address and remark need not be specified at the time of add command execution.<br>
-A separate parser for phone, email, address and remark are used to accommodate this enhancement to isolate the interdependency between the modified enhanced add command with the other commands.<br></p>
+<p>The <code>SortCommandParser</code> will parse the respective <code>PREFIX</code> that the user typed ( <code>n/</code>, <code>p/</code>, <code>e/</code>, <code>a/</code>, <code>r/</code>) and returns an enum of Option <code>sortOption</code> corresponding to the various sort types to <code>SortCommand</code>.<br></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/SortCommandParser.png" alt="SortCommandParser" width="800">
+</div>
+</div>
+<div class="paragraph">
+<p>The passed <code>sortOption</code> will traverse through the following classes in sequence :<br></p>
+</div>
+<div class="paragraph">
+<p>1.<code>SortCommandParser</code><br>
+2.<code>SortCommand</code><br>
+3.<code>ModelManager</code><br>
+4.<code>AddressBook</code><br>
+5.<code>UniquePersonList</code><br></p>
+</div>
+<div class="paragraph">
+<p>The <code>UniquePersonList</code> will then create the respective sort comparator in which to sort the <code>Person</code> object with using the passed <code>sortOption</code>.<br></p>
+</div>
+<div class="paragraph">
+<p>For example, for <code>sortOption</code> == <code>Option.NAME</code>, the comparator that compares the <code>Person</code> object&#8217;s name attribute is assigned to the <code>compare</code> variable for sorting by name.<br></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/SortOptionDecide.png" alt="SortOptionDecide" width="800">
+</div>
+</div>
+<div class="paragraph">
+<p>The Sequence Diagram of the <code>SortCommand</code> is given below. It uses both Logic and Model component.<br></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/SortCommandSequenceDiagram.png" alt="SortCommandSequenceDiagram" width="800">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/SortCommandSequenceDiagramPart2.png" alt="SortCommandSequenceDiagramPart2" width="800">
+</div>
 </div>
 <div class="sect3">
 <h4 id="design-considerations"><a class="link" href="#design-considerations">Design Considerations</a></h4>
 <div class="paragraph">
-<p><strong>Aspect:</strong> Implementation of enhanced 'add command'<br>
-<strong>Alternative 1 (current choice):</strong> Add new parser methods <code>parseAddPhone</code>, <code>parseAddEmail</code> and <code>parseAddAddress</code> <br>
-<strong>Pros:</strong> Able to isolate the behaviour of the add command and the edit command so that editing an existing Person will not overwrite the fields that should not be edited.<br>
-<strong>Cons:</strong> More difficult to implement as more test cases has to be added for the new parser methods.<br>
-<strong>Alternative 2:</strong> Modify existing parser method <code>parsePhone</code>, <code>parseEmail</code> and <code>parseAddress</code><br>
-<strong>Pros:</strong> Easier to implement as we can re-use existing tests and codes and just add minor modifications<br>
-<strong>Cons:</strong> The behaviour of edit command overlaps with the behaviour of the add command, causing unintended overwrite of other fields such as address when we don&#8217;t want to.<br></p>
-</div>
-<hr>
-<div class="paragraph">
-<p><strong>Aspect:</strong> Implement separate remark instead of modifying tag<br>
-<strong>Alternative 1 (current choice):</strong> Create a new separate remark command<br>
-<strong>Pros:</strong> Able to provide a cleaner user interface and experience. Also reduces complications in modifying existing working tag system.<br>
-<strong>Cons:</strong> More work has to be done in testing and creating a new command.<br>
-<strong>Alternative 2:</strong> update the tag to accept sentences for remarks<br>
-<strong>Pros:</strong> Easy to implement as we do not need to add a new command.<br>
-<strong>Cons:</strong> The Tag may be more difficult to find and more work is needed to change the find tag command. Additionally, the user interface of tag command also needs to be changed to accommodate long tags.<br></p>
+<p><strong>Aspect:</strong> Implementation of sort command<br>
+<strong>Alternative 1 (current choice):</strong> Integrate the various sort types ( by name, phone, email, address, remark) into a single command <br>
+<strong>Pros:</strong> Easier to implement and more straight forward for the user.<br>
+<strong>Cons:</strong> More standardised and less customizable sort since all the various sort types sorts by alphanumeric values in their corresponding ASCII values. <br>
+<strong>Alternative 2:</strong> Have a separate command for each sort types<br>
+<strong>Pros:</strong> More customizable sort as each different sort type can take in different parameters. For example, the address sort can request for parameters to sort by address number and street name.<br>
+<strong>Cons:</strong> More difficult to implement and less user friendly as user have to key in more parameters and remember more things before sorting.<br></p>
 </div>
 <div class="paragraph">
 <p><mark>End of Extract</mark></p>
@@ -131,7 +181,7 @@ A separate parser for phone, email, address and remark are used to accommodate t
 </div>
 </div>
 <div class="sect2">
-<h3 id="enhancement-added-integrated-remark"><a class="link" href="#enhancement-added-integrated-remark">Enhancement Added: Integrated remark</a></h3>
+<h3 id="enhancement-added-enhanced-add-command-and-integrated-remark"><a class="link" href="#enhancement-added-enhanced-add-command-and-integrated-remark">Enhancement Added: Enhanced add command and Integrated Remark</a></h3>
 <div class="sect3">
 <h4 id="external-behavior-3"><a class="link" href="#external-behavior-3">External behavior</a></h4>
 <hr>
@@ -189,9 +239,26 @@ The order of name, phone number, email, address, remark and tags being added doe
 <div class="sect3">
 <h4 id="justification-3"><a class="link" href="#justification-3">Justification</a></h4>
 <div class="paragraph">
-<p>Initially, the remark command was a separate command because the original purpose of remark is add and edit a remark field on 2 person concurrently.<br>
+<p><code>Enhanced Add Command</code><br></p>
+</div>
+<div class="paragraph">
+<p>The original implementation of the add command requires the user to input every field (name, phone, email, address, tag) before enabling the person to be added to the addressbook.<br>
+This causes inconvenience to the user as the user needs to remember the long sequence of commands before able to successfully implement the add command.<br>
+In addition, during a practical use, the user may not always know all the fields related to a particular person but may wish to still put some information regarding the person into the addressbook.<br></p>
+</div>
+<div class="paragraph">
+<p>Hence, the Enhanced add command was made which only made the name input of the add command compulsory.<br>
+The rationale behind deciding on at least a single compulsory field is so that it is more logical to have at least one information before adding into the addressbook and that an empty addressbook is still invalid.<br>
+Name was chosen as the compulsory field as a person&#8217;s name is the main information that will identify and distinguish one person input from another in the adressbook.<br></p>
+</div>
+<div class="paragraph">
+<p><code>Integrated remark</code><br></p>
+</div>
+<div class="paragraph">
+<p>Initially, the remark command was a separate command because the original purpose of remark is to add and edit a remark field on 2 person concurrently.<br>
 The initial idea for the remark field was for the user to put down a common relationship between 2 person in the form of sentences or words describing the relationship.<br>
-This feature was later made obsolete by the more comprehensive relationship feature and hence the remark command was removed.<br></p>
+This feature was later made obsolete by the more comprehensive relationship feature and hence the remark command was removed.<br>
+The code of the previous RemarkCommand is still available under the collated folder in unused file.<br></p>
 </div>
 <div class="paragraph">
 <p>However, we still want the user to be able to store sentences or notes regarding the person entries into the addressbook.<br>
@@ -209,15 +276,67 @@ Hence a new field which was remark was integrated into the whole addressbook sys
 </div>
 </div>
 <div class="sect2">
-<h3 id="enhanced-add-command-mechanism-2"><a class="link" href="#enhanced-add-command-mechanism-2">Enhanced add command mechanism</a></h3>
+<h3 id="enhanced-code-add-code-command-mechanism"><a class="link" href="#enhanced-code-add-code-command-mechanism">Enhanced <code>add</code> command mechanism</a></h3>
 <div class="paragraph">
-<p>A more flexible add command that only requires the name to be specified at the time of its execution. The other fields such as phone, email, address and remark need not be specified at the time of add command execution.<br>
-A separate parser for phone, email, address and remark are used to accommodate this enhancement to isolate the interdependency between the modified enhanced add command with the other commands.<br></p>
+<p>A more flexible add command that only requires the name to be specified at the time of its execution. The other fields such as phone, email, address and remark need not be specified at the time of add command execution but the user can still choose to do so if they desire.<br></p>
+</div>
+<div class="paragraph">
+<p>The Command is still being supported by the <code>undoableCommand</code> class and user will be able to undo or redo this command.<br></p>
+</div>
+<div class="paragraph">
+<p>The unspecified field will be substituted by the string "unspecified field". For example, an unspecified phone number that is not typed in during add command execution will result in "unspecified Phone" to be displayed under the newly added person entry.<br></p>
+</div>
+<div class="paragraph">
+<p>Before: all fields needs to be specified before adding is done successfully<br></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/addCommandDemo.png" alt="addCommandDemo" width="800">
+</div>
+</div>
+<div class="paragraph">
+<p>After: Only name is compulsory for a successful add command<br></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/EnhancedAddDemo.png" alt="EnhancedAddDemo" width="800">
+</div>
+</div>
+<div class="paragraph">
+<p>A separate parser for phone, email, address and remark is used to accommodate this enhancement to isolate the interdependency between the modified enhanced add command with the other commands.<br></p>
+</div>
+<div class="paragraph">
+<p>An example is the <code>parsePhone</code> method which is also shared with <code>editCommand</code>, hence modifying the <code>parsePhone</code> method will cause a dependency issue for <code>editCommand</code> as well since they requires different parsing method after <code>addCommand</code> is enhanced.<br></p>
+</div>
+<div class="paragraph">
+<p>Therefore a separate <code>parseAddPhone</code> method is created so that such dependency can be avoided. This is also being implemented to all the other non compulsory fields (email, address, remark).</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/ParsePhone.png" alt="ParsePhone" width="800">
+</div>
+</div>
+<div class="paragraph">
+<p>It works by instead of returning an empty Optional field, example an empty <code>Phone</code> object which sets its own attribute of phone string to null, we used a substitute string "unspecified Phone" instead.<br></p>
+</div>
+<div class="paragraph">
+<p>This implementation ensures that the <code>Phone</code> object is not carrying a null string attribute which can cause problems for other components but instead is carrying a predefined "unspecified Phone" string.<br></p>
+</div>
+<div class="paragraph">
+<p>This is applied across all other optional fields with the exception of name which is made compulsory.<br></p>
+</div>
+<div class="paragraph">
+<p>The initial compulsory checks for prefix is also changed from requiring all prefixes to be present to only requiring name prefix to be compulsory.<br></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/CompulsoryPrefixCheck.png" alt="CompulsoryPrefixCheck" width="800">
+</div>
 </div>
 <div class="sect3">
 <h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">Design Considerations</a></h4>
 <div class="paragraph">
-<p><strong>Aspect:</strong> Implementation of enhanced 'add command'<br>
+<p><strong>Aspect:</strong> Implementation of enhanced <code>addCommand</code><br>
 <strong>Alternative 1 (current choice):</strong> Add new parser methods <code>parseAddPhone</code>, <code>parseAddEmail</code> and <code>parseAddAddress</code> <br>
 <strong>Pros:</strong> Able to isolate the behaviour of the add command and the edit command so that editing an existing Person will not overwrite the fields that should not be edited.<br>
 <strong>Cons:</strong> More difficult to implement as more test cases has to be added for the new parser methods.<br>
@@ -235,13 +354,19 @@ A separate parser for phone, email, address and remark are used to accommodate t
 <strong>Pros:</strong> Easy to implement as we do not need to add a new command.<br>
 <strong>Cons:</strong> The Tag may be more difficult to find and more work is needed to change the find tag command. Additionally, the user interface of tag command also needs to be changed to accommodate long tags.<br></p>
 </div>
+<hr>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Defining a valid remark input<br>
+<strong>Alternative 1 (current choice):</strong> No restrictions on the kind of remark input the user can put into the addressbook, i.e. the user can put in any characters in any format.<br>
+<strong>Pros:</strong> More freedom for the user as the user can type in anything for adding a remark. It is also easier to implement as the input string does not have to go through other checks.<br>
+<strong>Cons:</strong> Can get messy if the user is not consistent in the way they place in remarks. The sort command applied under remarks also does not sort the remark as well if the input is not consistent.<br>
+<strong>Alternative 2:</strong> Impose a restriction on remarks in the format [Remark Type] remark followed by restriction of only allowing alphabets.<br>
+<strong>Pros:</strong> . The sort remark command will be able to organise and sort the remark better since each remarks are predefined at the start in the [Remark Type].<br>
+<strong>Cons:</strong> . More difficult to implement as we need additional checks to be placed for the restrictions and also less freedom for the user as they need to follow stricter rules before putting in a remark entry.<br></p>
+</div>
 <div class="paragraph">
 <p><mark>End of Extract</mark></p>
 </div>
-<hr>
-</div>
-<div class="sect3">
-<h4 id="enhancement-proposed-enhanced-sort-command"><a class="link" href="#enhancement-proposed-enhanced-sort-command">Enhancement Proposed: Enhanced sort command</a></h4>
 <hr>
 </div>
 </div>
@@ -260,7 +385,7 @@ A separate parser for phone, email, address and remark are used to accommodate t
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-11-13 15:57:18 +00:00
+Last updated 2017-11-13 16:51:14 +00:00
 </div>
 </div>
 </body>
