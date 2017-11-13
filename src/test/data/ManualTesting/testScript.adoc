@@ -38,7 +38,7 @@
 |delete 18
 |press btn:[Enter]
 |Deleted Person: Teoh Pek Har Dorothy Phone: 98127797 Email: hdoe@doedoe.com Address: Blk 47 Pasir Ris Street 29, #13-18 Remark:  Tags: neighbours
-|`18.Teoh` and its relationships should appear on the graph; `Teoh Pek Har Dorothy` should disappear from the person card list with `Kate Low`'s index becoming 18; `18.Kate` appears on the graph instead of `19.Kate`.
+|`18.Teoh` and its relationships should disappear from the graph; `Teoh Pek Har Dorothy` should disappear from the person card list with `Kate Low`'s index becoming 18; `18.Kate` appears on the graph instead of `19.Kate`.
 
 |add
 |press btn:[Control]
@@ -130,6 +130,16 @@
 |2 persons listed!
 |The list should only contain `1.Dorothy Yeoh Mee Mee` and `2.Margie Yeoh Puay Sian`; the graph will only contain node `1.Dorothy` and `2.Margie` without any relationship.
 
+|select 2
+|press btn:[Enter]
+|Selected Person: 2
+|`2.Alysha Zhen` in the list should be highlighted; the nodes and relationships remain the same.
+
+|delete 2
+|press btn:[Enter]
+|Deleted Person: Alysha Zhen Phone: 90250442 Email: doe.john@yahoo.com Address: 15 Nanyang Hill, #02-44 Remark: S9091038U Tags: classmates
+|`2.Alysha Zhen` in the list should be deleted; `1.Alan Miller` should be hightlighted; `2.Alysha` and its relationships should disappear from the graph.
+
 |history
 |press btn:[Enter]
 |Entered commands (from most recent to earliest): + previous commands
@@ -147,7 +157,7 @@
 
 |clear
 |press btn:[Enter]
-|
+|Address book has been cleared!
 |The list and the graph should be clean now.
 
 |exit
