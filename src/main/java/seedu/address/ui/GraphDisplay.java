@@ -43,7 +43,7 @@ public class GraphDisplay extends UiPart<Region> {
                     + "text-padding: 5;"
                     + "text-background-color: black;"
                     + "text-color: white;"
-                    + "text-size: 15;"
+                    + "text-size: 10;"
                     + "size-mode: fit;"
                     + "z-index: 3;}"
                     + "edge { "

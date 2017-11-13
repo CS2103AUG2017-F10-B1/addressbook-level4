@@ -97,7 +97,7 @@
 
 |relPath 2 1
 |press btn:[Enter]
-|Listed all persons
+|Path found between Alysha Zhen and Alan Miller!
 |The list should not change; the path `2.Alysha` -> `17.Stanton` -> `1.Alan` should be highlighted.
 
 |list
@@ -128,7 +128,12 @@
 |find eo
 |press btn:[Enter]
 |2 persons listed!
-|The list should only contain `1.Dorothy Yeoh Mee Mee` and `2.Margie Yeoh Puay Sian`; the graph will only contain node `1.Dorothy` and `2.Margie` without any relationship.
+|The list should only contain `1.Dorothy Yeoh Mee Mee` and `2.Margie Yeoh Puay Sian`; the graph should not change.
+
+|list
+|press btn:[Enter]
+|Listed all persons
+|A sorted list of all persons and its corresponding graph should appear.
 
 |select 2
 |press btn:[Enter]
