@@ -602,14 +602,45 @@ image::UndoRedoActivityDiagram.png[width="200"]
 // end::undoredo[]
 
 // tag::EnhancedAddCommand[]
-=== Enhanced add command mechanism
-A more flexible add command that only requires the name to be specified at the time of its execution. The other fields such as phone, email, address and remark need not be specified at the time of add command execution. +
-A separate parser for phone, email, address and remark are used to accommodate this enhancement to isolate the interdependency between the modified enhanced add command with the other commands. +
+=== Enhanced `add` command mechanism
 
+A more flexible add command that only requires the name to be specified at the time of its execution. The other fields such as phone, email, address and remark need not be specified at the time of add command execution but the user can still choose to do so if they desire. +
+
+The Command is still being supported by the `undoableCommand` class and user will be able to undo or redo this command. +
+
+The unspecified field will be substituted by the string "unspecified field". For example, an unspecified phone number that is not typed in during add command execution will result in "unspecified Phone" to be displayed under the newly added person entry. +
+
+Before: all fields needs to be specified before adding is done successfully +
+
+image::addCommandDemo.png[width="800"]
+
+After: Only name is compulsory for a successful add command +
+
+image::EnhancedAddDemo.png[width="800"]
+
+
+A separate parser for phone, email, address and remark is used to accommodate this enhancement to isolate the interdependency between the modified enhanced add command with the other commands. +
+
+An example is the `parsePhone` method which is also shared with `editCommand`, hence modifying the `parsePhone` method will cause a dependency issue for `editCommand` as well since they requires different parsing method after `addCommand` is enhanced. +
+
+Therefore a separate `parseAddPhone` method is created so that such dependency can be avoided. This is also being implemented to all the other non compulsory fields (email, address, remark).
+
+image::ParsePhone.png[width="800"]
+
+
+It works by instead of returning an empty Optional field, example an empty `Phone` object which sets its own attribute of phone string to null, we used a substitute string "unspecified Phone" instead. +
+
+This implementation ensures that the `Phone` object is not carrying a null string attribute which can cause problems for other components but instead is carrying a predefined "unspecified Phone" string. +
+
+This is applied across all other optional fields with the exception of name which is made compulsory. +
+
+The initial compulsory checks for prefix is also changed from requiring all prefixes to be present to only requiring name prefix to be compulsory. +
+
+image::CompulsoryPrefixCheck.png[width="800"]
 
 ==== Design Considerations
 
-**Aspect:** Implementation of enhanced 'add command' +
+**Aspect:** Implementation of enhanced `addCommand` +
 **Alternative 1 (current choice):** Add new parser methods `parseAddPhone`, `parseAddEmail` and `parseAddAddress`  +
 **Pros:** Able to isolate the behaviour of the add command and the edit command so that editing an existing Person will not overwrite the fields that should not be edited. +
 **Cons:** More difficult to implement as more test cases has to be added for the new parser methods. +
@@ -626,7 +657,55 @@ A separate parser for phone, email, address and remark are used to accommodate t
 **Alternative 2:** update the tag to accept sentences for remarks +
 **Pros:** Easy to implement as we do not need to add a new command. +
 **Cons:** The Tag may be more difficult to find and more work is needed to change the find tag command. Additionally, the user interface of tag command also needs to be changed to accommodate long tags. +
+
+---
+
+**Aspect:** Defining a valid remark input +
+**Alternative 1 (current choice):** No restrictions on the kind of remark input the user can put into the addressbook, i.e. the user can put in any characters in any format. +
+**Pros:** More freedom for the user as the user can type in anything for adding a remark. It is also easier to implement as the input string does not have to go through other checks. +
+**Cons:** Can get messy if the user is not consistent in the way they place in remarks. The sort command applied under remarks also does not sort the remark as well if the input is not consistent. +
+**Alternative 2:** Impose a restriction on remarks in the format [Remark Type] remark followed by restriction of only allowing alphabets. +
+**Pros:** . The sort remark command will be able to organise and sort the remark better since each remarks are predefined at the start in the [Remark Type]. +
+**Cons:** . More difficult to implement as we need additional checks to be placed for the restrictions and also less freedom for the user as they need to follow stricter rules before putting in a remark entry. +
 // end::EnhancedAddCommand[]
+
+//tag::SortCommand[]
+=== Sort Command mechanism
+
+The `SortCommandParser` will parse the respective `PREFIX` that the user typed ( `n/`, `p/`, `e/`, `a/`, `r/`) and returns an enum of Option `sortOption` corresponding to the various sort types to `SortCommand`. +
+
+image::SortCommandParser.png[width="800"]
+
+The passed `sortOption` will traverse through the following classes in sequence : +
+
+1.`SortCommandParser` +
+2.`SortCommand` +
+3.`ModelManager` +
+4.`AddressBook` +
+5.`UniquePersonList` +
+
+The `UniquePersonList` will then create the respective sort comparator in which to sort the `Person` object with using the passed `sortOption`. +
+
+For example, for `sortOption` == `Option.NAME`, the comparator that compares the `Person` object's name attribute is assigned to the `compare` variable for sorting by name. +
+
+image::SortOptionDecide.png[width="800"]
+
+The Sequence Diagram of the `SortCommand` is given below. It uses both Logic and Model component. +
+
+image::SortCommandSequenceDiagram.png[width="800"]
+
+image::SortCommandSequenceDiagramPart2.png[width="800"]
+
+==== Design Considerations
+
+**Aspect:** Implementation of sort command +
+**Alternative 1 (current choice):** Integrate the various sort types ( by name, phone, email, address, remark) into a single command  +
+**Pros:** Easier to implement and more straight forward for the user. +
+**Cons:** More standardised and less customizable sort since all the various sort types sorts by alphanumeric values in their corresponding ASCII values.  +
+**Alternative 2:** Have a separate command for each sort types +
+**Pros:** More customizable sort as each different sort type can take in different parameters. For example, the address sort can request for parameters to sort by address number and street name. +
+**Cons:** More difficult to implement and less user friendly as user have to key in more parameters and remember more things before sorting. +
+// end::SortCommand[]
 
 // tag::clearHistory[]
 === `clearHistory` command mechanism
@@ -1273,7 +1352,7 @@ Use case ends.
 Use case resumes at step 2.
 
 [discrete]
-=== Use case: Add a remark
+=== Use case: making remark using `add` command and `edit` command
 
 *MSS*
 
@@ -1312,13 +1391,14 @@ Use case ends.
 Use case resumes at step 2.
 
 [discrete]
-=== Use case: Sort a list of persons
+=== Use case: `sort` a list of persons
 
 *MSS*
 
-1.  User requests to sort a list of persons
-2.  AddressBook sorts a list of persons alphanumerically by name
-3.  AddressBook shows all sorted persons in the sorted list
+1.  User requests to sort a list of persons by name, phone, email, address or remark
+2.  AddressBook checks if input is valid and what type of sort to apply
+3.  AddressBook sorts a list of persons alphanumerically by name, phone, email, address or remark
+4.  AddressBook shows all sorted persons in the sorted list
 +
 Use case ends.
 
@@ -1328,6 +1408,13 @@ Use case ends.
 * 2a. The list is empty.
 +
 Use case ends.
+
+* 3a. The given prefix is invalid.
++
+[none]
+** 3a1. AddressBook shows an error message.
++
+Use case resumes at step 2.
 
 {More to be added}
 

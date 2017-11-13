@@ -19,7 +19,6 @@ import seedu.address.logic.commands.HistoryCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.RelPathCommand;
-import seedu.address.logic.commands.RemarkCommand;
 import seedu.address.logic.commands.RemoveTagCommand;
 import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.SortCommand;
@@ -48,7 +47,6 @@ public class Commands {
         ListCommand.COMMAND_WORD,
         RedoCommand.COMMAND_WORD,
         RelPathCommand.COMMAND_WORD,
-        RemarkCommand.COMMAND_WORD,
         RemoveTagCommand.COMMAND_WORD,
         SelectCommand.COMMAND_WORD,
         SortCommand.COMMAND_WORD,
@@ -73,7 +71,6 @@ public class Commands {
         ListCommand.COMMAND_ALIAS,
         RedoCommand.COMMAND_ALIAS,
         RelPathCommand.COMMAND_ALIAS,
-        RemarkCommand.COMMAND_ALIAS,
         RemoveTagCommand.COMMAND_ALIAS,
         SelectCommand.COMMAND_ALIAS,
         SortCommand.COMMAND_ALIAS,
@@ -98,7 +95,6 @@ public class Commands {
         ListCommand.SHORT_MESSAGE_USAGE,
         RedoCommand.SHORT_MESSAGE_USAGE,
         RelPathCommand.SHORT_MESSAGE_USAGE,
-        RemarkCommand.SHORT_MESSAGE_USAGE,
         RemoveTagCommand.SHORT_MESSAGE_USAGE,
         SelectCommand.SHORT_MESSAGE_USAGE,
         SortCommand.SHORT_MESSAGE_USAGE,

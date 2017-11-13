@@ -15,9 +15,7 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.relationship.Relationship;
 import seedu.address.model.relationship.RelationshipDirection;
 import seedu.address.model.relationship.UniqueRelationshipList;
-
 import seedu.address.model.relationship.exceptions.DuplicateRelationshipException;
-
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 
@@ -25,7 +23,7 @@ import seedu.address.model.tag.UniqueTagList;
  * Represents a Person in the address book.
  * Guarantees: details are present and not null, field values are validated.
  */
-public class Person implements ReadOnlyPerson, Comparable<Person> {
+public class Person implements ReadOnlyPerson {
 
     private ObjectProperty<Name> name;
     private ObjectProperty<Phone> phone;
@@ -35,7 +33,6 @@ public class Person implements ReadOnlyPerson, Comparable<Person> {
 
     private ObjectProperty<UniqueTagList> tags;
     private ObjectProperty<UniqueRelationshipList> relationships;
-
     //@@ author wenmogu
     /**
      * Every field must be present and not null.
@@ -205,6 +202,7 @@ public class Person implements ReadOnlyPerson, Comparable<Person> {
     }
 
     //@@author
+
     @Override
     public ReadOnlyPerson copy() {
         Name name = this.getName();
@@ -235,11 +233,6 @@ public class Person implements ReadOnlyPerson, Comparable<Person> {
         return getAsText();
     }
 
-    @Override
-    public int compareTo(Person o) {
-        return this.getName().toString().compareToIgnoreCase(o.getName().toString());
-    }
-
     /**
      * Used in debugging to print out the relationshipList of this person
      */
@@ -253,5 +246,4 @@ public class Person implements ReadOnlyPerson, Comparable<Person> {
         }
         LogsCenter.getLogger(Person.class).fine(border + intro + relationshipStr + border);
     }
-
 }

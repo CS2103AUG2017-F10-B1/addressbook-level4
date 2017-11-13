@@ -1,6 +1,11 @@
 # TanYikai
 ###### \java\seedu\address\logic\commands\SortCommand.java
 ``` java
+
+import static java.util.Objects.requireNonNull;
+
+import seedu.address.logic.parser.ParserUtil.Option;
+
 /**
  * Lists all sorted persons in the address book to the user.
  */
@@ -11,12 +16,59 @@ public class SortCommand extends UndoableCommand {
 
     public static final String MESSAGE_SUCCESS = "Sorted all persons";
 
+    private Option sortOption;
+
+    /**
+     * @param sortOption is the option in which person is sorted by
+     * default is by name
+     * 0,1,2,3,4 represents sort by name, phone, email, address, remark respectively
+     */
+    public SortCommand(Option sortOption) {
+        requireNonNull(sortOption);
+        this.sortOption = sortOption;
+    }
+
     @Override
     public CommandResult executeUndoableCommand() {
-        model.sortPersons();
+        model.sortPersons(sortOption);
         return new CommandResult(MESSAGE_SUCCESS);
     }
 }
+```
+###### \java\seedu\address\logic\parser\ParserUtil.java
+``` java
+    /**
+     * Parses the String to return int according to the corresponding prefix
+     * 0,1,2,3,4 corresponds to PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_REMARK respectively
+     * @throws IllegalValueException if the specified prefix is invalid (not n/, p/, e/, a/ or r/).
+     */
+    public static Option parseSortOption(String prefix) throws IllegalValueException {
+        String trimmedPrefix = prefix.trim();
+        Option sortOption;
+
+        if (trimmedPrefix.equals(PREFIX_NAME.toString())) {
+            sortOption = Option.NAME;
+        } else if (trimmedPrefix.equals(PREFIX_PHONE.toString())) {
+            sortOption = Option.PHONE;
+        } else if (trimmedPrefix.equals(PREFIX_EMAIL.toString())) {
+            sortOption = Option.EMAIL;
+        } else if (trimmedPrefix.equals(PREFIX_ADDRESS.toString())) {
+            sortOption = Option.ADDRESS;
+        } else if (trimmedPrefix.equals(PREFIX_REMARK.toString())) {
+            sortOption = Option.REMARK;
+        } else {
+            throw new IllegalValueException(MESSAGE_INVALID_PREFIX);
+        }
+        return sortOption;
+    }
+
+    /**
+     * The enum for the various sort options available.
+     * NAME, PHONE, EMAIL, ADDRESS, REMARK means sort by name, phone, eail, address or remark respectively
+     */
+    public enum Option {
+        NAME, PHONE, EMAIL, ADDRESS, REMARK
+    }
 ```
 ###### \java\seedu\address\logic\parser\ParserUtil.java
 ``` java
@@ -73,6 +125,50 @@ public class SortCommand extends UndoableCommand {
         return remark.isPresent() ? Optional.of(new Remark(remark.get())) : Optional.of(Remark.UNSPECIFIED);
     }
 ```
+###### \java\seedu\address\logic\parser\SortCommandParser.java
+``` java
+/**
+ * Parses input arguments and creates a new SortCommand object
+ */
+public class SortCommandParser implements Parser<SortCommand> {
+    /**
+     * Parses the given {@code String} of arguments in the context of the SortCommand
+     * and returns an SortCommand object for execution.
+     * @throws ParseException if the user input does not conform the expected format
+     */
+    public SortCommand parse(String args) throws ParseException {
+        Option sortOption;
+
+        try {
+            sortOption = parseSortOption(args);
+
+            return new SortCommand(sortOption);
+        } catch (IllegalValueException ive) {
+            throw new ParseException(ive.getMessage(), ive);
+        }
+    }
+
+}
+```
+###### \java\seedu\address\model\AddressBook.java
+``` java
+    /**
+     *Sorts the persons object according to the sortOption.
+     * 0,1,2,3,4 represents name, phone, email, address, remark respectively
+     */
+    public void sortData(ParserUtil.Option sortOption) {
+        persons.sort(sortOption);
+    }
+```
+###### \java\seedu\address\model\ModelManager.java
+``` java
+    @Override
+    public void sortPersons(ParserUtil.Option sortOption) {
+        addressBook.sortData(sortOption);
+        updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        indicateAddressBookChanged();
+    }
+```
 ###### \java\seedu\address\model\person\Address.java
 ``` java
     /**
@@ -80,6 +176,36 @@ public class SortCommand extends UndoableCommand {
      */
     private Address() {
         value = "Unspecified address";
+    }
+```
+###### \java\seedu\address\model\person\Person.java
+``` java
+    /**
+     * Sets the sort option using integer
+     * 0,1,2,3,4 represents name, phone, email, address and remark respectively
+     */
+    public void setSortOption(Option option) {
+        this.sortOption = option;
+    }
+```
+###### \java\seedu\address\model\person\Person.java
+``` java
+    /**
+     * The compareTo method compares different attribute of the person object according to sortOption number
+     * The default is compare by name
+     */
+    @Override
+    public int compareTo(Person o) {
+        if (sortOption == Option.PHONE) {
+            return this.getPhone().toString().compareToIgnoreCase(o.getPhone().toString());
+        } else if (sortOption == Option.EMAIL) {
+            return this.getEmail().toString().compareToIgnoreCase(o.getEmail().toString());
+        } else if (sortOption == Option.ADDRESS) {
+            return this.getAddress().toString().compareToIgnoreCase(o.getAddress().toString());
+        } else if (sortOption == Option.REMARK) {
+            return this.getRemark().toString().compareToIgnoreCase(o.getRemark().toString());
+        }
+        return this.getName().toString().compareToIgnoreCase(o.getName().toString());
     }
 ```
 ###### \java\seedu\address\model\person\Phone.java
@@ -136,10 +262,33 @@ public class Remark {
 ###### \java\seedu\address\model\person\UniquePersonList.java
 ``` java
     /**
-     * Sorts the persons object in the list alphanumerically by name.
+     * Sorts the persons object according to the sortOption.
+     * 0,1,2,3,4 represents name, phone, email, address, remark respectively
      */
-    public void sort() {
+    public void sort(Option sortOption) {
         requireNonNull(internalList);
+        if (sortOption == Option.NAME) {
+            for (Person p: internalList) {
+                p.setSortOption(Option.NAME);
+            }
+        } else if (sortOption == Option.PHONE) {
+            for (Person p: internalList) {
+                p.setSortOption(Option.PHONE);
+            }
+        } else if (sortOption == Option.EMAIL) {
+            for (Person p: internalList) {
+                p.setSortOption(Option.EMAIL);
+            }
+        } else if (sortOption == Option.ADDRESS) {
+            for (Person p: internalList) {
+                p.setSortOption(Option.ADDRESS);
+            }
+        } else if (sortOption == Option.REMARK) {
+            for (Person p: internalList) {
+                p.setSortOption(Option.REMARK);
+            }
+        }
+
         Collections.sort(internalList);
     }
 ```

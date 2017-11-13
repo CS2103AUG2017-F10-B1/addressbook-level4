@@ -3,6 +3,7 @@ package seedu.address.model.person;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -11,6 +12,7 @@ import org.fxmisc.easybind.EasyBind;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import seedu.address.logic.parser.ParserUtil.Option;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.relationship.Relationship;
@@ -27,7 +29,7 @@ public class UniquePersonList implements Iterable<Person> {
     private final ObservableList<Person> internalList = FXCollections.observableArrayList();
     // used by asObservableList()
     private final ObservableList<ReadOnlyPerson> mappedList = EasyBind.map(internalList, (person) -> person);
-
+    private Comparator<Person> compare;
     /**
      * Returns true if the list contains an equivalent person as the given argument.
      */
@@ -72,11 +74,23 @@ public class UniquePersonList implements Iterable<Person> {
     }
     //@@author TanYikai
     /**
-     * Sorts the persons object in the list alphanumerically by name.
+     * Sorts the persons object according to the sortOption.
      */
-    public void sort() {
+    public void sort(Option sortOption) {
         requireNonNull(internalList);
-        Collections.sort(internalList);
+        if (sortOption == Option.NAME) {
+            compare = Comparator.comparing(Person::getName, Comparator.comparing(Name::toString));
+        } else if (sortOption == Option.PHONE) {
+            compare = Comparator.comparing(Person::getPhone, Comparator.comparing(Phone::toString));
+        } else if (sortOption == Option.EMAIL) {
+            compare = Comparator.comparing(Person::getEmail, Comparator.comparing(Email::toString));
+        } else if (sortOption == Option.ADDRESS) {
+            compare = Comparator.comparing(Person::getAddress, Comparator.comparing(Address::toString));
+        } else if (sortOption == Option.REMARK) {
+            compare = Comparator.comparing(Person::getRemark, Comparator.comparing(Remark::toString));
+        }
+
+        Collections.sort(internalList, compare);
     }
     //@@author
     /**

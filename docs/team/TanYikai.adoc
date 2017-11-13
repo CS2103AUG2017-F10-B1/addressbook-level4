@@ -10,6 +10,19 @@ Intelli is a desktop relationship tracker used by private investigators (PI) to 
 
 === Enhancement Added: Alias
 
+==== External behavior
+
+---
+Instead of typing the standard command such as `add`, `edit`, etc, user can use `a`, `e` to execute the same commands. +
+---
+
+==== Justification
+To enable user to type in command at a faster rate, command shortcuts or command alias was introduced. +
+
+#End of Extract#
+
+---
+
 === Enhancement Added: Sort
 
 ==== External behavior
@@ -24,50 +37,31 @@ include::../UserGuide.adoc[tag=sort]
 ---
 
 ==== Justification
-The Sort command sorts the person list alphanumerically by person's name. +
-It is useful when the addressbook has alot of entries and allows user the option to organize their addressbook for a more pleasant appearance of the addressbook data. +
+The Sort command sorts the person list alphanumerically by person's name, phone, email, address or remark. +
+It is useful when the addressbook has alot of entries and allows user the option to organize their addressbook for a more pleasant appearance of the data presented. +
 
 It is most useful in providing user with the overall content of the addressbook in an organised manner which groups those with similar names together. +
+Using it to sort Phone number allows user to see the numbers that are similar or the same to be grouped together. +
+Using it to sort Address enable one to see those who lives in the same place being place close together within the addressbook. +
+
+This feature is particularly useful to supplement the find command which although returns any person which contains certain substring that the user requested but in an order in which the person is being added. +
 
 #End of Extract#
 
 ---
-
-=== Enhancement Added: Enhanced add command
-
-==== External behavior
-
----
-#Start of Extract [from: User Guide]#
-
-include::../UserGuide.adoc[tag=EnhancedAdd]
-
-#End of Extract#
-
----
-
-==== Justification
-
-The original implementation of the add command requires the user to input every field (name, phone, email, address, tag) before enabling the person to be added to the addressbook. +
-This causes inconvenience to the user as the user needs to remember the long sequence of commands before able to successfully implement the add command. +
-In addition, during a practical use, the user may not always know all the fields related to a particular person but may wish to still put some information regarding the person into the addressbook. +
-
-Hence, the Enhanced add command was made which only made the name input of the add command compulsory. +
-The rationale behind deciding on at least a single compulsory field is so that it is more logical to have at least one information before adding into the addressbook and that an empty addressbook is still invalid. +
-Name was chosen as the compulsory field as a person's name is the main information that will identify and distinguish one person input from another in the adressbook. +
 
 ==== Implementation
 
 ---
 #Start of Extract [from: Developer Guide]#
 
-include::../DeveloperGuide.adoc[tag=EnhancedAddCommand]
+include::../DeveloperGuide.adoc[tag=SortCommand]
 
 #End of Extract#
 
 ---
 
-=== Enhancement Added: Integrated remark
+=== Enhancement Added: Enhanced add command and Integrated Remark
 
 ==== External behavior
 
@@ -81,9 +75,22 @@ include::../UserGuide.adoc[tag=EnhancedAddCommand]
 ---
 
 ==== Justification
-Initially, the remark command was a separate command because the original purpose of remark is add and edit a remark field on 2 person concurrently. +
+`Enhanced Add Command` +
+
+The original implementation of the add command requires the user to input every field (name, phone, email, address, tag) before enabling the person to be added to the addressbook. +
+This causes inconvenience to the user as the user needs to remember the long sequence of commands before able to successfully implement the add command. +
+In addition, during a practical use, the user may not always know all the fields related to a particular person but may wish to still put some information regarding the person into the addressbook. +
+
+Hence, the Enhanced add command was made which only made the name input of the add command compulsory. +
+The rationale behind deciding on at least a single compulsory field is so that it is more logical to have at least one information before adding into the addressbook and that an empty addressbook is still invalid. +
+Name was chosen as the compulsory field as a person's name is the main information that will identify and distinguish one person input from another in the adressbook. +
+
+`Integrated remark` +
+
+Initially, the remark command was a separate command because the original purpose of remark is to add and edit a remark field on 2 person concurrently. +
 The initial idea for the remark field was for the user to put down a common relationship between 2 person in the form of sentences or words describing the relationship. +
 This feature was later made obsolete by the more comprehensive relationship feature and hence the remark command was removed. +
+The code of the previous RemarkCommand is still available under the collated folder in unused file. +
 
 However, we still want the user to be able to store sentences or notes regarding the person entries into the addressbook. +
 The remark could accommodate sentences and has no limitations which is a difference from the existing Tag feature which can only accept single words. +
@@ -98,10 +105,6 @@ Hence a new field which was remark was integrated into the whole addressbook sys
 include::../DeveloperGuide.adoc[tag=EnhancedAddCommand]
 
 #End of Extract#
-
----
-
-==== Enhancement Proposed: Enhanced sort command
 
 ---
 

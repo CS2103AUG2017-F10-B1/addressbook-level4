@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.logic.parser.ParserUtil;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
@@ -56,8 +57,8 @@ public interface Model {
         throws IllegalValueException, RelationshipNotFoundException, DuplicateRelationshipException;
 
     //@@author
-    /** Sorts the persons object alphanumerically by name. */
-    void sortPersons();
+    /** Sorts the persons object according to the sortOption integer given */
+    void sortPersons(ParserUtil.Option sortOption);
 
     //@@author wenmogu
     /**

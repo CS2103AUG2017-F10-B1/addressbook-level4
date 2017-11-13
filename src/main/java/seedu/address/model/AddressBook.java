@@ -11,6 +11,7 @@ import java.util.Set;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.logic.parser.ParserUtil;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.UniquePersonList;
@@ -186,14 +187,15 @@ public class AddressBook implements ReadOnlyAddressBook {
             throw new PersonNotFoundException();
         }
     }
-
+    //@@author TanYikai
     /**
-     * Sorts the data of the persons object alphanumerically by name.
+     *Sorts the persons object according to the sortOption.
+     * 0,1,2,3,4 represents name, phone, email, address, remark respectively
      */
-    public void sortData() {
-        persons.sort();
+    public void sortData(ParserUtil.Option sortOption) {
+        persons.sort(sortOption);
     }
-
+    //@@author
     //// tag-level operations
 
     public void addTag(Tag t) throws UniqueTagList.DuplicateTagException {

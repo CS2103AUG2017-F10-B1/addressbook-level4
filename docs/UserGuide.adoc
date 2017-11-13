@@ -158,8 +158,22 @@ Format: `list`
 // tag::sort[]
 === Sorting all persons : `sort`
 
-Shows a list of all persons in Intelli sorted alphanumerically by name. +
-Format: `sort`
+****
+Only one type of sorting is permitted at a time. Input of multiple PREFIX will result in an error message.
+The format for PREFIX are the same as the format of the prefix for adding, editing and finding the respective fields ( [n/] [p/] [e/] [a/] [r/] ).
+****
+
+Shows a list of all persons in the address book sorted alphanumerically by name, phone, email, address or remark. +
+Format: `sort PREFIX`
+
+Examples:
+
+* `sort n/` +
+Sorts a person alphanumerically by name. +
+* `sort p/` +
+Sorts a person by phone number. Numbers are compared according to their respective ASCII values. +
+* `sort e/` +
+Sorts a person by email alphanumerically. Non-alphabetical characters are compared according to their respective ASCII values. +
 // end::sort[]
 
 === Editing a person : `edit`
@@ -601,7 +615,10 @@ e.g. `relPath 1 2`
 * *Redo* : `redo`
 * *Remove tag* : `removeTag TAG` +
 e.g. `removeTag friend`
-* *Sort* : `sort`
+* *Find shortest relationship path* : `relPath FROM_INDEX TO_INDEX` +
+e.g. `relPath 1 2`
+* *Sort* : `sort PREFIX` +
+e.g. `sort n/`
 * *Select* : `select INDEX` +
 e.g.`select 2`
 * *Undo* : `undo`
