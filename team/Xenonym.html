@@ -37,7 +37,7 @@
 <div class="sect2">
 <h3 id="backing-up-code-backup-code"><a class="link" href="#backing-up-code-backup-code">Backing up: <code>backup</code></a></h3>
 <div class="paragraph">
-<p>Backs up the current address book to a fixed location (<code>addressbook.xml.bak</code> in current working directory).</p>
+<p>Backs up the current address book to a fixed location (<code>intelli.xml.bak</code> in the <code>data</code> directory).</p>
 </div>
 <div class="admonitionblock warning">
 <table>
@@ -68,6 +68,44 @@
 <hr>
 <div class="paragraph">
 <p><mark>Start of Extract [from: Developer Guide]</mark></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="backup-mechanism"><a class="link" href="#backup-mechanism">Backup mechanism</a></h3>
+<div class="paragraph">
+<p>The backup mechanism is facilitated by the <code>backupAddressBook()</code> method added to the <code>Storage</code> component, which saves the current state of the address book to a predefined backup location (<code>intelli.xml.bak</code> in the <code>data</code> directory). This functionality is then invoked through the <code>backup</code> command, and the <code>Command</code> and <code>Logic</code> classes have been extended to have access to the <code>Storage</code> component of the address book.</p>
+</div>
+<div class="sect3">
+<h4 id="design-considerations"><a class="link" href="#design-considerations">Design Considerations</a></h4>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Type of command implemented<br>
+<strong>Alternative 1 (current choice):</strong> <code>Command</code><br>
+<strong>Pros:</strong> Simple to implement; undo / redo mechanism does not need to know how to interact with <code>Storage</code> to undo a backup.<br>
+<strong>Cons:</strong> Accidental backups may be invoked, potentially overwriting an existing backup.<br>
+<strong>Alternative 2:</strong> <code>UndoableCommand</code><br>
+<strong>Pros:</strong> Possible to undo a backup; prevents accidental overwrites of an existing backup.<br>
+<strong>Cons:</strong> The undo / redo mechanism needs to be extended to be able to redo / undo backups, increasing interaction with the <code>Storage</code> component.</p>
+</div>
+<hr>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Location of backup file<br>
+<strong>Alternative 1 (current choice):</strong> <code>data/intelli.xml.bak</code><br>
+<strong>Pros:</strong> Easy to locate for the user; file is always in a predictable location.<br>
+<strong>Cons:</strong> Accidental backups may be invoked, potentially overwriting an existing backup in the same location.<br>
+<strong>Alternative 2:</strong> Add a timestamp to the backup filename<br>
+<strong>Pros:</strong> Will not overwrite existing backups, can serve as rudimentary version control mechanism.<br>
+<strong>Cons:</strong> User may not be aware of how many backups they have created; might cause a lot of backups to exist, creating confusion.</p>
+</div>
+<hr>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Interaction between <code>Command</code> and <code>StorageManager</code><br>
+<strong>Alternative 1 (current choice):</strong> Extend <code>setData()</code> to also recieve the <code>Storage</code> component<br>
+<strong>Pros:</strong> In line with existing architecture, does not introduce global state.<br>
+<strong>Cons:</strong> All invocations of <code>setData()</code> have to be changed; but only one command uses <code>StorageManager</code>, creating unnessasary busywork.<br>
+<strong>Alternative 2:</strong> Make <code>StorageManager</code> a Singleton<br>
+<strong>Pros:</strong> Does not affect existing commands; easy for <code>BackupCommand</code> to access.<br>
+<strong>Cons:</strong> Changes architecture of app, introduces more global state.</p>
 </div>
 <div class="paragraph">
 <p><mark>End of Extract</mark></p>
@@ -124,12 +162,12 @@ Format: <code>clearHistory</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="code-clearhistory-code-command"><a class="link" href="#code-clearhistory-code-command"><code>clearHistory</code> command</a></h3>
+<h3 id="code-clearhistory-code-command-mechanism"><a class="link" href="#code-clearhistory-code-command-mechanism"><code>clearHistory</code> command mechanism</a></h3>
 <div class="paragraph">
 <p>The <code>clearHistory</code> command is implemented as a regular command that calls <code>.clear()</code> methods added to <code>CommandHistory</code> and <code>UndoRedoStack</code>, which clears the command history and the undo/redo stack respectively.</p>
 </div>
 <div class="sect3">
-<h4 id="design-considerations"><a class="link" href="#design-considerations">Design Considerations</a></h4>
+<h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">Design Considerations</a></h4>
 <div class="paragraph">
 <p><strong>Aspect:</strong> Type of <code>clearHistory</code> command<br>
 <strong>Alternative 1 (current choice):</strong> <code>Command</code><br>
@@ -218,6 +256,34 @@ Sets the colour of the tag <code>friend</code> to red on next program start.</p>
 <div class="paragraph">
 <p><mark>Start of Extract [from: Developer Guide]</mark></p>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="code-colortag-code-command-mechanism"><a class="link" href="#code-colortag-code-command-mechanism"><code>colorTag</code> command mechanism</a></h3>
+<div class="paragraph">
+<p>The <code>colourTag</code> command sets a tag colour for a given tag that is stored in <code>UserPrefs</code> as a <code>Map&lt;Tag, String&gt;</code> of tag-colour pairs.</p>
+</div>
+<div class="sect3">
+<h4 id="design-considerations-3"><a class="link" href="#design-considerations-3">Design Considerations</a></h4>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Persistence mechanism for tag colours<br>
+<strong>Alternative 1 (current choice):</strong> Store in <code>UserPrefs</code> as GUI settings<br>
+<strong>Pros:</strong> Tag colour settings remain the same for different data files, more consistency for user.<br>
+<strong>Cons:</strong> <code>Storage</code> has to be extended to provide access to <code>UserPrefs</code> for <code>Command</code>, difficult to signal a tag colour change when no user data is modified.<br>
+<strong>Alternative 2:</strong> Store in <code>XmlAddressBookStorage</code> as user data.<br>
+<strong>Pros:</strong> Easier to signal tag colour changes to GUI.<br>
+<strong>Cons:</strong> Tag colours will be different depending on which data file is loaded, leading to inconsistency and confusion for the user.</p>
+</div>
+<hr>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Location for storing tag colours<br>
+<strong>Alternative 1 (current choice):</strong> Global tag colour mapping<br>
+<strong>Pros:</strong> No possibility of two identical tags having different colours, easy to update all instances of one tag with new colour.<br>
+<strong>Cons:</strong>  More difficult to indicate a tag colour change to the GUI as no user data is visibly modified+
+<strong>Alternative 2:</strong> Each tag stores its own colour.<br>
+<strong>Pros:</strong> Easier to signal tag colour changes to GUI.<br>
+<strong>Cons:</strong> Possibility of identical tag containing different colours.</p>
+</div>
 <div class="paragraph">
 <p><mark>End of Extract</mark></p>
 </div>
@@ -287,6 +353,53 @@ Highlights the shortest path between the first and second person in Intelli, if 
 <div class="paragraph">
 <p><mark>Start of Extract [from: Developer Guide]</mark></p>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="code-relpath-code-command-mechanism"><a class="link" href="#code-relpath-code-command-mechanism"><code>relPath</code> command mechanism</a></h3>
+<div class="paragraph">
+<p><code>relPath</code> finds a shortest relationship path between two people that has the highest minimum confidence estimate, and highlights this path on the graph display. In other words, it prioritises relationships with a higher confidence level over those with lower confidence levels when deciding the shortest path.</p>
+</div>
+<div class="paragraph">
+<p>To do so, a modifiied version of the standard Dijkstra&#8217;s shortest path algorithm is used, which takes into account path <em>width</em> (the smallest confidence estimate on the path) and selects edges that maximises the minimum width of the path. The algorithm can be briefly described as follows:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>For all persons from the source person, set the path width to them at -Infinity.</p>
+</li>
+<li>
+<p>Keep track of the width of the path to each person from the source.</p>
+</li>
+<li>
+<p>At each iteration, take the person with the smallest width so far and consider its outgoing edges. Add an edge into the shortest path to this person if it will increase the minimum confidence estimate of the path.</p>
+</li>
+<li>
+<p>When all persons are processed, all shortest paths with the highest minimum confidence estimate will be found.</p>
+</li>
+</ol>
+</div>
+<div class="sect3">
+<h4 id="design-considerations-4"><a class="link" href="#design-considerations-4">Design Considerations</a></h4>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Implementation of modified Dijkstra&#8217;s<br>
+<strong>Alternative 1 (current choice):</strong> Extend the current <code>Dijkstra</code> algorithm in the GraphStream library.<br>
+<strong>Pros:</strong> Easy to implement since most of the algorithm is the same, easy to use with graph display.<br>
+<strong>Cons:</strong> Relies on external library for correctness, unable to guarantee correctness of external library. <br>
+<strong>Alternative 2:</strong> Implement modified Dijkstra&#8217;s from scratch.<br>
+<strong>Pros:</strong> Can ensure testablity and reliablity of own code, less reliance on external correctness.<br>
+<strong>Cons:</strong> More difficult implementation as it is from scratch, less compatability with graph display means integration between display and algorithm has to be manually written.</p>
+</div>
+<hr>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Access to <code>GraphWrapper</code> from <code>RelPathCommand</code><br>
+<strong>Alternative 1 (current choice):</strong> Make <code>GraphWrapper</code> a Singleton.<br>
+<strong>Pros:</strong> Easy to access from <code>relPathCommand</code>, no need to modify all commands like if <code>setData()</code> was extended.<br>
+<strong>Cons:</strong> Increases global state. <br>
+<strong>Alternative 2:</strong> Extend <code>Command.setData()</code> to take in <code>GraphWrapper</code><br>
+<strong>Pros:</strong> Similar to how other components are allowed to interact with commands, better consistency.<br>
+<strong>Cons:</strong> Since the graph display is a GUI component, no straightforward way to have <code>Command</code> access it. Also means that every command&#8217;s <code>setData()</code> has to be modified to take into account an external parameter.</p>
+</div>
 <div class="paragraph">
 <p><mark>End of Extract</mark></p>
 </div>
@@ -325,7 +438,7 @@ Format: <code>listRelated INDEX</code></p>
 <div class="ulist">
 <ul>
 <li>
-<p>Added relationships to XML storage (Pull requests <a href="https://github.com/CS2103AUG2017-F10-B1/main/pull/106">#106</a>, <a href="https://github.com/CS2103AUG2017-F10-B1/main/pull/126">#126</a>)</p>
+<p>Added relationships to XML storage (Pull requests <a href="https://github.com/CS2103AUG2017-F10-B1/main/pull/106">#106</a>, <a href="https://github.com/CS2103AUG2017-F10-B1/main/pull/126">#126</a> and <a href="https://github.com/CS2103AUG2017-F10-B1/main/pull/154">#154</a>)</p>
 </li>
 <li>
 <p>Restrict range of confidence estimates from 0 to 100 and added tests (Pull request <a href="https://github.com/CS2103AUG2017-F10-B1/main/pull/131">#131</a>)</p>
@@ -350,7 +463,7 @@ Format: <code>listRelated INDEX</code></p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-11-13 12:17:51 +00:00
+Last updated 2017-11-13 15:50:51 +00:00
 </div>
 </div>
 </body>
