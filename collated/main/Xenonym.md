@@ -1,5 +1,5 @@
 # Xenonym
-###### \java\org\graphstream\algorithm\WidestPath.java
+###### /java/org/graphstream/algorithm/WidestPath.java
 ``` java
 /**
  * Modified Dijkstra's algorithm for computing widest paths.
@@ -50,7 +50,7 @@ public class WidestPath extends Dijkstra {
     }
 }
 ```
-###### \java\seedu\address\commons\core\GuiSettings.java
+###### /java/seedu/address/commons/core/GuiSettings.java
 ``` java
     public Map<Tag, String> getTagColours() {
         return Collections.unmodifiableMap(tagColours);
@@ -60,7 +60,7 @@ public class WidestPath extends Dijkstra {
         tagColours = newTagColours;
     }
 ```
-###### \java\seedu\address\logic\CommandHistory.java
+###### /java/seedu/address/logic/CommandHistory.java
 ``` java
     /**
      * Clear the command history.
@@ -69,7 +69,7 @@ public class WidestPath extends Dijkstra {
         userInputHistory.clear();
     }
 ```
-###### \java\seedu\address\logic\commands\BackupCommand.java
+###### /java/seedu/address/logic/commands/BackupCommand.java
 ``` java
 /**
  * Backs up the address book to a fixed location (current file name).bak.
@@ -98,7 +98,7 @@ public class BackupCommand extends Command {
     }
 }
 ```
-###### \java\seedu\address\logic\commands\ClearHistoryCommand.java
+###### /java/seedu/address/logic/commands/ClearHistoryCommand.java
 ``` java
 /**
  * Clears the command history and the undo/redo stack.
@@ -125,7 +125,7 @@ public class ClearHistoryCommand extends Command {
     }
 }
 ```
-###### \java\seedu\address\logic\commands\ColourTagCommand.java
+###### /java/seedu/address/logic/commands/ColourTagCommand.java
 ``` java
 /**
  * Changes the colour of a tag to a given colour.
@@ -171,7 +171,7 @@ public class ColourTagCommand extends UndoableCommand {
     }
 }
 ```
-###### \java\seedu\address\logic\commands\RelPathCommand.java
+###### /java/seedu/address/logic/commands/RelPathCommand.java
 ``` java
 /**
  * Gets the shortest relationship path between two persons with the highest confidence.
@@ -242,7 +242,7 @@ public class RelPathCommand extends Command {
     }
 }
 ```
-###### \java\seedu\address\logic\parser\ColourTagCommandParser.java
+###### /java/seedu/address/logic/parser/ColourTagCommandParser.java
 ``` java
 /**
  * Parses input arguments and creates a new {@code ColourTagCommand} object.
@@ -274,7 +274,7 @@ public class ColourTagCommandParser implements Parser<ColourTagCommand> {
     }
 }
 ```
-###### \java\seedu\address\logic\parser\RelPathCommandParser.java
+###### /java/seedu/address/logic/parser/RelPathCommandParser.java
 ``` java
 /**
  * Parses input arguments and creates a new RelPathCommand object.
@@ -301,7 +301,7 @@ public class RelPathCommandParser implements Parser<RelPathCommand> {
     }
 }
 ```
-###### \java\seedu\address\logic\UndoRedoStack.java
+###### /java/seedu/address/logic/UndoRedoStack.java
 ``` java
     /**
      * Clears the stack of all commands.
@@ -311,7 +311,7 @@ public class RelPathCommandParser implements Parser<RelPathCommand> {
         redoStack.clear();
     }
 ```
-###### \java\seedu\address\model\graph\GraphWrapper.java
+###### /java/seedu/address/model/graph/GraphWrapper.java
 ``` java
     /**
      * Highlights the shortest path between two people with the highest confidence.
@@ -349,7 +349,7 @@ public class RelPathCommandParser implements Parser<RelPathCommand> {
     }
 
 ```
-###### \java\seedu\address\model\graph\GraphWrapper.java
+###### /java/seedu/address/model/graph/GraphWrapper.java
 ``` java
     private void resetGraph() {
         graph.clear();
@@ -358,13 +358,13 @@ public class RelPathCommandParser implements Parser<RelPathCommand> {
     }
 }
 ```
-###### \java\seedu\address\model\ModelManager.java
+###### /java/seedu/address/model/ModelManager.java
 ``` java
     public UserPrefs getUserPrefs() {
         return userPrefs;
     }
 ```
-###### \java\seedu\address\model\util\SampleDataUtil.java
+###### /java/seedu/address/model/util/SampleDataUtil.java
 ``` java
     /**
      * Returns a mapping of tags to colours.
@@ -383,14 +383,14 @@ public class RelPathCommandParser implements Parser<RelPathCommand> {
         return sampleTagColours;
     }
 ```
-###### \java\seedu\address\storage\AddressBookStorage.java
+###### /java/seedu/address/storage/AddressBookStorage.java
 ``` java
     /**
      * Returns the file path of the backup data file.
      */
     String getBackupAddressBookFilePath();
 ```
-###### \java\seedu\address\storage\AddressBookStorage.java
+###### /java/seedu/address/storage/AddressBookStorage.java
 ``` java
     /**
      * Returns backup AddressBook data as a {@link ReadOnlyAddressBook}.
@@ -400,7 +400,7 @@ public class RelPathCommandParser implements Parser<RelPathCommand> {
      */
     Optional<ReadOnlyAddressBook> readBackupAddressBook() throws DataConversionException, IOException;
 ```
-###### \java\seedu\address\storage\AddressBookStorage.java
+###### /java/seedu/address/storage/AddressBookStorage.java
 ``` java
     /**
      * Backs up the given {@link ReadOnlyAddressBook} to a fixed temporary location.
@@ -409,28 +409,28 @@ public class RelPathCommandParser implements Parser<RelPathCommand> {
      */
     void backupAddressBook(ReadOnlyAddressBook addressBook) throws IOException;
 ```
-###### \java\seedu\address\storage\StorageManager.java
+###### /java/seedu/address/storage/StorageManager.java
 ``` java
     @Override
     public String getBackupAddressBookFilePath() {
         return addressBookStorage.getBackupAddressBookFilePath();
     }
 ```
-###### \java\seedu\address\storage\StorageManager.java
+###### /java/seedu/address/storage/StorageManager.java
 ``` java
     @Override
     public Optional<ReadOnlyAddressBook> readBackupAddressBook() throws DataConversionException, IOException {
         return addressBookStorage.readBackupAddressBook();
     }
 ```
-###### \java\seedu\address\storage\StorageManager.java
+###### /java/seedu/address/storage/StorageManager.java
 ``` java
     @Override
     public void backupAddressBook(ReadOnlyAddressBook addressBook) throws IOException {
         saveAddressBook(addressBook, getBackupAddressBookFilePath());
     }
 ```
-###### \java\seedu\address\storage\XmlAdaptedRelationship.java
+###### /java/seedu/address/storage/XmlAdaptedRelationship.java
 ``` java
 /**
  * JAXB-friendly adapted version of Relationship.
@@ -533,28 +533,28 @@ public class XmlAdaptedRelationship {
     }
 }
 ```
-###### \java\seedu\address\storage\XmlAddressBookStorage.java
+###### /java/seedu/address/storage/XmlAddressBookStorage.java
 ``` java
     @Override
     public String getBackupAddressBookFilePath() {
         return getAddressBookFilePath() + BACKUP_SUFFIX;
     }
 ```
-###### \java\seedu\address\storage\XmlAddressBookStorage.java
+###### /java/seedu/address/storage/XmlAddressBookStorage.java
 ``` java
     @Override
     public Optional<ReadOnlyAddressBook> readBackupAddressBook() throws DataConversionException, IOException {
         return readAddressBook(getBackupAddressBookFilePath());
     }
 ```
-###### \java\seedu\address\storage\XmlAddressBookStorage.java
+###### /java/seedu/address/storage/XmlAddressBookStorage.java
 ``` java
     @Override
     public void backupAddressBook(ReadOnlyAddressBook addressBook) throws IOException {
         saveAddressBook(addressBook, getBackupAddressBookFilePath());
     }
 ```
-###### \java\seedu\address\storage\XmlSerializableAddressBook.java
+###### /java/seedu/address/storage/XmlSerializableAddressBook.java
 ``` java
         List<ReadOnlyPerson> persons = src.getPersonList();
         Set<XmlAdaptedRelationship> rels = new HashSet<>(); // prevent duplicate relationships from being added
@@ -566,7 +566,7 @@ public class XmlAdaptedRelationship {
         }
         relationships.addAll(rels);
 ```
-###### \java\seedu\address\storage\XmlSerializableAddressBook.java
+###### /java/seedu/address/storage/XmlSerializableAddressBook.java
 ``` java
         for (XmlAdaptedRelationship xre : relationships) {
             xre.addToModel(persons);

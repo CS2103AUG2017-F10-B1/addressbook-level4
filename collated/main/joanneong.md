@@ -1,5 +1,5 @@
 # joanneong
-###### \java\seedu\address\commons\core\Commands.java
+###### /java/seedu/address/commons/core/Commands.java
 ``` java
 /**
  * Container for all command words, command aliases, and shortened command usage in the application.
@@ -15,6 +15,7 @@ public class Commands {
         DeleteCommand.COMMAND_WORD,
         DeleteRelationshipCommand.COMMAND_WORD,
         EditCommand.COMMAND_WORD,
+        EditRelationshipCommand.COMMAND_WORD,
         ExitCommand.COMMAND_WORD,
         FindCommand.COMMAND_WORD,
         HelpCommand.COMMAND_WORD,
@@ -22,7 +23,6 @@ public class Commands {
         ListCommand.COMMAND_WORD,
         RedoCommand.COMMAND_WORD,
         RelPathCommand.COMMAND_WORD,
-        RemarkCommand.COMMAND_WORD,
         RemoveTagCommand.COMMAND_WORD,
         SelectCommand.COMMAND_WORD,
         SortCommand.COMMAND_WORD,
@@ -39,6 +39,7 @@ public class Commands {
         DeleteCommand.COMMAND_ALIAS,
         DeleteRelationshipCommand.COMMAND_ALIAS,
         EditCommand.COMMAND_ALIAS,
+        EditRelationshipCommand.COMMAND_ALIAS,
         ExitCommand.COMMAND_ALIAS,
         FindCommand.COMMAND_ALIAS,
         HelpCommand.COMMAND_ALIAS,
@@ -46,7 +47,7 @@ public class Commands {
         ListCommand.COMMAND_ALIAS,
         RedoCommand.COMMAND_ALIAS,
         RelPathCommand.COMMAND_ALIAS,
-        RemarkCommand.COMMAND_ALIAS,
+        RemoveTagCommand.COMMAND_ALIAS,
         SelectCommand.COMMAND_ALIAS,
         SortCommand.COMMAND_ALIAS,
         UndoCommand.COMMAND_ALIAS
@@ -62,6 +63,7 @@ public class Commands {
         DeleteCommand.SHORT_MESSAGE_USAGE,
         DeleteRelationshipCommand.SHORT_MESSAGE_USAGE,
         EditCommand.SHORT_MESSAGE_USAGE,
+        EditRelationshipCommand.SHORT_MESSAGE_USAGE,
         ExitCommand.SHORT_MESSAGE_USAGE,
         FindCommand.SHORT_MESSAGE_USAGE,
         HelpCommand.SHORT_MESSAGE_USAGE,
@@ -69,7 +71,6 @@ public class Commands {
         ListCommand.SHORT_MESSAGE_USAGE,
         RedoCommand.SHORT_MESSAGE_USAGE,
         RelPathCommand.SHORT_MESSAGE_USAGE,
-        RemarkCommand.SHORT_MESSAGE_USAGE,
         RemoveTagCommand.SHORT_MESSAGE_USAGE,
         SelectCommand.SHORT_MESSAGE_USAGE,
         SortCommand.SHORT_MESSAGE_USAGE,
@@ -82,6 +83,7 @@ public class Commands {
 
         for (int i = 0; i < ALL_COMMAND_WORDS.length; i++) {
             ALL_COMMANDS_AND_SHORT_MESSAGES.put(ALL_COMMAND_WORDS[i], ALL_SHORT_MESSAGE_USAGES[i]);
+            ALL_COMMANDS_AND_SHORT_MESSAGES.put(ALL_COMMAND_ALIASES[i], ALL_SHORT_MESSAGE_USAGES[i]);
         }
     }
 
@@ -98,7 +100,7 @@ public class Commands {
     }
 }
 ```
-###### \java\seedu\address\commons\events\ui\NewGraphDisplayEvent.java
+###### /java/seedu/address/commons/events/ui/NewGraphDisplayEvent.java
 ``` java
 /**
  * Indicates that a new graph display is available.
@@ -124,7 +126,128 @@ public class NewGraphDisplayEvent extends BaseEvent {
 
 }
 ```
-###### \java\seedu\address\logic\parser\FindCommandParser.java
+###### /java/seedu/address/logic/commands/EditRelationshipCommand.java
+``` java
+/**
+ * Edits a relationship between two persons.
+ */
+public class EditRelationshipCommand extends UndoableCommand {
+
+    public static final String COMMAND_WORD = "editRelationship";
+    public static final String COMMAND_ALIAS = "editRel";
+
+    public static final String COMMAND_PARAMETERS = "FROM_INDEX, TO_INDEX (must be positive integers), "
+            + "(Optional) " + PREFIX_CONFIDENCE_ESTIMATE + "CONFIDENCE_ESTIMATE, "
+            + "(Optional) " + PREFIX_NAME + "NAME ";
+
+    public static final String SHORT_MESSAGE_USAGE = COMMAND_WORD + " " + COMMAND_PARAMETERS;
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Edits a relationship between the two persons specified "
+            + "by the index numbers used in the last person listing. "
+            + "Parameters: " + COMMAND_PARAMETERS + "\n"
+            + "Example: " + COMMAND_WORD + " 1 2 n/newName";
+
+    public static final String MESSAGE_EDIT_RELATIONSHIP_SUCCESS = "Edited relationship between : %1$s and %2$s";
+    public static final String MESSAGE_NONEXISTENT_RELATIONSHIP = "This relationship does not exist "
+            + "in the address book.";
+    public static final String MESSAGE_DUPLICATED_RELATIONSHIP = "This relationship already exists "
+            + "in the address book.";
+
+    private final Index indexFromPerson;
+    private final Index indexToPerson;
+
+    private final Name name;
+    private final ConfidenceEstimate confidenceEstimate;
+
+    /**
+     * @param indexFrom of the person from whom the relationship starts in the filtered person list
+     * @param indexTo of the person to whom the relationship is directed in the filtered person list
+     */
+    public EditRelationshipCommand(Index indexFrom, Index indexTo,
+                                   Name name, ConfidenceEstimate confidenceEstimate) {
+        requireAllNonNull(indexFrom, indexTo);
+        this.indexFromPerson = indexFrom;
+        this.indexToPerson = indexTo;
+        this.name = name;
+        this.confidenceEstimate = confidenceEstimate;
+    }
+
+    @Override
+    public CommandResult executeUndoableCommand() throws CommandException {
+        try {
+            model.editRelationship(indexFromPerson, indexToPerson, name, confidenceEstimate);
+        } catch (IllegalValueException ive) {
+            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        } catch (RelationshipNotFoundException re) {
+            throw new CommandException(MESSAGE_NONEXISTENT_RELATIONSHIP);
+        } catch (DuplicateRelationshipException dre) {
+            throw new CommandException(MESSAGE_DUPLICATED_RELATIONSHIP);
+        }
+        return new CommandResult(String.format(MESSAGE_EDIT_RELATIONSHIP_SUCCESS, indexFromPerson.toString(),
+                indexToPerson.toString()));
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof EditRelationshipCommand // instanceof handles nulls
+                && this.indexFromPerson.equals(((EditRelationshipCommand) other).indexFromPerson)
+                && this.indexToPerson.equals(((EditRelationshipCommand) other).indexToPerson))
+                && this.name.equals((((EditRelationshipCommand) other).name))
+                && this.confidenceEstimate.equals(((EditRelationshipCommand) other).confidenceEstimate); // state check
+    }
+
+}
+```
+###### /java/seedu/address/logic/parser/EditRelationshipCommandParser.java
+``` java
+/**
+ * Parses input arguments and creates a new EditRelationshipCommand object
+ */
+public class EditRelationshipCommandParser implements Parser<EditRelationshipCommand> {
+
+    /**
+     * Parses the given {@code String} of arguments in the context of the EditRelationshipCommand
+     * and returns an EditRelationshipCommand object for execution.
+     * @throws ParseException if the user input does not conform the expected format
+     */
+    @Override
+    public EditRelationshipCommand parse(String args) throws ParseException {
+        String trimmedArgs = args.trim();
+        List<String> listOfArgs = Arrays.asList(trimmedArgs.split(" "));
+
+        if (listOfArgs.size() < 2) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    EditRelationshipCommand.MESSAGE_USAGE));
+        }
+
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_CONFIDENCE_ESTIMATE);
+
+        String firstIndexString = listOfArgs.get(0);
+        String secondIndexString = listOfArgs.get(1);
+
+        if (firstIndexString.equals(secondIndexString)) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditRelationshipCommand.MESSAGE_USAGE));
+        }
+
+        try {
+            Index firstIndex = ParserUtil.parseIndex(listOfArgs.get(0));
+            Index secondIndex = ParserUtil.parseIndex(listOfArgs.get(1));
+            Name name = ParserUtil.parseRelationshipName(argMultimap.getValue(PREFIX_NAME)).get();
+            ConfidenceEstimate confidenceEstimate =
+                    ParserUtil.parseConfidenceEstimate(argMultimap.getValue(PREFIX_CONFIDENCE_ESTIMATE)).get();
+
+            return new EditRelationshipCommand(firstIndex, secondIndex, name, confidenceEstimate);
+        } catch (IllegalValueException ive) {
+            throw new ParseException(ive.getMessage(), ive);
+        }
+    }
+
+}
+
+```
+###### /java/seedu/address/logic/parser/FindCommandParser.java
 ``` java
 /**
  * Parses input arguments and creates a new FindCommand object
@@ -241,7 +364,7 @@ public class FindCommandParser implements Parser<FindCommand> {
 
 }
 ```
-###### \java\seedu\address\model\graph\GraphWrapper.java
+###### /java/seedu/address/model/graph/GraphWrapper.java
 ``` java
     /**
      * Returns the view attached to the viewer for the graph.
@@ -251,7 +374,7 @@ public class FindCommandParser implements Parser<FindCommand> {
     }
 
 ```
-###### \java\seedu\address\model\graph\GraphWrapper.java
+###### /java/seedu/address/model/graph/GraphWrapper.java
 ``` java
     /**
      * Initialise advanced renderer for integrated graph display.
@@ -274,7 +397,7 @@ public class FindCommandParser implements Parser<FindCommand> {
     }
 
 ```
-###### \java\seedu\address\model\graph\GraphWrapper.java
+###### /java/seedu/address/model/graph/GraphWrapper.java
 ``` java
     /**
      * Style each node in the integrated graph display
@@ -286,7 +409,7 @@ public class FindCommandParser implements Parser<FindCommand> {
     }
 
 ```
-###### \java\seedu\address\model\graph\GraphWrapper.java
+###### /java/seedu/address/model/graph/GraphWrapper.java
 ``` java
     /**
      * Label edges in the integrated graph display
@@ -318,7 +441,121 @@ public class FindCommandParser implements Parser<FindCommand> {
     }
 
 ```
-###### \java\seedu\address\model\person\AddressContainsKeywordsPredicate.java
+###### /java/seedu/address/model/Model.java
+``` java
+    void editRelationship(Index indexFromPerson, Index indexToPerson, Name name, ConfidenceEstimate confidenceEstimate)
+        throws IllegalValueException, RelationshipNotFoundException, DuplicateRelationshipException;
+
+```
+###### /java/seedu/address/model/ModelManager.java
+``` java
+
+    /**
+     * Edits a relationship between two persons by updating the name and confidence estimate of the relationship.
+     *
+     * Note that this edit is actually done by removing the relationship and constructing a new relationship with
+     * the new name and confidence estimate.
+     */
+    public void editRelationship(Index indexFromPerson, Index indexToPerson, Name name,
+                                 ConfidenceEstimate confidenceEstimate)
+            throws DuplicateRelationshipException, RelationshipNotFoundException, IllegalValueException {
+        List<ReadOnlyPerson> lastShownList = getFilteredPersonList();
+
+        if (indexFromPerson.getZeroBased() >= lastShownList.size()
+                || indexToPerson.getZeroBased() >= lastShownList.size()
+                || indexFromPerson.getZeroBased() < 0
+                || indexToPerson.getZeroBased() < 0) {
+            throw new IllegalValueException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        }
+
+        ReadOnlyPerson fromPerson = lastShownList.get(indexFromPerson.getZeroBased());
+        ReadOnlyPerson toPerson = lastShownList.get(indexToPerson.getZeroBased());
+        Person fromPersonCasting = (Person) fromPerson;
+        Person toPersonCasting = (Person) toPerson;
+
+        Relationship undirectedRelationshipToFind = new Relationship(fromPerson, toPerson,
+                RelationshipDirection.UNDIRECTED);
+        Relationship directedRelationshipToFind = new Relationship(fromPerson, toPerson,
+                RelationshipDirection.DIRECTED);
+        Relationship alternativeDirectedRelationshipToFind = new Relationship(toPerson, fromPerson,
+                RelationshipDirection.DIRECTED);
+
+        // Check whether the original relationship was directed or undirected since direction is preserved
+        Set<Relationship> fromPersonRelationships = fromPerson.getRelationships();
+        Relationship oldRelationship = undirectedRelationshipToFind;
+        Relationship newRelationship = undirectedRelationshipToFind;
+        Name newName = name;
+        ConfidenceEstimate newConfidenceEstimate = confidenceEstimate;
+
+        boolean foundRelationship = false;
+
+        for (Relationship fromPersonRelationship : fromPersonRelationships) {
+            if (fromPersonRelationship.equals(undirectedRelationshipToFind)) {
+                oldRelationship = undirectedRelationshipToFind;
+                newRelationship = constructUpdatedRelationship(fromPerson, toPerson, RelationshipDirection.UNDIRECTED,
+                        newName, newConfidenceEstimate, fromPersonRelationship);
+                foundRelationship = true;
+                break;
+            } else if (fromPersonRelationship.equals(directedRelationshipToFind)) {
+                oldRelationship = directedRelationshipToFind;
+                newRelationship = constructUpdatedRelationship(fromPerson, toPerson, RelationshipDirection.DIRECTED,
+                        newName, newConfidenceEstimate, fromPersonRelationship);
+                foundRelationship = true;
+                break;
+            } else if (fromPersonRelationship.equals(alternativeDirectedRelationshipToFind)) {
+                oldRelationship = alternativeDirectedRelationshipToFind;
+                newRelationship = constructUpdatedRelationship(toPerson, fromPerson, RelationshipDirection.DIRECTED,
+                        newName, newConfidenceEstimate, fromPersonRelationship);
+                foundRelationship = true;
+                break;
+            }
+        }
+
+        if (foundRelationship) {
+            fromPersonCasting.removeRelationship(oldRelationship);
+            toPersonCasting.removeRelationship(oldRelationship);
+
+            fromPersonCasting.addRelationship(newRelationship);
+            toPersonCasting.addRelationship(newRelationship);
+
+            updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+            indicateAddressBookChanged();
+        } else {
+            throw new RelationshipNotFoundException("This relationship does not exist!");
+        }
+    }
+
+    /**
+     * Constructs a new relationship between two persons with the name and the confidence estimate
+     * provided.
+     *
+     * If there are no name/confidence estimate provided, the relationship will retain the name/
+     * confidence estimate of the original (pre-edited) relationship.
+     */
+    private Relationship constructUpdatedRelationship(ReadOnlyPerson fromPerson, ReadOnlyPerson toPerson,
+                                                      RelationshipDirection relationshipDirection, Name name,
+                                                      ConfidenceEstimate confidenceEstimate,
+                                                      Relationship fromPersonRelationship) {
+
+        boolean hasNewName = !name.equals(Name.UNSPECIFIED);
+        boolean hasNewConfidenceEstimate = !confidenceEstimate.equals(ConfidenceEstimate.UNSPECIFIED);
+        Name newName = name;
+        ConfidenceEstimate newConfidenceEstimate = confidenceEstimate;
+
+        if (!hasNewName) {
+            newName = fromPersonRelationship.getName();
+        }
+        if (!hasNewConfidenceEstimate) {
+            newConfidenceEstimate = fromPersonRelationship.getConfidenceEstimate();
+        }
+
+        return new Relationship(fromPerson, toPerson, relationshipDirection, newName, newConfidenceEstimate);
+    }
+
+    //=========== Filtered Person List Accessors =============================================================
+
+```
+###### /java/seedu/address/model/person/AddressContainsKeywordsPredicate.java
 ``` java
 /**
  * Tests that a {@code ReadOnlyPerson}'s {@code Address} matches any of the keywords given.
@@ -345,7 +582,7 @@ public class AddressContainsKeywordsPredicate implements Predicate<ReadOnlyPerso
 
 }
 ```
-###### \java\seedu\address\model\person\AnyContainsKeywordsPredicate.java
+###### /java/seedu/address/model/person/AnyContainsKeywordsPredicate.java
 ``` java
 /**
  * Tests that a {@code ReadOnlyPerson}'s details matches any of the keywords given.
@@ -379,7 +616,7 @@ public class AnyContainsKeywordsPredicate implements Predicate<ReadOnlyPerson> {
 
 }
 ```
-###### \java\seedu\address\model\person\EmailContainsKeywordsPredicate.java
+###### /java/seedu/address/model/person/EmailContainsKeywordsPredicate.java
 ``` java
 /**
  * Tests that a {@code ReadOnlyPerson}'s {@code Email} matches any of the keywords given.
@@ -406,7 +643,7 @@ public class EmailContainsKeywordsPredicate implements Predicate<ReadOnlyPerson>
 
 }
 ```
-###### \java\seedu\address\model\person\NameContainsKeywordsPredicate.java
+###### /java/seedu/address/model/person/NameContainsKeywordsPredicate.java
 ``` java
 /**
  * Tests that a {@code ReadOnlyPerson}'s {@code Name} matches any of the keywords given.
@@ -433,7 +670,7 @@ public class NameContainsKeywordsPredicate implements Predicate<ReadOnlyPerson> 
 
 }
 ```
-###### \java\seedu\address\model\person\PhoneContainsKeywordsPredicate.java
+###### /java/seedu/address/model/person/PhoneContainsKeywordsPredicate.java
 ``` java
 /**
  * Tests that a {@code ReadOnlyPerson}'s {@code Phone} matches any of the keywords given.
@@ -460,17 +697,18 @@ public class PhoneContainsKeywordsPredicate implements Predicate<ReadOnlyPerson>
 
 }
 ```
-###### \java\seedu\address\ui\CommandBox.java
+###### /java/seedu/address/ui/CommandBox.java
 ``` java
     public CommandBox(Logic logic) {
         super(FXML);
         this.logic = logic;
         // calls #setStyleToDefault() whenever there is a change to the text of the command box.
         commandTextField.textProperty().addListener((unused1, unused2, unused3) -> setStyleToDefault());
-        autoCompletionBinding = TextFields.bindAutoCompletion(commandTextField, Commands.getAllCommandWords());
-        autoCompletionBinding.setVisibleRowCount(3);
-        autoCompletionBinding.setMinWidth(100);
         historySnapshot = logic.getHistorySnapshot();
+    }
+
+    void setCustomAutoComplete(ResultDisplay resultDisplay) {
+        this.linkedResultDisplay = resultDisplay;
     }
 
     /**
@@ -480,8 +718,65 @@ public class PhoneContainsKeywordsPredicate implements Predicate<ReadOnlyPerson>
         return commandTextField;
     }
 
+    /**
+     * Handles the key press event, {@code keyEvent}.
+     */
+    @FXML
+    private void handleKeyPress(KeyEvent keyEvent) {
+        switch (keyEvent.getCode()) {
+        case UP:
+            // As up and down buttons will alter the position of the caret,
+            // consuming it causes the caret's position to remain unchanged
+            keyEvent.consume();
+
+            navigateToPreviousInput();
+            break;
+
+        case DOWN:
+            keyEvent.consume();
+            navigateToNextInput();
+            break;
+
+        case TAB:
+            keyEvent.consume();
+            autoCompleteWithTopSuggestion();
+            break;
+
+        case CONTROL:
+            keyEvent.consume();
+            clearInput();
+            break;
+
+        default:
+            // let JavaFx handle the keypress
+        }
+    }
+
 ```
-###### \java\seedu\address\ui\GraphDisplay.java
+###### /java/seedu/address/ui/CommandBox.java
+``` java
+    /**
+     * Sets the command box to the top valid suggestion that is not an empty string.
+     */
+    private void autoCompleteWithTopSuggestion() {
+        String topSuggestion = linkedResultDisplay.getCurrentTopSuggestion();
+
+        if (!topSuggestion.isEmpty()) {
+            replaceText(topSuggestion);
+        }
+    }
+
+    /**
+     * Sets the command box to be empty.
+     *
+     * This is essentially a shortcut for users to delete typed inputs.
+     */
+    private void clearInput() {
+        replaceText("");
+    }
+
+```
+###### /java/seedu/address/ui/GraphDisplay.java
 ``` java
 /**
  * Integrating GraphStream graph display into the application.
@@ -508,7 +803,7 @@ public class GraphDisplay extends UiPart<Region> {
                     + "text-padding: 5;"
                     + "text-background-color: black;"
                     + "text-color: white;"
-                    + "text-size: 15;"
+                    + "text-size: 10;"
                     + "size-mode: fit;"
                     + "z-index: 3;}"
                     + "edge { "
@@ -557,7 +852,7 @@ public class GraphDisplay extends UiPart<Region> {
 
 }
 ```
-###### \java\seedu\address\ui\MainWindow.java
+###### /java/seedu/address/ui/MainWindow.java
 ``` java
     /**
      * Fills up all the placeholders of this window.
@@ -579,27 +874,12 @@ public class GraphDisplay extends UiPart<Region> {
         CommandBox commandBox = new CommandBox(logic);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
 
+        commandBox.setCustomAutoComplete(resultDisplay);
         resultDisplay.setLinkedInput(commandBox);
     }
 
-    void hide() {
-        primaryStage.hide();
-    }
-
-    private void setTitle(String appTitle) {
-        primaryStage.setTitle(appTitle);
-    }
-
-    /**
-     * Sets the given image as the icon of the main window.
-     * @param iconSource e.g. {@code "/images/help_icon.png"}
-     */
-    private void setIcon(String iconSource) {
-        FxViewUtil.setStageIcon(primaryStage, iconSource);
-    }
-
 ```
-###### \java\seedu\address\ui\MainWindow.java
+###### /java/seedu/address/ui/MainWindow.java
 ``` java
     /**
      * Sets the default size based on default values.
@@ -649,7 +929,7 @@ public class GraphDisplay extends UiPart<Region> {
     }
 }
 ```
-###### \java\seedu\address\ui\ResultDisplay.java
+###### /java/seedu/address/ui/ResultDisplay.java
 ``` java
     public ResultDisplay() {
         super(FXML);
@@ -659,10 +939,60 @@ public class GraphDisplay extends UiPart<Region> {
         registerAsAnEventHandler(this);
     }
 
+    /**
+     * Gets the current top suggestion for custom auto-completion.
+     */
+    protected String getCurrentTopSuggestion() {
+        return this.topSuggestion;
+    }
+
     void setLinkedInput(CommandBox commandBox) {
         linkedCommandInput = commandBox.getCommandTextField();
-        linkedCommandInput.textProperty().addListener((observable, oldValue, newValue) ->
-            updateInfoDisplay(oldValue, newValue));
+        linkedCommandInput.textProperty().addListener((observable, oldValue, newValue) -> {
+            updateAutoCompleteDisplay(newValue.trim());
+            updateInfoDisplay(oldValue, newValue);
+        });
+    }
+
+    /**
+     * Updates the auto complete display according to the user input in the command box.
+     *
+     * Only command words that contain the input and are shorter than the input length will
+     * be considered as valid auto complete options. Also, given an input of length n, the first n
+     * characters of the command must match the input (case-insensitive) for it to be a valid suggestion.
+     *
+     * Furthermore, if the input has a spacing, then there will not be any suggestions displayed
+     * since all command words are implemented as single words.
+     *
+     * The first valid suggestion is also stored for custom auto complete purposes.
+     */
+    private void updateAutoCompleteDisplay(String currentInput) {
+        ArrayList<String> matchingSuggestions = new ArrayList<>();
+
+        if (currentInput.contains(" ")) {
+            displayed.setValue("");
+            topSuggestion = "";
+            return;
+        }
+
+        for (String commandWord: allCommandWords) {
+            if (currentInput.length() == 0
+                    || (currentInput.length() < commandWord.length()
+                        && commandWord.matches(CASE_INSENSITIVE_AND_WORD_START_REGEX
+                            + currentInput + OPTIONAL_ALPHANUMERIC_CHARACTERS_REGEX))) {
+                matchingSuggestions.add(commandWord);
+            }
+        }
+        if (!matchingSuggestions.isEmpty()) {
+            topSuggestion = matchingSuggestions.get(0);
+        }
+
+        StringBuilder toDisplay = new StringBuilder();
+        for (String option: matchingSuggestions) {
+            toDisplay.append(option + "\n");
+        }
+
+        displayed.setValue(toDisplay.toString());
     }
 
     /**
@@ -682,7 +1012,7 @@ public class GraphDisplay extends UiPart<Region> {
     }
 
 ```
-###### \resources\view\DarkTheme.css
+###### /resources/view/DarkTheme.css
 ``` css
 #tags .friends {
     -fx-background-color: red;
@@ -704,7 +1034,7 @@ public class GraphDisplay extends UiPart<Region> {
 
 
 ```
-###### \resources\view\GraphDisplay.fxml
+###### /resources/view/GraphDisplay.fxml
 ``` fxml
 <?import javafx.embed.swing.SwingNode?>
 <?import javafx.scene.layout.StackPane?>
@@ -715,7 +1045,7 @@ public class GraphDisplay extends UiPart<Region> {
    </children>
 </StackPane>
 ```
-###### \resources\view\ResultDisplay.fxml
+###### /resources/view/ResultDisplay.fxml
 ``` fxml
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextArea?>
