@@ -33,24 +33,25 @@ Updated by: <code>CS2103-F10-B1</code></p>
 <li><a href="#viewing-help-code-help-code">2.3. Viewing help : <code>help</code></a></li>
 <li><a href="#adding-a-person-code-add-code">2.4. Adding a person: <code>add</code></a></li>
 <li><a href="#adding-a-relationship-between-two-persons-code-addrelationship-code">2.5. Adding a relationship between two persons: <code>addRelationship</code></a></li>
-<li><a href="#listing-all-persons-code-list-code">2.6. Listing all persons : <code>list</code></a></li>
-<li><a href="#sorting-all-persons-code-sort-code">2.7. Sorting all persons : <code>sort</code></a></li>
-<li><a href="#editing-a-person-code-edit-code">2.8. Editing a person : <code>edit</code></a></li>
-<li><a href="#locating-persons-code-find-code">2.9. Locating persons: <code>find</code></a></li>
-<li><a href="#deleting-a-person-code-delete-code">2.10. Deleting a person : <code>delete</code></a></li>
-<li><a href="#deleting-a-relationship-between-two-persons-code-deleterelationship-code">2.11. Deleting a relationship between two persons : <code>deleteRelationship</code></a></li>
-<li><a href="#removing-a-tag-code-removetag-code">2.12. Removing a tag: <code>removeTag</code></a></li>
-<li><a href="#finding-shortest-relationship-path-between-two-people-code-relpath-code">2.13. Finding shortest relationship path between two people: <code>relPath</code></a></li>
-<li><a href="#setting-a-tag-colour-code-colourtag-code">2.14. Setting a tag colour: <code>colourTag</code></a></li>
-<li><a href="#selecting-a-person-code-select-code">2.15. Selecting a person : <code>select</code></a></li>
-<li><a href="#listing-entered-commands-code-history-code">2.16. Listing entered commands : <code>history</code></a></li>
-<li><a href="#undoing-previous-command-code-undo-code">2.17. Undoing previous command : <code>undo</code></a></li>
-<li><a href="#redoing-the-previously-undone-command-code-redo-code">2.18. Redoing the previously undone command : <code>redo</code></a></li>
-<li><a href="#clearing-all-entries-code-clear-code">2.19. Clearing all entries : <code>clear</code></a></li>
-<li><a href="#clearing-command-history-code-clearhistory-code">2.20. Clearing command history : <code>clearHistory</code></a></li>
-<li><a href="#backing-up-code-backup-code">2.21. Backing up: <code>backup</code></a></li>
-<li><a href="#exiting-the-program-code-exit-code">2.22. Exiting the program : <code>exit</code></a></li>
-<li><a href="#saving-the-data">2.23. Saving the data</a></li>
+<li><a href="#editing-a-relationship-between-two-persons-code-editrelationship-code">2.6. Editing a relationship between two persons: <code>editRelationship</code></a></li>
+<li><a href="#listing-all-persons-code-list-code">2.7. Listing all persons : <code>list</code></a></li>
+<li><a href="#sorting-all-persons-code-sort-code">2.8. Sorting all persons : <code>sort</code></a></li>
+<li><a href="#editing-a-person-code-edit-code">2.9. Editing a person : <code>edit</code></a></li>
+<li><a href="#locating-persons-code-find-code">2.10. Locating persons: <code>find</code></a></li>
+<li><a href="#deleting-a-person-code-delete-code">2.11. Deleting a person : <code>delete</code></a></li>
+<li><a href="#deleting-a-relationship-between-two-persons-code-deleterelationship-code">2.12. Deleting a relationship between two persons : <code>deleteRelationship</code></a></li>
+<li><a href="#removing-a-tag-code-removetag-code">2.13. Removing a tag: <code>removeTag</code></a></li>
+<li><a href="#finding-shortest-relationship-path-between-two-people-code-relpath-code">2.14. Finding shortest relationship path between two people: <code>relPath</code></a></li>
+<li><a href="#setting-a-tag-colour-code-colourtag-code">2.15. Setting a tag colour: <code>colourTag</code></a></li>
+<li><a href="#selecting-a-person-code-select-code">2.16. Selecting a person : <code>select</code></a></li>
+<li><a href="#listing-entered-commands-code-history-code">2.17. Listing entered commands : <code>history</code></a></li>
+<li><a href="#undoing-previous-command-code-undo-code">2.18. Undoing previous command : <code>undo</code></a></li>
+<li><a href="#redoing-the-previously-undone-command-code-redo-code">2.19. Redoing the previously undone command : <code>redo</code></a></li>
+<li><a href="#clearing-all-entries-code-clear-code">2.20. Clearing all entries : <code>clear</code></a></li>
+<li><a href="#clearing-command-history-code-clearhistory-code">2.21. Clearing command history : <code>clearHistory</code></a></li>
+<li><a href="#backing-up-code-backup-code">2.22. Backing up: <code>backup</code></a></li>
+<li><a href="#exiting-the-program-code-exit-code">2.23. Exiting the program : <code>exit</code></a></li>
+<li><a href="#saving-the-data">2.24. Saving the data</a></li>
 </ul>
 </li>
 <li><a href="#features-coming-in-v2-0">3. Features(Coming in v2.0)</a>
@@ -309,21 +310,73 @@ Adds an undirected relationship between the 2nd and 2rd with the name being 'hus
 </div>
 </div>
 <div class="sect2">
-<h3 id="listing-all-persons-code-list-code"><a class="link" href="#listing-all-persons-code-list-code">2.6. Listing all persons : <code>list</code></a></h3>
+<h3 id="editing-a-relationship-between-two-persons-code-editrelationship-code"><a class="link" href="#editing-a-relationship-between-two-persons-code-editrelationship-code">2.6. Editing a relationship between two persons: <code>editRelationship</code></a></h3>
+<div class="paragraph">
+<p>Edits a relationship between two persons in Intelli<br>
+Format: <code>editRelationship INDEX_ONE INDEX_TWO [n/NAME] [ce/CONFIDENCE_ESTIMATE]</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>The indexes of the persons are based on the most recent listing shown.</p>
+</li>
+<li>
+<p>The indexes provided does not have to be in a particular order since two persons can maximally have one relationship between them (e.g. <code>editRelationship 1 2</code> is equivalent to <code>editRelationship 2 1</code>).</p>
+</li>
+<li>
+<p>If only one attribute is updated (e.g. <code>editRelationship 1 2 n/NAME</code>), the other attribute will retain its original value in the pre-edited relationship.</p>
+</li>
+<li>
+<p><code>NAME</code>, which refers to the name of the relationship <strong>can only be alphanumeric</strong>.</p>
+</li>
+<li>
+<p><code>CONFIDENCE_ESTIMATE</code> refers to the confidence estimate the user gives to the relationship. <code>CONFIDENCE_ESTIMATE</code> <strong>can only be numbers from 0 to 100 inclusive</strong>.</p>
+</li>
+<li>
+<p>The graph does not display confidence estimates that have the value 0.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>editRelationship 1 2</code></p>
+</li>
+<li>
+<p><code>editRelationship 1 2 n/friends</code></p>
+</li>
+<li>
+<p><code>editRelationship 1 2 ce/3.12082</code></p>
+</li>
+<li>
+<p><code>editRelationship 1 2 n/friends ce/3.12082</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="listing-all-persons-code-list-code"><a class="link" href="#listing-all-persons-code-list-code">2.7. Listing all persons : <code>list</code></a></h3>
 <div class="paragraph">
 <p>Shows a list of all persons in Intelli.<br>
 Format: <code>list</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="sorting-all-persons-code-sort-code"><a class="link" href="#sorting-all-persons-code-sort-code">2.7. Sorting all persons : <code>sort</code></a></h3>
+<h3 id="sorting-all-persons-code-sort-code"><a class="link" href="#sorting-all-persons-code-sort-code">2.8. Sorting all persons : <code>sort</code></a></h3>
 <div class="paragraph">
 <p>Shows a list of all persons in Intelli sorted alphanumerically by name.<br>
 Format: <code>sort</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="editing-a-person-code-edit-code"><a class="link" href="#editing-a-person-code-edit-code">2.8. Editing a person : <code>edit</code></a></h3>
+<h3 id="editing-a-person-code-edit-code"><a class="link" href="#editing-a-person-code-edit-code">2.9. Editing a person : <code>edit</code></a></h3>
 <div class="paragraph">
 <p>Edits an existing person in Intelli.<br>
 Format: <code>edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [t/TAG]&#8230;&#8203;</code></p>
@@ -372,7 +425,7 @@ Clears the existing remark of the 3rd person.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="locating-persons-code-find-code"><a class="link" href="#locating-persons-code-find-code">2.9. Locating persons: <code>find</code></a></h3>
+<h3 id="locating-persons-code-find-code"><a class="link" href="#locating-persons-code-find-code">2.10. Locating persons: <code>find</code></a></h3>
 <div class="paragraph">
 <p>Finds persons whose details contain any of the given keywords.<br>
 Format: <code>find KEYWORD [MORE_KEYWORDS]</code></p>
@@ -437,7 +490,7 @@ Returns any person having name <code>Alice</code> AND/OR having phone number/ema
 </ul>
 </div>
 <div class="sect3">
-<h4 id="locating-persons-by-name-code-find-n-code"><a class="link" href="#locating-persons-by-name-code-find-n-code">2.9.1. Locating persons by name: <code>find n/</code></a></h4>
+<h4 id="locating-persons-by-name-code-find-n-code"><a class="link" href="#locating-persons-by-name-code-find-n-code">2.10.1. Locating persons by name: <code>find n/</code></a></h4>
 <div class="paragraph">
 <p>Finds persons whose names contain any of the given keywords.<br>
 Format: <code>find n/[KEYWORDS]</code></p>
@@ -475,7 +528,7 @@ You can find multiple persons with a single name search.
 </div>
 </div>
 <div class="sect3">
-<h4 id="locating-persons-by-address-code-find-a-code"><a class="link" href="#locating-persons-by-address-code-find-a-code">2.9.2. Locating persons by address: <code>find a/</code></a></h4>
+<h4 id="locating-persons-by-address-code-find-a-code"><a class="link" href="#locating-persons-by-address-code-find-a-code">2.10.2. Locating persons by address: <code>find a/</code></a></h4>
 <div class="paragraph">
 <p>Finds persons whose addresses contain any of the given keywords.<br>
 Format: <code>find a/[KEYWORDS]</code></p>
@@ -505,7 +558,7 @@ Returns any person having addresses containing the phrase <code>Serangoon</code>
 </div>
 </div>
 <div class="sect3">
-<h4 id="locating-persons-by-email-code-find-e-code"><a class="link" href="#locating-persons-by-email-code-find-e-code">2.9.3. Locating persons by email: <code>find e/</code></a></h4>
+<h4 id="locating-persons-by-email-code-find-e-code"><a class="link" href="#locating-persons-by-email-code-find-e-code">2.10.3. Locating persons by email: <code>find e/</code></a></h4>
 <div class="paragraph">
 <p>Finds persons whose emails contain any of the given keywords.<br>
 Format: <code>find e/[KEYWORDS]</code></p>
@@ -535,7 +588,7 @@ Returns any person having email addresses containing the suffix <code>@example.c
 </div>
 </div>
 <div class="sect3">
-<h4 id="locating-persons-by-phone-code-find-p-code"><a class="link" href="#locating-persons-by-phone-code-find-p-code">2.9.4. Locating persons by phone: <code>find p/</code></a></h4>
+<h4 id="locating-persons-by-phone-code-find-p-code"><a class="link" href="#locating-persons-by-phone-code-find-p-code">2.10.4. Locating persons by phone: <code>find p/</code></a></h4>
 <div class="paragraph">
 <p>Finds persons whose phone numbers contain any of the given keywords.<br>
 Format: <code>find p/[KEYWORDS]</code></p>
@@ -561,7 +614,7 @@ Returns any persons having phone numbers matching <code>97734225</code> OR <code
 </div>
 </div>
 <div class="sect3">
-<h4 id="locating-persons-by-tag-code-find-t-code"><a class="link" href="#locating-persons-by-tag-code-find-t-code">2.9.5. Locating persons by tag: <code>find t/</code></a></h4>
+<h4 id="locating-persons-by-tag-code-find-t-code"><a class="link" href="#locating-persons-by-tag-code-find-t-code">2.10.5. Locating persons by tag: <code>find t/</code></a></h4>
 <div class="paragraph">
 <p>Finds persons whose tags contain any of the given keywords.<br>
 Format: <code>find t/[KEYWORDS]</code></p>
@@ -592,7 +645,7 @@ Returns any persons having tags matching <code>friends</code> AND/OR <code>famil
 </div>
 </div>
 <div class="sect2">
-<h3 id="deleting-a-person-code-delete-code"><a class="link" href="#deleting-a-person-code-delete-code">2.10. Deleting a person : <code>delete</code></a></h3>
+<h3 id="deleting-a-person-code-delete-code"><a class="link" href="#deleting-a-person-code-delete-code">2.11. Deleting a person : <code>delete</code></a></h3>
 <div class="paragraph">
 <p>Deletes the specified person from Intelli.<br>
 Format: <code>delete INDEX</code></p>
@@ -633,7 +686,7 @@ Deletes the 1st person in the results of the <code>find</code> command.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="deleting-a-relationship-between-two-persons-code-deleterelationship-code"><a class="link" href="#deleting-a-relationship-between-two-persons-code-deleterelationship-code">2.11. Deleting a relationship between two persons : <code>deleteRelationship</code></a></h3>
+<h3 id="deleting-a-relationship-between-two-persons-code-deleterelationship-code"><a class="link" href="#deleting-a-relationship-between-two-persons-code-deleterelationship-code">2.12. Deleting a relationship between two persons : <code>deleteRelationship</code></a></h3>
 <div class="paragraph">
 <p>Deletes the relationship between two persons from Intelli.<br>
 Format: <code>delete INDEX_FROM_PERSON INDEX_TO_PERSON</code></p>
@@ -669,7 +722,7 @@ Deletes the relationship from the first to the 2nd person in Intelli.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="removing-a-tag-code-removetag-code"><a class="link" href="#removing-a-tag-code-removetag-code">2.12. Removing a tag: <code>removeTag</code></a></h3>
+<h3 id="removing-a-tag-code-removetag-code"><a class="link" href="#removing-a-tag-code-removetag-code">2.13. Removing a tag: <code>removeTag</code></a></h3>
 <div class="paragraph">
 <p>Removes the specific tag from Intelli.<br>
 Format: <code>removeTag TAG</code></p>
@@ -701,7 +754,7 @@ Removes the tag <code>friend</code> from all the persons in Intelli.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="finding-shortest-relationship-path-between-two-people-code-relpath-code"><a class="link" href="#finding-shortest-relationship-path-between-two-people-code-relpath-code">2.13. Finding shortest relationship path between two people: <code>relPath</code></a></h3>
+<h3 id="finding-shortest-relationship-path-between-two-people-code-relpath-code"><a class="link" href="#finding-shortest-relationship-path-between-two-people-code-relpath-code">2.14. Finding shortest relationship path between two people: <code>relPath</code></a></h3>
 <div class="paragraph">
 <p>Highlights the shortest relationship path between two people in Intelli in the graph display, if it exists.<br>
 Format: <code>relPath FROM_INDEX TO_INDEX</code></p>
@@ -739,7 +792,7 @@ Highlights the shortest path between the first and second person in Intelli, if 
 </div>
 </div>
 <div class="sect2">
-<h3 id="setting-a-tag-colour-code-colourtag-code"><a class="link" href="#setting-a-tag-colour-code-colourtag-code">2.14. Setting a tag colour: <code>colourTag</code></a></h3>
+<h3 id="setting-a-tag-colour-code-colourtag-code"><a class="link" href="#setting-a-tag-colour-code-colourtag-code">2.15. Setting a tag colour: <code>colourTag</code></a></h3>
 <div class="paragraph">
 <p>Sets a colour of a tag to a new colour.<br>
 Format: <code>colourTag TAG COLOUR</code></p>
@@ -777,7 +830,7 @@ Sets the colour of the tag <code>friend</code> to red on next program start.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="selecting-a-person-code-select-code"><a class="link" href="#selecting-a-person-code-select-code">2.15. Selecting a person : <code>select</code></a></h3>
+<h3 id="selecting-a-person-code-select-code"><a class="link" href="#selecting-a-person-code-select-code">2.16. Selecting a person : <code>select</code></a></h3>
 <div class="paragraph">
 <p>Selects the person identified by the index number used in the last person listing.<br>
 Format: <code>select INDEX</code></p>
@@ -818,7 +871,7 @@ Selects the 1st person in the results of the <code>find</code> command.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="listing-entered-commands-code-history-code"><a class="link" href="#listing-entered-commands-code-history-code">2.16. Listing entered commands : <code>history</code></a></h3>
+<h3 id="listing-entered-commands-code-history-code"><a class="link" href="#listing-entered-commands-code-history-code">2.17. Listing entered commands : <code>history</code></a></h3>
 <div class="paragraph">
 <p>Lists all the commands that you have entered in reverse chronological order.<br>
 Format: <code>history</code></p>
@@ -839,7 +892,7 @@ Format: <code>history</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="undoing-previous-command-code-undo-code"><a class="link" href="#undoing-previous-command-code-undo-code">2.17. Undoing previous command : <code>undo</code></a></h3>
+<h3 id="undoing-previous-command-code-undo-code"><a class="link" href="#undoing-previous-command-code-undo-code">2.18. Undoing previous command : <code>undo</code></a></h3>
 <div class="paragraph">
 <p>Restores Intelli to the state before the previous <em>undoable</em> command was executed.<br>
 Format: <code>undo</code></p>
@@ -884,7 +937,7 @@ The <code>undo</code> command fails as there are no undoable commands executed p
 </div>
 </div>
 <div class="sect2">
-<h3 id="redoing-the-previously-undone-command-code-redo-code"><a class="link" href="#redoing-the-previously-undone-command-code-redo-code">2.18. Redoing the previously undone command : <code>redo</code></a></h3>
+<h3 id="redoing-the-previously-undone-command-code-redo-code"><a class="link" href="#redoing-the-previously-undone-command-code-redo-code">2.19. Redoing the previously undone command : <code>redo</code></a></h3>
 <div class="paragraph">
 <p>Reverses the most recent <code>undo</code> command.<br>
 Format: <code>redo</code></p>
@@ -916,14 +969,14 @@ The <code>redo</code> command fails as there are no <code>undo</code> commands e
 </div>
 </div>
 <div class="sect2">
-<h3 id="clearing-all-entries-code-clear-code"><a class="link" href="#clearing-all-entries-code-clear-code">2.19. Clearing all entries : <code>clear</code></a></h3>
+<h3 id="clearing-all-entries-code-clear-code"><a class="link" href="#clearing-all-entries-code-clear-code">2.20. Clearing all entries : <code>clear</code></a></h3>
 <div class="paragraph">
 <p>Clears all entries from Intelli.<br>
 Format: <code>clear</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="clearing-command-history-code-clearhistory-code"><a class="link" href="#clearing-command-history-code-clearhistory-code">2.20. Clearing command history : <code>clearHistory</code></a></h3>
+<h3 id="clearing-command-history-code-clearhistory-code"><a class="link" href="#clearing-command-history-code-clearhistory-code">2.21. Clearing command history : <code>clearHistory</code></a></h3>
 <div class="paragraph">
 <p>Clears the command history.<br>
 Format: <code>clearHistory</code></p>
@@ -944,7 +997,7 @@ Format: <code>clearHistory</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="backing-up-code-backup-code"><a class="link" href="#backing-up-code-backup-code">2.21. Backing up: <code>backup</code></a></h3>
+<h3 id="backing-up-code-backup-code"><a class="link" href="#backing-up-code-backup-code">2.22. Backing up: <code>backup</code></a></h3>
 <div class="paragraph">
 <p>Backs up the current address book to a fixed location (<code>addressbook.xml.bak</code> in current working directory).</p>
 </div>
@@ -964,14 +1017,14 @@ Format: <code>clearHistory</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="exiting-the-program-code-exit-code"><a class="link" href="#exiting-the-program-code-exit-code">2.22. Exiting the program : <code>exit</code></a></h3>
+<h3 id="exiting-the-program-code-exit-code"><a class="link" href="#exiting-the-program-code-exit-code">2.23. Exiting the program : <code>exit</code></a></h3>
 <div class="paragraph">
 <p>Exits the program.<br>
 Format: <code>exit</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="saving-the-data"><a class="link" href="#saving-the-data">2.23. Saving the data</a></h3>
+<h3 id="saving-the-data"><a class="link" href="#saving-the-data">2.24. Saving the data</a></h3>
 <div class="paragraph">
 <p>Address book data are saved in the hard disk automatically after any command that changes the data.<br>
 There is no need to save manually.</p>
@@ -1141,6 +1194,10 @@ e.g. <code>deleteRelationship 2 3</code></p>
 e.g. <code>edit 2 n/James Lee e/jameslee@example.com</code></p>
 </li>
 <li>
+<p><strong>Edit relationship</strong>: <code>editRelationship INDEX_ONE INDEX_TWO [n/NAME] [ce/CONFIDENCE_ESTIMATE]</code><br>
+e.g. <code>editRelationship 1 2 n/friends ce/3</code></p>
+</li>
+<li>
 <p><strong>Exit</strong> : <code>exit</code></p>
 </li>
 <li>
@@ -1184,7 +1241,7 @@ e.g.<code>select 2</code></p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-11-13 06:08:41 +00:00
+Last updated 2017-11-13 06:34:05 +00:00
 </div>
 </div>
 </body>

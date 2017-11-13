@@ -47,13 +47,14 @@ Updated By: <code>CS2103 F10-B1</code></p>
 <ul class="sectlevel2">
 <li><a href="#addrelationship-command">3.1. addRelationship command</a></li>
 <li><a href="#deleterelationship-command">3.2. deleteRelationship command</a></li>
-<li><a href="#removetag-command">3.3. removeTag command</a></li>
-<li><a href="#enhanced-code-find-code-command">3.4. Enhanced <code>find</code> command</a></li>
-<li><a href="#undo-redo-mechanism">3.5. Undo/Redo mechanism</a></li>
-<li><a href="#enhanced-add-command-mechanism">3.6. Enhanced add command mechanism</a></li>
-<li><a href="#code-clearhistory-code-command">3.7. <code>clearHistory</code> command</a></li>
-<li><a href="#logging">3.8. Logging</a></li>
-<li><a href="#configuration">3.9. Configuration</a></li>
+<li><a href="#code-editrelationship-code-command">3.3. <code>editRelationship</code> command</a></li>
+<li><a href="#removetag-command">3.4. removeTag command</a></li>
+<li><a href="#enhanced-code-find-code-command">3.5. Enhanced <code>find</code> command</a></li>
+<li><a href="#undo-redo-mechanism">3.6. Undo/Redo mechanism</a></li>
+<li><a href="#enhanced-add-command-mechanism">3.7. Enhanced add command mechanism</a></li>
+<li><a href="#code-clearhistory-code-command">3.8. <code>clearHistory</code> command</a></li>
+<li><a href="#logging">3.9. Logging</a></li>
+<li><a href="#configuration">3.10. Configuration</a></li>
 </ul>
 </li>
 <li><a href="#documentation">4. Documentation</a>
@@ -631,13 +632,41 @@ The user is able to view the disappearance of the relationship in the graph wind
 </div>
 </div>
 <div class="sect2">
-<h3 id="removetag-command"><a class="link" href="#removetag-command">3.3. removeTag command</a></h3>
+<h3 id="code-editrelationship-code-command"><a class="link" href="#code-editrelationship-code-command">3.3. <code>editRelationship</code> command</a></h3>
+<div class="paragraph">
+<p>The <code>editRelationship</code> command edits a relationship between two persons in Intelli. Using this command, users can update the names and confidence estimates of relationships existing in Intelli without having to delete and add a new relationship.</p>
+</div>
+<div class="sect3">
+<h4 id="design-considerations-3"><a class="link" href="#design-considerations-3">3.3.1. Design Considerations</a></h4>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Implementation for <code>editRelationship</code> command<br>
+<strong>Alternative 1 (current choice):</strong> The command is implemented internally as deleting an existing relationship and then adding a new relationship with the new name and the new confidence estimate.<br>
+<strong>Pros:</strong> Implementation does not have to access the internal state of a <code>Relationship</code>, and allows for immediate updates to the graph.<br>
+<strong>Cons:</strong> Additional step involved in having to delete and then add a new relationship between the same two persons.<br>
+<strong>Alternative 2:</strong> The command directly accesses and modifies the internal state of a <code>Relationship</code>.<br>
+<strong>Pros:</strong> The command can be completed in a single operation, which may be faster then deleting and adding a new relationship.<br>
+<strong>Cons:</strong> The change cannot be reflected dynamically on the graph after a successful edit.</p>
+</div>
+<hr>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Type of command implemented<br>
+<strong>Alternative 1 (current choice):</strong> <code>editRelationship</code> command extends <code>UndoableCommand</code> instead of <code>Command</code>.<br>
+<strong>Pros:</strong> Users can easily undo their changes if they accidentally update the wrong relationship attribute or have mistakes in the updates (i.e. in the new relationship name/ confidence estimate).<br>
+<strong>Cons:</strong> Additional memory needed for recording the previous stage of the address book.<br>
+<strong>Alternative 2:</strong> <code>editRelationship</code> command extends <code>Command</code>.<br>
+<strong>Pros:</strong> No additional memory needed for recording the previous stage of the address book.<br>
+<strong>Cons:</strong> Users can do another <code>editRelationship</code> command to achieve the <code>undo</code> effect.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="removetag-command"><a class="link" href="#removetag-command">3.4. removeTag command</a></h3>
 <div class="paragraph">
 <p>The removeTag command removes a tag with the specified name from the address book. All the appearances of the tag in the address book are removed.
 This command is implemented in the style of the <code>edit</code> command and <code>delete</code> command.</p>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-3"><a class="link" href="#design-considerations-3">3.3.1. Design Considerations</a></h4>
+<h4 id="design-considerations-4"><a class="link" href="#design-considerations-4">3.4.1. Design Considerations</a></h4>
 <div class="paragraph">
 <p><strong>Aspect:</strong> Implementation for removeTag command<br>
 <strong>Alternative 1 (current choice):</strong> The command is implemented using methods which remove the tag from each person&#8217;s tag list.<br>
@@ -670,7 +699,7 @@ This command is implemented in the style of the <code>edit</code> command and <c
 </div>
 </div>
 <div class="sect2">
-<h3 id="enhanced-code-find-code-command"><a class="link" href="#enhanced-code-find-code-command">3.4. Enhanced <code>find</code> command</a></h3>
+<h3 id="enhanced-code-find-code-command"><a class="link" href="#enhanced-code-find-code-command">3.5. Enhanced <code>find</code> command</a></h3>
 <div class="paragraph">
 <p>A basic <code>find</code> command is given in the original codebase which allows persons to be found using their names.</p>
 </div>
@@ -678,7 +707,7 @@ This command is implemented in the style of the <code>edit</code> command and <c
 <p>In order to enhance the <code>find</code> command, the <code>find</code> command is extended to support searches by name/email/phone number/address/tag. This is implemented in the style of the <code>add</code> command, and restricts the search to a particular aspect through parsing prefixes (<code>/n</code>, <code>/p</code>, <code>/e</code>, <code>/a</code>, <code>/t</code>). Without a prefix (i.e. <code>find</code>), the search is global, and returns any matches in any aspects (name/email/phone number/address/tag).</p>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-4"><a class="link" href="#design-considerations-4">3.4.1. Design Considerations</a></h4>
+<h4 id="design-considerations-5"><a class="link" href="#design-considerations-5">3.5.1. Design Considerations</a></h4>
 <div class="paragraph">
 <p><strong>Aspect:</strong> Implementation for enhanced <code>find</code> command<br>
 <strong>Alternative 1 (current choice):</strong> Adapt current <code>FindCommand</code> and add new predicates for each new type of search.<br>
@@ -721,7 +750,7 @@ This command is implemented in the style of the <code>edit</code> command and <c
 </div>
 </div>
 <div class="sect2">
-<h3 id="undo-redo-mechanism"><a class="link" href="#undo-redo-mechanism">3.5. Undo/Redo mechanism</a></h3>
+<h3 id="undo-redo-mechanism"><a class="link" href="#undo-redo-mechanism">3.6. Undo/Redo mechanism</a></h3>
 <div class="paragraph">
 <p>The undo/redo mechanism is facilitated by an <code>UndoRedoStack</code>, which resides inside <code>LogicManager</code>. It supports undoing and redoing of commands that modifies the state of the address book (e.g. <code>add</code>, <code>edit</code>). Such commands will inherit from <code>UndoableCommand</code>.</p>
 </div>
@@ -873,7 +902,7 @@ If the <code>redoStack</code> is empty, then there are no other commands left to
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-5"><a class="link" href="#design-considerations-5">3.5.1. Design Considerations</a></h4>
+<h4 id="design-considerations-6"><a class="link" href="#design-considerations-6">3.6.1. Design Considerations</a></h4>
 <div class="paragraph">
 <p><strong>Aspect:</strong> Implementation of <code>UndoableCommand</code><br>
 <strong>Alternative 1 (current choice):</strong> Add a new abstract method <code>executeUndoableCommand()</code><br>
@@ -917,13 +946,13 @@ If the <code>redoStack</code> is empty, then there are no other commands left to
 </div>
 </div>
 <div class="sect2">
-<h3 id="enhanced-add-command-mechanism"><a class="link" href="#enhanced-add-command-mechanism">3.6. Enhanced add command mechanism</a></h3>
+<h3 id="enhanced-add-command-mechanism"><a class="link" href="#enhanced-add-command-mechanism">3.7. Enhanced add command mechanism</a></h3>
 <div class="paragraph">
 <p>A more flexible add command that only requires the name to be specified at the time of its execution. The other fields such as phone, email, address and remark need not be specified at the time of add command execution.<br>
 A separate parser for phone, email, address and remark are used to accommodate this enhancement to isolate the interdependency between the modified enhanced add command with the other commands.<br></p>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-6"><a class="link" href="#design-considerations-6">3.6.1. Design Considerations</a></h4>
+<h4 id="design-considerations-7"><a class="link" href="#design-considerations-7">3.7.1. Design Considerations</a></h4>
 <div class="paragraph">
 <p><strong>Aspect:</strong> Implementation of enhanced 'add command'<br>
 <strong>Alternative 1 (current choice):</strong> Add new parser methods <code>parseAddPhone</code>, <code>parseAddEmail</code> and <code>parseAddAddress</code> <br>
@@ -946,12 +975,12 @@ A separate parser for phone, email, address and remark are used to accommodate t
 </div>
 </div>
 <div class="sect2">
-<h3 id="code-clearhistory-code-command"><a class="link" href="#code-clearhistory-code-command">3.7. <code>clearHistory</code> command</a></h3>
+<h3 id="code-clearhistory-code-command"><a class="link" href="#code-clearhistory-code-command">3.8. <code>clearHistory</code> command</a></h3>
 <div class="paragraph">
 <p>The <code>clearHistory</code> command is implemented as a regular command that calls <code>.clear()</code> methods added to <code>CommandHistory</code> and <code>UndoRedoStack</code>, which clears the command history and the undo/redo stack respectively.</p>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-7"><a class="link" href="#design-considerations-7">3.7.1. Design Considerations</a></h4>
+<h4 id="design-considerations-8"><a class="link" href="#design-considerations-8">3.8.1. Design Considerations</a></h4>
 <div class="paragraph">
 <p><strong>Aspect:</strong> Type of <code>clearHistory</code> command<br>
 <strong>Alternative 1 (current choice):</strong> <code>Command</code><br>
@@ -974,7 +1003,7 @@ A separate parser for phone, email, address and remark are used to accommodate t
 </div>
 </div>
 <div class="sect2">
-<h3 id="logging"><a class="link" href="#logging">3.8. Logging</a></h3>
+<h3 id="logging"><a class="link" href="#logging">3.9. Logging</a></h3>
 <div class="paragraph">
 <p>We are using <code>java.util.logging</code> package for logging. The <code>LogsCenter</code> class is used to manage the logging levels and logging destinations.</p>
 </div>
@@ -1012,7 +1041,7 @@ A separate parser for phone, email, address and remark are used to accommodate t
 </div>
 </div>
 <div class="sect2">
-<h3 id="configuration"><a class="link" href="#configuration">3.9. Configuration</a></h3>
+<h3 id="configuration"><a class="link" href="#configuration">3.10. Configuration</a></h3>
 <div class="paragraph">
 <p>Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: <code>config.json</code>).</p>
 </div>
@@ -2658,7 +2687,7 @@ for <code>RemarkCommandParser</code>.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-11-13 06:08:41 +00:00
+Last updated 2017-11-13 06:34:05 +00:00
 </div>
 </div>
 </body>

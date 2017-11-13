@@ -253,9 +253,9 @@ Returns any persons having tags matching <code>friends</code> AND/OR <code>famil
 </ul>
 </div>
 <div class="paragraph">
-<p><mark>End of Extract</mark></p>
+<p><mark>End of Extract</mark>
+---</p>
 </div>
-<hr>
 </div>
 <div class="sect3">
 <h4 id="justification"><a class="link" href="#justification">Justification</a></h4>
@@ -323,9 +323,122 @@ Returns any persons having tags matching <code>friends</code> AND/OR <code>famil
 <strong>Cons:</strong> Harder to implement since the parser will have to handle more prefixes.</p>
 </div>
 <div class="paragraph">
-<p><mark>End of Extract</mark></p>
+<p><mark>End of Extract</mark>
+---</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="enhancement-added-edit-relationship-command"><a class="link" href="#enhancement-added-edit-relationship-command">Enhancement Added: Edit relationship command</a></h3>
+<div class="sect3">
+<h4 id="external-behaviour"><a class="link" href="#external-behaviour">External behaviour</a></h4>
+<hr>
+<div class="paragraph">
+<p><mark>Start of Extract [from: User Guide]</mark></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="editing-a-relationship-between-two-persons-code-editrelationship-code"><a class="link" href="#editing-a-relationship-between-two-persons-code-editrelationship-code">Editing a relationship between two persons: <code>editRelationship</code></a></h3>
+<div class="paragraph">
+<p>Edits a relationship between two persons in Intelli<br>
+Format: <code>editRelationship INDEX_ONE INDEX_TWO [n/NAME] [ce/CONFIDENCE_ESTIMATE]</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>The indexes of the persons are based on the most recent listing shown.</p>
+</li>
+<li>
+<p>The indexes provided does not have to be in a particular order since two persons can maximally have one relationship between them (e.g. <code>editRelationship 1 2</code> is equivalent to <code>editRelationship 2 1</code>).</p>
+</li>
+<li>
+<p>If only one attribute is updated (e.g. <code>editRelationship 1 2 n/NAME</code>), the other attribute will retain its original value in the pre-edited relationship.</p>
+</li>
+<li>
+<p><code>NAME</code>, which refers to the name of the relationship <strong>can only be alphanumeric</strong>.</p>
+</li>
+<li>
+<p><code>CONFIDENCE_ESTIMATE</code> refers to the confidence estimate the user gives to the relationship. <code>CONFIDENCE_ESTIMATE</code> <strong>can only be numbers from 0 to 100 inclusive</strong>.</p>
+</li>
+<li>
+<p>The graph does not display confidence estimates that have the value 0.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>editRelationship 1 2</code></p>
+</li>
+<li>
+<p><code>editRelationship 1 2 n/friends</code></p>
+</li>
+<li>
+<p><code>editRelationship 1 2 ce/3.12082</code></p>
+</li>
+<li>
+<p><code>editRelationship 1 2 n/friends ce/3.12082</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><mark>End of Extract</mark>
+---</p>
+</div>
+<div class="sect3">
+<h4 id="justification-2"><a class="link" href="#justification-2">Justification</a></h4>
+<hr>
+<div class="paragraph">
+<p>This allows users to edit relationship attributes using a single operation. This is particularly useful since the target audience is private investigators who are likely to change and update relationship information frequently after they have gathered more intelligence.
+---</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="implementation-2"><a class="link" href="#implementation-2">Implementation</a></h4>
+<hr>
+<div class="paragraph">
+<p><mark>Start of Extract [from: Developer Guide]</mark></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="code-editrelationship-code-command"><a class="link" href="#code-editrelationship-code-command"><code>editRelationship</code> command</a></h3>
+<div class="paragraph">
+<p>The <code>editRelationship</code> command edits a relationship between two persons in Intelli. Using this command, users can update the names and confidence estimates of relationships existing in Intelli without having to delete and add a new relationship.</p>
+</div>
+<div class="sect3">
+<h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">Design Considerations</a></h4>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Implementation for <code>editRelationship</code> command<br>
+<strong>Alternative 1 (current choice):</strong> The command is implemented internally as deleting an existing relationship and then adding a new relationship with the new name and the new confidence estimate.<br>
+<strong>Pros:</strong> Implementation does not have to access the internal state of a <code>Relationship</code>, and allows for immediate updates to the graph.<br>
+<strong>Cons:</strong> Additional step involved in having to delete and then add a new relationship between the same two persons.<br>
+<strong>Alternative 2:</strong> The command directly accesses and modifies the internal state of a <code>Relationship</code>.<br>
+<strong>Pros:</strong> The command can be completed in a single operation, which may be faster then deleting and adding a new relationship.<br>
+<strong>Cons:</strong> The change cannot be reflected dynamically on the graph after a successful edit.</p>
 </div>
 <hr>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Type of command implemented<br>
+<strong>Alternative 1 (current choice):</strong> <code>editRelationship</code> command extends <code>UndoableCommand</code> instead of <code>Command</code>.<br>
+<strong>Pros:</strong> Users can easily undo their changes if they accidentally update the wrong relationship attribute or have mistakes in the updates (i.e. in the new relationship name/ confidence estimate).<br>
+<strong>Cons:</strong> Additional memory needed for recording the previous stage of the address book.<br>
+<strong>Alternative 2:</strong> <code>editRelationship</code> command extends <code>Command</code>.<br>
+<strong>Pros:</strong> No additional memory needed for recording the previous stage of the address book.<br>
+<strong>Cons:</strong> Users can do another <code>editRelationship</code> command to achieve the <code>undo</code> effect.</p>
+</div>
+<div class="paragraph">
+<p><mark>End of Extract</mark>
+---</p>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -334,21 +447,81 @@ Returns any persons having tags matching <code>friends</code> AND/OR <code>famil
 <h4 id="external-behavior-2"><a class="link" href="#external-behavior-2">External behavior</a></h4>
 <hr>
 <div class="paragraph">
-<p>When the user types a command in the command box, a list of suggestions appears which can be selected to complete the command.</p>
+<p><mark>Start of Extract [from: User Guide]</mark></p>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="autocompleting-commands-kbd-tab-kbd"><a class="link" href="#autocompleting-commands-kbd-tab-kbd">Autocompleting commands : <kbd>Tab</kbd></a></h3>
+<div class="paragraph">
+<p>Completes a command by filling the command box with the first suggestion shown in the result display.<br>
+Format: <code>INPUT</code>, then pressing <kbd>Tab</kbd></p>
+</div>
+<div class="openblock float-group">
+<div class="content">
+<div class="imageblock left">
+<div class="content">
+<img src="../images/CommandBoxPreAndPostAutocomplete.png" alt="CommandBoxPreAndPostAutocomplete" width="700">
+</div>
+</div>
+</div>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Only commands with the first few letters matching the current user input are considered as valid suggestions.</p>
+</li>
+<li>
+<p>Excepting when the application is first started, not keying in any commands/ keying only blank spaces will cause all possible commands to be displayed.</p>
+</li>
+<li>
+<p>By default, the first suggestion is the <code>add</code> command (e.g. keying in a blank space and then pressing <kbd>Tab</kbd> will cause <code>add</code> to appear in the command box).</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Type <code>a</code> followed by <kbd>Tab</kbd></p>
+</li>
+<li>
+<p>Type <code>add</code> followed by <kbd>Tab</kbd></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="clearing-the-command-box-kbd-control-kbd"><a class="link" href="#clearing-the-command-box-kbd-control-kbd">Clearing the command box : <kbd>Control</kbd></a></h3>
+<div class="paragraph">
+<p>Clears the command box instantaneously.<br>
+Format: <kbd>Control</kbd></p>
+</div>
+<div class="paragraph">
+<p><mark>End of Extract</mark>
+---</p>
 </div>
 <div class="sect3">
-<h4 id="justification-2"><a class="link" href="#justification-2">Justification</a></h4>
+<h4 id="justification-3"><a class="link" href="#justification-3">Justification</a></h4>
 <hr>
 <div class="paragraph">
 <p>Certain commands are lengthy, and users who would like to enter commands quickly will find this a handy feature.</p>
 </div>
+<div class="paragraph">
+<p>Additionally, users easily see what commands are supported by Intelli since all commands are displayed as valid suggestions if the user does not input any value in the command box.</p>
+</div>
 </div>
 <div class="sect3">
-<h4 id="implementation-2"><a class="link" href="#implementation-2">Implementation</a></h4>
+<h4 id="implementation-3"><a class="link" href="#implementation-3">Implementation</a></h4>
 <hr>
 <div class="paragraph">
-<p>This has been implemented by binding an autocompletion binding to the command box.</p>
+<p>This has been implemented by coupling the command box and the result display. When there is a change to the user input in the command box, the suggestion displayed in the result display will change accordingly.</p>
 </div>
 </div>
 </div>
@@ -358,18 +531,18 @@ Returns any persons having tags matching <code>friends</code> AND/OR <code>famil
 <h4 id="external-behavior-3"><a class="link" href="#external-behavior-3">External behavior</a></h4>
 <hr>
 <div class="paragraph">
-<p>When the user types in the command box, and the input matches a command word, the corresponding usage information will be displayed.</p>
+<p>When the user types in the command box, and the input matches a command word, the corresponding usage information will be displayed in a side panel.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="justification-3"><a class="link" href="#justification-3">Justification</a></h4>
+<h4 id="justification-4"><a class="link" href="#justification-4">Justification</a></h4>
 <hr>
 <div class="paragraph">
 <p>There are commands which require a number of parameters, and this can be a hassle for users to remember.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="implementation-3"><a class="link" href="#implementation-3">Implementation</a></h4>
+<h4 id="implementation-4"><a class="link" href="#implementation-4">Implementation</a></h4>
 <hr>
 <div class="paragraph">
 <p>This is done by adding a new display component to the main window, and binding changes to the command box to this new component.</p>
@@ -386,17 +559,17 @@ Returns any persons having tags matching <code>friends</code> AND/OR <code>famil
 </div>
 </div>
 <div class="sect3">
-<h4 id="justification-4"><a class="link" href="#justification-4">Justification</a></h4>
+<h4 id="justification-5"><a class="link" href="#justification-5">Justification</a></h4>
 <hr>
 <div class="paragraph">
 <p>The application should be a coherent whole instead of splitting into two unsightly windows.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="implementation-4"><a class="link" href="#implementation-4">Implementation</a></h4>
+<h4 id="implementation-5"><a class="link" href="#implementation-5">Implementation</a></h4>
 <hr>
 <div class="paragraph">
-<p>This is done with the help of Java SwingNodes and JComponents.</p>
+<p>This is done with the help of Java SwingNodes and JComponents. The graph is embedded in a SwingNode and intialised when the application starts up..</p>
 </div>
 </div>
 </div>
@@ -410,10 +583,13 @@ Returns any persons having tags matching <code>friends</code> AND/OR <code>famil
 </div>
 </div>
 <div class="sect3">
-<h4 id="justification-5"><a class="link" href="#justification-5">Justification</a></h4>
+<h4 id="justification-6"><a class="link" href="#justification-6">Justification</a></h4>
 <hr>
 <div class="paragraph">
-<p>This increases the attractiveness of the application, and improves the user interface.</p>
+<p>This improves the user interface, making it more convenient for users to view their contacts and relationships on the graph.</p>
+</div>
+<div class="paragraph">
+<p>Additionally, this adds to the aesthetic appeal of the application.</p>
 </div>
 </div>
 </div>
@@ -422,7 +598,7 @@ Returns any persons having tags matching <code>friends</code> AND/OR <code>famil
 <div class="ulist">
 <ul>
 <li>
-<p>Tidy up the user guide for easier perusal</p>
+<p>Tidy up the user guide</p>
 </li>
 </ul>
 </div>
@@ -432,7 +608,7 @@ Returns any persons having tags matching <code>friends</code> AND/OR <code>famil
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-11-13 06:08:41 +00:00
+Last updated 2017-11-13 06:34:05 +00:00
 </div>
 </div>
 </body>
