@@ -1,0 +1,157 @@
+* move the sample data file `intelli.xml` to data/intelli.xml
+* start the jar
+
+.Table Test Script
+|===
+|Successful Test Command |Action needed for the Command |Expected Message |Explanation
+
+|ad
+|press btn:[Tab]
+|addRelationship
+|Pressing btn:[Tab] completes the command `add` and proposes other commands that can be completed by pressing btn:[Tab] again.
+
+|add
+|press btn:[Tab]
+|
+|Pressing btn:[Tab] completes the command `addRelationship` and proposes other commands that can be completed by pressing btn:[Tab] again.
+
+|addRelationship 15 20 directed
+|press btn:[Enter]
+|Added a directed relationship between : 20 and 15
+|A directed relationship from `15.Margie` to `20.Felicia` should appear on the graph without the person card list changing.
+
+|deleteRelationship 15 20
+|press btn:[Enter]
+|Deleted the relationship between : 15 and 20
+|The directed relationship from `15.Margie` to `20.Felicia` should disappear from the graph without the person card list changing.
+
+|addRelationship 18 11 undirected
+|press btn:[Enter]
+|Added a undirected relationship between : 11 and 18
+|A undirected relationship from `11.Eileen` to `18.Teoh` should appear on the graph without the person card list changing.
+
+|delete 20
+|press btn:[Enter]
+|Deleted Person: Felicia Chia Phone: 98450552 Email: doe.john@doe.biz Address: 8 Bukit Timah Crescent Remark: S2399884G Tags:
+|`20.Felicia` should disappear from the graph and `Felicia Chia` should disappear from the person card list without disturbing the order of the rest.
+
+|delete 18
+|press btn:[Enter]
+|Deleted Person: Teoh Pek Har Dorothy Phone: 98127797 Email: hdoe@doedoe.com Address: Blk 47 Pasir Ris Street 29, #13-18 Remark:  Tags: neighbours
+|`18.Teoh` and its relationships should appear on the graph; `Teoh Pek Har Dorothy` should disappear from the person card list with `Kate Low`'s index becoming 18; `18.Kate` appears on the graph instead of `19.Kate`.
+
+|add
+|press btn:[Control]
+|The history of commands the user has entered
+|Pressing btn:[Control] clears the user input.
+
+|add n/Wen Mogu
+|press btn:[Enter]
+|New person added: Wen Mogu Phone: Unspecified phone number Email: Unspecified email Address: Unspecified address Remark: Unspecified remark Tags:
+|`19.Wen` should appear on the graph; Person card of`19.Wen Mogu` with `Unspecified phone number`, `Unspecified address`, `Unspecified email`, `Unspecified remark` should appear on the person card list.
+
+|backup
+|press btn:[Enter]
+|Backup created.
+|intelli.xml.bak is created in current working directory.
+
+|undo
+|press btn:[Enter]
+|Undo success!
+|intelli.xml.bak is still in current working directory. `19.Wen` should disappear from the graph and `Wen Mogu` should disappear from the person card list without disturbing the order of the rest.
+
+|redo
+|press btn:[Enter]
+|Redo success!
+|`19.Wen` should appear on the graph; Person card of`19.Wen Mogu` with `Unspecified phone number`, `Unspecified address`, `Unspecified email`, `Unspecified remark` should appear on the person card list.
+
+|edit 6 n/Zachary Deadline
+|press btn:[Enter]
+|Edited Person: Zachary Deadline Phone: 64369268 Email: doe.john@gmail.com Address: Blk 331 Pasir Ris Street 12, #15-41 Remark: S2249672C Tags:
+|`Isabella Thia` is renamed to `Zachary Deadline` without disturbing the order of the list; `6.Isabella` is replaced with `6.Zachary` in the graph without disturbing the relationships.
+
+|colourTag colleagues BlueViolet
+|press btn:[Enter]
+|Colour of colleagues will be BlueViolet on next start.
+|Currently the color of the tag `colleagues` is still green. On the next start the color of this tag in all person cards will change to blue violet.
+
+|exit
+|press btn:[Enter]
+|
+|Intelli exits.
+
+|Restarts Intelli by starting the jar file.
+|
+|
+|The state of Intelli should be the same as before last exit, except the color of the tag `colleagues` should change to blue violet.
+
+|sort
+|press btn:[Enter]
+|Sorted all persons
+|The list should be sorted in alphabetical order of the `name`s of the persons. The indexes of the nodes in the graph should change accordingly.
+
+|list
+|press btn:[Enter]
+|Listed all persons
+|The list should not change; the nodes and the relationships should be the same in the graph.
+
+|relPath 2 1
+|press btn:[Enter]
+|Listed all persons
+|The list should not change; the path `2.Alysha` -> `17.Stanton` -> `1.Alan` should be highlighted.
+
+|list
+|press btn:[Enter]
+|Listed all persons
+|The list should not change; the nodes and the relationships should be the same in the graph; the highlight of the path is gone.
+
+|addRelationship 8 9 UNDIREcted
+|press btn:[Enter]
+|Added a undirected relationship between : 9 and 8
+|A undirected relationship from `8.Kate` to `9.Lindsey` should appear on the graph without the person card list changing.
+
+|editRelationship 8 9
+|press btn:[Enter]
+|Edited relationship between : 8 and 9
+|The list should not change; the nodes and the relationships should be the same in the graph.
+
+|editRelationship 8 9 n/enemies ce/100
+|press btn:[Enter]
+|Edited relationship between : 8 and 9
+|The list should not change; the nodes and the relationships should be the same in the graph, except that the relationship between `8.Kate` and `9.Lindsey` is with label `(100.0) enemies`.
+
+|removeTag classmates
+|press btn:[Enter]
+|Removed Tag: classmates
+|The list should not change, except that the tag `classmates` is removed from all the person cards; the nodes and the relationships should be the same in the graph.
+
+|find eo
+|press btn:[Enter]
+|2 persons listed!
+|The list should only contain `1.Dorothy Yeoh Mee Mee` and `2.Margie Yeoh Puay Sian`; the graph will only contain node `1.Dorothy` and `2.Margie` without any relationship.
+
+|history
+|press btn:[Enter]
+|Entered commands (from most recent to earliest): + previous commands
+|
+
+|help
+|press btn:[Enter]
+|Help window should pop up.
+|
+
+|clearHistory
+|press btn:[Enter]
+|Command history cleared.
+|
+
+|clear
+|press btn:[Enter]
+|
+|The list and the graph should be clean now.
+
+|exit
+|press btn:[Enter]
+|
+|Intelli exits.
+|===
